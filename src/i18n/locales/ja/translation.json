@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "権限が必要です",
-      "description": "Handyが正常に動作するにはいくつかの権限が必要です。",
+      "description": "Flowyが正常に動作するにはいくつかの権限が必要です。",
       "microphone": {
         "title": "マイクへのアクセス",
         "description": "文字起こしのためにあなたの声を聞くために必要です。"
@@ -161,7 +161,7 @@
     "general": {
       "title": "一般",
       "shortcut": {
-        "title": "Handyショートカット",
+        "title": "Flowyショートカット",
         "description": "音声録音を開始するキーボードショートカットを設定",
         "loading": "ショートカットを読み込み中...",
         "none": "ショートカットが設定されていません",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "起動時に実行",
-        "description": "コンピューターにログインしたときにHandyを自動的に起動。"
+        "description": "コンピューターにログインしたときにFlowyを自動的に起動。"
       },
       "showTrayIcon": {
         "label": "トレイアイコンを表示",
-        "description": "システムトレイにHandyのアイコンを表示します。"
+        "description": "システムトレイにFlowyのアイコンを表示します。"
       },
       "overlay": {
         "title": "オーバーレイ位置",
@@ -384,6 +384,19 @@
         "createFirst": "上の「新しいプロンプトを作成」をクリックして、最初の後処理プロンプトを作成してください。"
       }
     },
+    "snippets": {
+      "title": "Voice Snippets",
+      "description": "Define text shortcuts that expand when you speak them",
+      "trigger": "Trigger phrase",
+      "expansion": "Expansion text",
+      "addSnippet": "Add Snippet",
+      "deleteSnippet": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "noSnippets": "No snippets yet. Add your first snippet to get started.",
+      "triggerPlaceholder": "e.g., my email",
+      "expansionPlaceholder": "e.g., user@example.com"
+    },
     "history": {
       "title": "履歴",
       "openFolder": "録音フォルダを開く",
@@ -407,7 +420,7 @@
       },
       "updateChecks": {
         "label": "アップデートを確認",
-        "description": "Handyの新しいバージョンを自動的にチェック"
+        "description": "Flowyの新しいバージョンを自動的にチェック"
       },
       "soundTheme": {
         "label": "サウンドテーマ",
@@ -452,6 +465,13 @@
         "label": "末尾にスペースを追加",
         "description": "貼り付けた文字起こしの後にスペースを追加"
       },
+      "aiPolish": {
+        "label": "AI Polish",
+        "description": "Automatically clean up transcriptions using Groq AI (fixes grammar, removes filler words)",
+        "apiKeyLabel": "Groq API Key",
+        "apiKeyPlaceholder": "Enter your Groq API key",
+        "note": "Get a free API key at console.groq.com"
+      },
       "keyboardImplementation": {
         "title": "キーボード実装",
         "description": "キーボードショートカットのバックエンドを選択してください。",
@@ -471,11 +491,11 @@
       "title": "概要",
       "version": {
         "title": "バージョン",
-        "description": "Handyの現在のバージョン"
+        "description": "Flowyの現在のバージョン"
       },
       "appDataDirectory": {
         "title": "アプリデータディレクトリ",
-        "description": "Handyがデータを保存する場所"
+        "description": "Flowyがデータを保存する場所"
       },
       "sourceCode": {
         "title": "ソースコード",
@@ -484,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "開発を支援",
-        "description": "Handyの開発を支援してください",
+        "description": "Flowyの開発を支援してください",
         "button": "寄付する"
       },
       "acknowledgments": {
@@ -492,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "OpenAIのWhisper自動音声認識モデルの高性能推論",
-          "details": "Handyは高速でローカルな音声からテキストへの変換にWhisper.cppを使用しています。Georgi Gerganov氏と貢献者の皆様の素晴らしい仕事に感謝します。"
+          "details": "Flowyは高速でローカルな音声からテキストへの変換にWhisper.cppを使用しています。Georgi Gerganov氏と貢献者の皆様の素晴らしい仕事に感謝します。"
         }
       }
     }
@@ -535,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "アクセシビリティ権限が必要です",
-    "permissionsDescription": "Handyが文字起こしテキストを入力するには、アクセシビリティ権限が必要です。",
+    "permissionsDescription": "Flowyが文字起こしテキストを入力するには、アクセシビリティ権限が必要です。",
     "openSettings": "システム設定を開く",
     "dismiss": "閉じる"
   },
@@ -545,7 +565,7 @@
   },
   "appLanguage": {
     "title": "アプリケーション言語",
-    "description": "Handyインターフェースの言語を変更"
+    "description": "Flowyインターフェースの言語を変更"
   },
   "overlay": {
     "transcribing": "文字起こし中...",

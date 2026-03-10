@@ -170,7 +170,7 @@ impl ModelManager {
                 name: "Whisper Large".to_string(),
                 description: "Good accuracy, but slow.".to_string(),
                 filename: "ggml-large-v3-q5_0.bin".to_string(),
-                url: Some("https://blob.handy.computer/ggml-large-v3-q5_0.bin".to_string()),
+                url: Some("https://blob.flowy.talk/ggml-large-v3-q5_0.bin".to_string()),
                 size_mb: 1100, // Approximate size
                 is_downloaded: false,
                 is_downloading: false,
@@ -348,7 +348,7 @@ impl ModelManager {
                 description: "English only. High quality.".to_string(),
                 filename: "moonshine-medium-streaming-en".to_string(),
                 url: Some(
-                    "https://blob.handy.computer/moonshine-medium-streaming-en.tar.gz".to_string(),
+                    "https://blob.flowy.talk/moonshine-medium-streaming-en.tar.gz".to_string(),
                 ),
                 size_mb: 192,
                 is_downloaded: false,

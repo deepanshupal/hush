@@ -1065,3 +1065,45 @@ pub fn change_show_tray_icon_setting(app: AppHandle, enabled: bool) -> Result<()
 
     Ok(())
 }
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_ai_polish_enabled_setting(app: AppHandle, enabled: bool) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.ai_polish_enabled = enabled;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_ai_polish_api_key_setting(
+    app: AppHandle,
+    api_key: String,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.ai_polish_groq_api_key = if api_key.trim().is_empty() {
+        None
+    } else {
+        Some(api_key)
+    };
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn set_app_tone(
+    app: AppHandle,
+    app_name: String,
+    tone: String,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    if tone.is_empty() || tone == "default" {
+        settings.tone_per_app.remove(&app_name);
+    } else {
+        settings.tone_per_app.insert(app_name, tone);
+    }
+    settings::write_settings(&app, settings);
+    Ok(())
+}

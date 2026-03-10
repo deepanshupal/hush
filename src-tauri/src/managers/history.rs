@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use specta::Type;
 use std::fs;
 use std::path::PathBuf;
-use tauri::{AppHandle, Emitter, Manager};
+use tauri::{AppHandle, Emitter};
 
 use crate::audio_toolkit::save_wav_file;
 
@@ -31,6 +31,14 @@ static MIGRATIONS: &[M] = &[
     ),
     M::up("ALTER TABLE transcription_history ADD COLUMN post_processed_text TEXT;"),
     M::up("ALTER TABLE transcription_history ADD COLUMN post_process_prompt TEXT;"),
+    M::up(
+        "CREATE TABLE IF NOT EXISTS snippets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trigger_text TEXT NOT NULL UNIQUE COLLATE NOCASE,
+            expansion_text TEXT NOT NULL,
+            created_at INTEGER NOT NULL
+        );",
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize, Type)]
@@ -495,6 +503,49 @@ impl HistoryManager {
         }
 
         Ok(())
+    }
+
+    /// Clear all history entries (except saved ones)
+    pub async fn clear_all_history(&self) -> Result<()> {
+        let db_path = self.db_path.clone();
+        let recordings_dir = self.recordings_dir.clone();
+        let app_handle = self.app_handle.clone();
+
+        tokio::task::spawn_blocking(move || {
+            let conn = Connection::open(&db_path)?;
+
+            // Get all non-saved entries
+            let mut stmt = conn.prepare(
+                "SELECT id, file_name FROM transcription_history WHERE saved = 0"
+            )?;
+            let entries: Vec<(i64, String)> = stmt
+                .query_map([], |row| Ok((row.get(0)?, row.get(1)?)))?
+                .collect::<Result<Vec<_>, _>>()?;
+
+            // Delete all non-saved entries from database
+            conn.execute("DELETE FROM transcription_history WHERE saved = 0", [])?;
+
+            // Delete associated WAV files
+            for (_id, file_name) in entries {
+                let file_path = recordings_dir.join(&file_name);
+                if file_path.exists() {
+                    if let Err(e) = fs::remove_file(&file_path) {
+                        error!("Failed to delete WAV file {}: {}", file_name, e);
+                    } else {
+                        debug!("Deleted WAV file: {}", file_name);
+                    }
+                }
+            }
+
+            // Emit history updated event
+            if let Err(e) = app_handle.emit("history-updated", ()) {
+                error!("Failed to emit history-updated event: {}", e);
+            }
+
+            info!("Cleared all history entries");
+            Ok(())
+        })
+        .await?
     }
 
     fn format_timestamp_title(&self, timestamp: i64) -> String {

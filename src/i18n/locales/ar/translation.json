@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "الأذونات المطلوبة",
-      "description": ".يحتاج Handy إلى بعض الأذونات ليعمل بشكل صحيح",
+      "description": ".يحتاج Flowy إلى بعض الأذونات ليعمل بشكل صحيح",
       "microphone": {
         "title": "الوصول إلى الميكروفون",
         "description": ".مطلوب لسماع صوتك من أجل التفريغ الصوتي"
@@ -139,7 +139,7 @@
     "general": {
       "title": "عام",
       "shortcut": {
-        "title": "اختصارات Handy",
+        "title": "اختصارات Flowy",
         "description": "إعداد اختصارات لوحة المفاتيح لبدء تسجيل التفريغ الصوتي",
         "loading": "...جاري تحميل الاختصارات",
         "none": "لا توجد اختصارات مجهزة",
@@ -220,11 +220,11 @@
       },
       "autostart": {
         "label": "التشغيل عند بدء التشغيل",
-        "description": ".بدء تشغيل Handy تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        "description": ".بدء تشغيل Flowy تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
       },
       "showTrayIcon": {
         "label": "إظهار أيقونة شريط النظام",
-        "description": ".عرض أيقونة Handy في شريط النظام"
+        "description": ".عرض أيقونة Flowy في شريط النظام"
       },
       "overlay": {
         "title": "موقع التراكب",
@@ -362,6 +362,19 @@
         "createFirst": ".انقر على 'إنشاء مطالبة جديدة' أعلاه لإنشاء أول مطالبة معالجة لاحقة لك"
       }
     },
+    "snippets": {
+      "title": "Voice Snippets",
+      "description": "Define text shortcuts that expand when you speak them",
+      "trigger": "Trigger phrase",
+      "expansion": "Expansion text",
+      "addSnippet": "Add Snippet",
+      "deleteSnippet": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "noSnippets": "No snippets yet. Add your first snippet to get started.",
+      "triggerPlaceholder": "e.g., my email",
+      "expansionPlaceholder": "e.g., user@example.com"
+    },
     "history": {
       "title": "السجل",
       "openFolder": "فتح مجلد التسجيلات",
@@ -385,7 +398,7 @@
       },
       "updateChecks": {
         "label": "التحقق من وجود تحديثات",
-        "description": "التحقق تلقائياً من وجود إصدارات جديدة من Handy"
+        "description": "التحقق تلقائياً من وجود إصدارات جديدة من Flowy"
       },
       "soundTheme": {
         "label": "سمة الصوت",
@@ -430,6 +443,13 @@
         "label": "إضافة مسافة تابعة",
         "description": "إضافة مسافة بعد التفريغ الملصق"
       },
+      "aiPolish": {
+        "label": "AI Polish",
+        "description": "Automatically clean up transcriptions using Groq AI (fixes grammar, removes filler words)",
+        "apiKeyLabel": "Groq API Key",
+        "apiKeyPlaceholder": "Enter your Groq API key",
+        "note": "Get a free API key at console.groq.com"
+      },
       "keyboardImplementation": {
         "title": "تنفيذ لوحة المفاتيح",
         "description": ".اختر الواجهة الخلفية لاختصارات لوحة المفاتيح",
@@ -449,11 +469,11 @@
       "title": "حول",
       "version": {
         "title": "الإصدار",
-        "description": "الإصدار الحالي من Handy"
+        "description": "الإصدار الحالي من Flowy"
       },
       "appDataDirectory": {
         "title": "مجلد بيانات التطبيق",
-        "description": "الموقع الذي يخزن فيه Handy بياناته"
+        "description": "الموقع الذي يخزن فيه Flowy بياناته"
       },
       "sourceCode": {
         "title": "كود المصدر",
@@ -462,7 +482,7 @@
       },
       "supportDevelopment": {
         "title": "دعم التطوير",
-        "description": "ساعدنا في مواصلة بناء Handy",
+        "description": "ساعدنا في مواصلة بناء Flowy",
         "button": "تبرع"
       },
       "acknowledgments": {
@@ -470,7 +490,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
-          "details": ".يستخدم Handy برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          "details": ".يستخدم Flowy برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
         }
       }
     },
@@ -535,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "أذونات إمكانية الوصول مطلوبة",
-    "permissionsDescription": ".يحتاج Handy إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
+    "permissionsDescription": ".يحتاج Flowy إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
     "openSettings": "فتح إعدادات النظام",
     "dismiss": "تجاهل"
   },
@@ -545,7 +565,7 @@
   },
   "appLanguage": {
     "title": "لغة التطبيق",
-    "description": "تغيير لغة واجهة Handy"
+    "description": "تغيير لغة واجهة Flowy"
   },
   "overlay": {
     "transcribing": "...جاري التفريغ",

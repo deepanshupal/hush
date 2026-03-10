@@ -1,8 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
+import { Cog, FlaskConical, History, Info, Sparkles, Cpu, MessageSquare } from "lucide-react";
 import HandyTextLogo from "./icons/HandyTextLogo";
-import HandyHand from "./icons/HandyHand";
 import { useSettings } from "../hooks/useSettings";
 import {
   GeneralSettings,
@@ -12,6 +11,8 @@ import {
   AboutSettings,
   PostProcessingSettings,
   ModelsSettings,
+  SnippetsSettings,
+  ToneSettings,
 } from "./settings";
 
 export type SidebarSection = keyof typeof SECTIONS_CONFIG;
@@ -31,10 +32,36 @@ interface SectionConfig {
   enabled: (settings: any) => boolean;
 }
 
+const WaveIcon: React.FC<IconProps> = ({ width = 18, height = 18, className }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M2 7 Q5.5 4 9 7 Q12.5 10 16 7"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path
+      d="M2 11 Q5.5 8 9 11 Q12.5 14 16 11"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </svg>
+);
+
 export const SECTIONS_CONFIG = {
   general: {
     labelKey: "sidebar.general",
-    icon: HandyHand,
+    icon: WaveIcon,
     component: GeneralSettings,
     enabled: () => true,
   },
@@ -48,6 +75,18 @@ export const SECTIONS_CONFIG = {
     labelKey: "sidebar.advanced",
     icon: Cog,
     component: AdvancedSettings,
+    enabled: () => true,
+  },
+  snippets: {
+    labelKey: "sidebar.snippets",
+    icon: MessageSquare,
+    component: SnippetsSettings,
+    enabled: () => true,
+  },
+  tone: {
+    labelKey: "sidebar.tone",
+    icon: Sparkles,
+    component: ToneSettings,
     enabled: () => true,
   },
   postprocessing: {
@@ -94,7 +133,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className="flex flex-col w-40 h-full border-e border-mid-gray/20 items-center px-2">
-      <HandyTextLogo width={120} className="m-4" />
+      <div className="flex items-center justify-center w-full m-4">
+        <HandyTextLogo />
+      </div>
       <div className="flex flex-col w-full items-center gap-1 pt-2 border-t border-mid-gray/20">
         {availableSections.map((section) => {
           const Icon = section.icon;

@@ -362,6 +362,12 @@ pub struct AppSettings {
     pub external_script_path: Option<String>,
     #[serde(default)]
     pub custom_filler_words: Option<Vec<String>>,
+    #[serde(default)]
+    pub ai_polish_enabled: bool,
+    #[serde(default)]
+    pub ai_polish_groq_api_key: Option<String>,
+    #[serde(default)]
+    pub tone_per_app: HashMap<String, String>,
 }
 
 fn default_model() -> String {
@@ -634,7 +640,7 @@ pub fn get_default_settings() -> AppSettings {
     #[cfg(target_os = "windows")]
     let default_shortcut = "ctrl+space";
     #[cfg(target_os = "macos")]
-    let default_shortcut = "option+space";
+    let default_shortcut = "fn";
     #[cfg(target_os = "linux")]
     let default_shortcut = "ctrl+space";
     #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
@@ -727,6 +733,9 @@ pub fn get_default_settings() -> AppSettings {
         typing_tool: default_typing_tool(),
         external_script_path: None,
         custom_filler_words: None,
+        ai_polish_enabled: false,
+        ai_polish_groq_api_key: None,
+        tone_per_app: HashMap::new(),
     }
 }
 
@@ -834,6 +843,7 @@ pub fn write_settings(app: &AppHandle, settings: AppSettings) {
         .expect("Failed to initialize store");
 
     store.set("settings", serde_json::to_value(&settings).unwrap());
+    let _ = store.save();
 }
 
 pub fn get_bindings(app: &AppHandle) -> HashMap<String, ShortcutBinding> {

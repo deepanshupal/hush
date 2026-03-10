@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "需要權限",
-      "description": "Handy 需要一些權限才能正常運作",
+      "description": "Flowy 需要一些權限才能正常運作",
       "microphone": {
         "title": "麥克風存取",
         "description": "需要聽取您的語音進行轉錄"
@@ -143,7 +143,7 @@
     "general": {
       "title": "一般",
       "shortcut": {
-        "title": "Handy 快捷鍵",
+        "title": "Flowy 快捷鍵",
         "description": "設定啟動語音轉文字錄製的鍵盤快捷鍵",
         "loading": "載入快捷鍵中...",
         "none": "未設定快捷鍵",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "開機啟動",
-        "description": "登入電腦時自動啟動 Handy"
+        "description": "登入電腦時自動啟動 Flowy"
       },
       "showTrayIcon": {
         "label": "顯示系統匣圖示",
-        "description": "在系統匣中顯示 Handy 圖示"
+        "description": "在系統匣中顯示 Flowy 圖示"
       },
       "overlay": {
         "title": "懸浮窗位置",
@@ -384,6 +384,19 @@
         "createFirst": "點選上方的「建立新提示詞」來建立您的第一個後處理提示詞"
       }
     },
+    "snippets": {
+      "title": "Voice Snippets",
+      "description": "Define text shortcuts that expand when you speak them",
+      "trigger": "Trigger phrase",
+      "expansion": "Expansion text",
+      "addSnippet": "Add Snippet",
+      "deleteSnippet": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "noSnippets": "No snippets yet. Add your first snippet to get started.",
+      "triggerPlaceholder": "e.g., my email",
+      "expansionPlaceholder": "e.g., user@example.com"
+    },
     "history": {
       "title": "歷史紀錄",
       "openFolder": "開啟錄音資料夾",
@@ -407,7 +420,7 @@
       },
       "updateChecks": {
         "label": "檢查更新",
-        "description": "自動檢查 Handy 的新版本"
+        "description": "自動檢查 Flowy 的新版本"
       },
       "soundTheme": {
         "label": "聲音主題",
@@ -452,6 +465,13 @@
         "label": "附加尾部空格",
         "description": "在貼上的轉錄後新增空格"
       },
+      "aiPolish": {
+        "label": "AI Polish",
+        "description": "Automatically clean up transcriptions using Groq AI (fixes grammar, removes filler words)",
+        "apiKeyLabel": "Groq API Key",
+        "apiKeyPlaceholder": "Enter your Groq API key",
+        "note": "Get a free API key at console.groq.com"
+      },
       "keyboardImplementation": {
         "title": "鍵盤實作",
         "description": "選擇鍵盤快捷鍵的後端",
@@ -471,11 +491,11 @@
       "title": "關於",
       "version": {
         "title": "版本",
-        "description": "Handy 的目前版本"
+        "description": "Flowy 的目前版本"
       },
       "appDataDirectory": {
         "title": "應用程式資料目錄",
-        "description": "Handy 儲存資料的位置"
+        "description": "Flowy 儲存資料的位置"
       },
       "sourceCode": {
         "title": "原始碼",
@@ -484,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "支持開發",
-        "description": "幫助我們繼續開發 Handy",
+        "description": "幫助我們繼續開發 Flowy",
         "button": "捐贈"
       },
       "acknowledgments": {
@@ -492,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "針對 OpenAI Whisper 自動語音識別模型的高效能推理引擎",
-          "details": "Handy 使用 Whisper.cpp 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
+          "details": "Flowy 使用 Whisper.cpp 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
         }
       }
     }
@@ -535,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "需要輔助使用權限",
-    "permissionsDescription": "Handy 需要輔助使用權限才能輸入轉錄的文字",
+    "permissionsDescription": "Flowy 需要輔助使用權限才能輸入轉錄的文字",
     "openSettings": "開啟系統設定",
     "dismiss": "關閉"
   },
@@ -545,7 +565,7 @@
   },
   "appLanguage": {
     "title": "應用程式語言",
-    "description": "變更 Handy 介面的語言"
+    "description": "變更 Flowy 介面的語言"
   },
   "overlay": {
     "transcribing": "正在轉錄...",

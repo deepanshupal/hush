@@ -56,6 +56,91 @@ fn build_system_prompt(prompt_template: &str) -> String {
     prompt_template.replace("${output}", "").trim().to_string()
 }
 
+/// Get the frontmost application name on macOS
+#[cfg(target_os = "macos")]
+fn get_frontmost_app() -> Option<String> {
+    use tauri_nspanel::objc2_app_kit::NSWorkspace;
+    
+    let workspace = NSWorkspace::sharedWorkspace();
+    let frontmost_app = workspace.frontmostApplication()?;
+    let localized_name = frontmost_app.localizedName()?;
+    let name = localized_name.to_string();
+    Some(name)
+}
+
+#[cfg(not(target_os = "macos"))]
+fn get_frontmost_app() -> Option<String> {
+    None
+}
+
+/// Apply AI Polish using Groq API to clean up transcription
+async fn ai_polish_transcription(transcription: &str, api_key: &str, tone: Option<&str>) -> Option<String> {
+    use serde_json::json;
+    use std::time::Duration;
+
+    // Skip AI Polish if tone is "raw"
+    if tone == Some("raw") {
+        return None;
+    }
+
+    let client = reqwest::Client::builder()
+        .timeout(Duration::from_secs(3))
+        .build()
+        .ok()?;
+
+    let base_system_prompt = "Clean up this voice transcription. Fix grammar, remove filler words like um/uh/like, fix punctuation. Return only the cleaned text, nothing else.";
+    
+    let system_prompt = match tone {
+        Some("casual") => format!("Use casual conversational tone. {}", base_system_prompt),
+        Some("professional") => format!("Use formal professional tone. {}", base_system_prompt),
+        Some("developer") => format!("Preserve technical terms, code identifiers, keep it concise. {}", base_system_prompt),
+        _ => base_system_prompt.to_string(),
+    };
+
+    let request_body = json!({
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+            {
+                "role": "user",
+                "content": transcription
+            }
+        ],
+        "temperature": 0.3,
+        "max_tokens": 1000
+    });
+
+    let response = client
+        .post("https://api.groq.com/openai/v1/chat/completions")
+        .header("Authorization", format!("Bearer {}", api_key))
+        .header("Content-Type", "application/json")
+        .json(&request_body)
+        .send()
+        .await
+        .ok()?;
+
+    if !response.status().is_success() {
+        debug!("AI Polish failed with status: {}", response.status());
+        return None;
+    }
+
+    let response_json: serde_json::Value = response.json().await.ok()?;
+    
+    let polished_text = response_json
+        .get("choices")?
+        .get(0)?
+        .get("message")?
+        .get("content")?
+        .as_str()?
+        .to_string();
+
+    debug!("AI Polish succeeded: {} -> {}", transcription, polished_text);
+    Some(polished_text)
+}
+
 async fn post_process_transcription(settings: &AppSettings, transcription: &str) -> Option<String> {
     let provider = match settings.active_post_process_provider().cloned() {
         Some(provider) => provider,
@@ -445,20 +530,63 @@ impl ShortcutAction for TranscribeAction {
                             let mut final_text = transcription.clone();
                             let mut post_processed_text: Option<String> = None;
                             let mut post_process_prompt: Option<String> = None;
+                            let mut snippet_matched = false;
 
-                            // First, check if Chinese variant conversion is needed
-                            if let Some(converted_text) =
-                                maybe_convert_chinese_variant(&settings, &transcription).await
-                            {
-                                final_text = converted_text;
+                            // First, check for snippet match
+                            use crate::managers::snippets::SnippetsManager;
+                            if let Some(sm) = ah.try_state::<Arc<SnippetsManager>>() {
+                                if let Ok(Some(snippet)) = sm.find_snippet_by_trigger(&final_text) {
+                                    debug!(
+                                        "Snippet match found: '{}' -> '{}'",
+                                        snippet.trigger_text, snippet.expansion_text
+                                    );
+                                    final_text = snippet.expansion_text;
+                                    snippet_matched = true;
+                                }
+                            }
+
+                            // Second, check if Chinese variant conversion is needed
+                            if !snippet_matched {
+                                if let Some(converted_text) =
+                                    maybe_convert_chinese_variant(&settings, &transcription).await
+                                {
+                                    final_text = converted_text;
+                                }
+                            }
+
+                            // Third, apply AI Polish if enabled and configured
+                            if !snippet_matched && settings.ai_polish_enabled {
+                                if let Some(api_key) = &settings.ai_polish_groq_api_key {
+                                    if !api_key.trim().is_empty() {
+                                        // Get frontmost app and look up tone
+                                        let frontmost_app = get_frontmost_app();
+                                        let tone = frontmost_app.as_ref()
+                                            .and_then(|app_name| {
+                                                settings.tone_per_app.get(app_name).map(|s| s.as_str())
+                                            });
+                                        
+                                        // Skip AI Polish if tone is "raw"
+                                        if tone != Some("raw") {
+                                            debug!("Attempting AI Polish on transcription with tone: {:?}", tone);
+                                            if let Some(polished_text) = ai_polish_transcription(&final_text, api_key, tone).await {
+                                                debug!("AI Polish successful, using polished text");
+                                                final_text = polished_text;
+                                            } else {
+                                                debug!("AI Polish failed or timed out, using original transcription");
+                                            }
+                                        } else {
+                                            debug!("Skipping AI Polish due to 'raw' tone setting");
+                                        }
+                                    }
+                                }
                             }
 
                             // Then apply LLM post-processing if this is the post-process hotkey
                             // Uses final_text which may already have Chinese conversion applied
-                            if post_process {
+                            if !snippet_matched && post_process {
                                 show_processing_overlay(&ah);
                             }
-                            let processed = if post_process {
+                            let processed = if !snippet_matched && post_process {
                                 post_process_transcription(&settings, &final_text).await
                             } else {
                                 None
