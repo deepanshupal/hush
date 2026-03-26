@@ -27,14 +27,6 @@ export const AboutSettings: React.FC = () => {
     fetchVersion();
   }, []);
 
-  const handleDonateClick = async () => {
-    try {
-      await openUrl("https://flowy.talk/donate");
-    } catch (error) {
-      console.error("Failed to open donate link:", error);
-    }
-  };
-
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
       <SettingsGroup title={t("settings.about.title")}>
@@ -49,16 +41,6 @@ export const AboutSettings: React.FC = () => {
         </SettingContainer>
 
         <SettingContainer
-          title={t("settings.about.supportDevelopment.title")}
-          description={t("settings.about.supportDevelopment.description")}
-          grouped={true}
-        >
-          <Button variant="primary" size="md" onClick={handleDonateClick}>
-            {t("settings.about.supportDevelopment.button")}
-          </Button>
-        </SettingContainer>
-
-        <SettingContainer
           title={t("settings.about.website.title")}
           description={t("settings.about.website.description")}
           grouped={true}
@@ -66,7 +48,7 @@ export const AboutSettings: React.FC = () => {
           <Button
             variant="secondary"
             size="md"
-            onClick={() => openUrl("https://flowy.talk")}
+            onClick={() => openUrl("https://hush.software")}
           >
             {t("settings.about.website.button")}
           </Button>
@@ -80,23 +62,9 @@ export const AboutSettings: React.FC = () => {
           <Button
             variant="secondary"
             size="md"
-            onClick={() => openUrl("mailto:hi@flowy.talk")}
+            onClick={() => openUrl("mailto:hi@hush.software")}
           >
             {t("settings.about.contact.button")}
-          </Button>
-        </SettingContainer>
-
-        <SettingContainer
-          title={t("settings.about.sourceCode.title")}
-          description={t("settings.about.sourceCode.description")}
-          grouped={true}
-        >
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => openUrl("https://github.com/deepanshupal09/flowy")}
-          >
-            {t("settings.about.sourceCode.button")}
           </Button>
         </SettingContainer>
 

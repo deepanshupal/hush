@@ -2,11 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { toast, Toaster } from "sonner";
 import { useTranslation } from "react-i18next";
 import { listen } from "@tauri-apps/api/event";
-import { platform } from "@tauri-apps/plugin-os";
-import {
-  checkAccessibilityPermission,
-  checkMicrophonePermission,
-} from "tauri-plugin-macos-permissions-api";
+
 import "./App.css";
 import AccessibilityPermissions from "./components/AccessibilityPermissions";
 import Footer from "./components/footer";
@@ -55,15 +51,30 @@ function App() {
   }, [i18n.language]);
 
   // Initialize Enigo, shortcuts, and refresh audio devices when main app loads
+  // Retries shortcut init in case macOS accessibility trust isn't ready yet
   useEffect(() => {
     if (onboardingStep === "done" && !hasCompletedPostOnboardingInit.current) {
       hasCompletedPostOnboardingInit.current = true;
-      Promise.all([
-        commands.initializeEnigo(),
-        commands.initializeShortcuts(),
-      ]).catch((e) => {
-        console.warn("Failed to initialize:", e);
-      });
+
+      const initWithRetry = async () => {
+        await commands.initializeEnigo().catch((e) =>
+          console.warn("Failed to initialize Enigo:", e),
+        );
+        // Try shortcuts immediately, then retry twice with delays
+        for (let attempt = 0; attempt < 3; attempt++) {
+          try {
+            await commands.initializeShortcuts();
+            break;
+          } catch (e) {
+            console.warn(`Shortcut init attempt ${attempt + 1} failed:`, e);
+            if (attempt < 2) {
+              await new Promise((r) => setTimeout(r, 1500));
+            }
+          }
+        }
+      };
+      initWithRetry();
+
       refreshAudioDevices();
       refreshOutputDevices();
     }
@@ -111,24 +122,11 @@ function App() {
       const hasModels = result.status === "ok" && result.data;
 
       if (hasModels) {
-        // Returning user - but check if they need to grant permissions on macOS
+        // Returning user - proceed to main app directly.
+        // Permissions are handled inline by the AccessibilityPermissions banner.
+        // Blocking here causes a loop with ad-hoc signed builds since macOS
+        // invalidates accessibility trust when the code signature changes.
         setIsReturningUser(true);
-        if (platform() === "macos") {
-          try {
-            const [hasAccessibility, hasMicrophone] = await Promise.all([
-              checkAccessibilityPermission(),
-              checkMicrophonePermission(),
-            ]);
-            if (!hasAccessibility || !hasMicrophone) {
-              // Missing permissions - show accessibility onboarding
-              setOnboardingStep("accessibility");
-              return;
-            }
-          } catch (e) {
-            console.warn("Failed to check permissions:", e);
-            // If we can't check, proceed to main app and let them fix it there
-          }
-        }
         setOnboardingStep("done");
       } else {
         // New user - start full onboarding

@@ -89,7 +89,7 @@
     },
     "permissions": {
       "title": "Permissions Required",
-      "description": "Flowy needs a couple of permissions to work properly.",
+      "description": "Hush needs a couple of permissions to work properly.",
       "microphone": {
         "title": "Microphone Access",
         "description": "Required to hear your voice for transcription."
@@ -145,7 +145,7 @@
     "general": {
       "title": "General",
       "shortcut": {
-        "title": "Flowy Shortcuts",
+        "title": "Hush Shortcuts",
         "description": "Configure keyboard shortcuts to trigger speech-to-text recording",
         "loading": "Loading shortcuts...",
         "none": "No shortcuts configured",
@@ -244,11 +244,11 @@
       },
       "autostart": {
         "label": "Launch on Startup",
-        "description": "Automatically start Flowy when you log in to your computer."
+        "description": "Automatically start Hush when you log in to your computer."
       },
       "showTrayIcon": {
         "label": "Show Tray Icon",
-        "description": "Display the Flowy icon in the system tray."
+        "description": "Display the Hush icon in the system tray."
       },
       "overlay": {
         "title": "Overlay Position",
@@ -422,7 +422,7 @@
       },
       "updateChecks": {
         "label": "Check for Updates",
-        "description": "Automatically check for new versions of Flowy"
+        "description": "Automatically check for new versions of Hush"
       },
       "soundTheme": {
         "label": "Sound Theme",
@@ -493,11 +493,11 @@
       "title": "About",
       "version": {
         "title": "Version",
-        "description": "Current version of Flowy"
+        "description": "Current version of Hush"
       },
       "appDataDirectory": {
         "title": "App Data Directory",
-        "description": "Location where Flowy stores its data"
+        "description": "Location where Hush stores its data"
       },
       "sourceCode": {
         "title": "Source Code",
@@ -506,17 +506,17 @@
       },
       "supportDevelopment": {
         "title": "Support Development",
-        "description": "Help us continue building Flowy by Deepanshu",
+        "description": "Help us continue building Hush by Deepanshu",
         "button": "Donate"
       },
       "website": {
         "title": "Website",
-        "description": "Visit flowy.talk for more information",
+        "description": "Visit hush.software for more information",
         "button": "Visit Website"
       },
       "contact": {
         "title": "Contact",
-        "description": "Get in touch with us at hi@flowy.talk",
+        "description": "Get in touch with us at hi@hush.software",
         "button": "Email Us"
       },
       "acknowledgments": {
@@ -524,7 +524,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "High-performance inference of OpenAI's Whisper automatic speech recognition model",
-          "details": "Flowy uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
+          "details": "Hush uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
     }
@@ -567,7 +567,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Accessibility Permissions Required",
-    "permissionsDescription": "Flowy needs accessibility permissions to type transcribed text.",
+    "permissionsDescription": "Hush needs accessibility permissions to type transcribed text.",
     "openSettings": "Open System Settings",
     "dismiss": "Dismiss"
   },
@@ -577,7 +577,7 @@
   },
   "appLanguage": {
     "title": "Application Language",
-    "description": "Change the language of the Flowy interface"
+    "description": "Change the language of the Hush interface"
   },
   "overlay": {
     "transcribing": "Transcribing...",

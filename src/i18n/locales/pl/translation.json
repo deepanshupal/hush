@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "Wymagane uprawnienia",
-      "description": "Flowy potrzebuje kilku uprawnień, aby działać poprawnie.",
+      "description": "Hush potrzebuje kilku uprawnień, aby działać poprawnie.",
       "microphone": {
         "title": "Dostęp do mikrofonu",
         "description": "Wymagany do słyszenia Twojego głosu w celu transkrypcji."
@@ -161,7 +161,7 @@
     "general": {
       "title": "Ogólne",
       "shortcut": {
-        "title": "Skróty Flowy",
+        "title": "Skróty Hush",
         "description": "Skonfiguruj skróty klawiaturowe do uruchamiania nagrywania mowy",
         "loading": "Wczytywanie skrótów...",
         "none": "Brak skonfigurowanych skrótów",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "Uruchamiaj przy starcie",
-        "description": "Automatycznie uruchamiaj Flowy po zalogowaniu."
+        "description": "Automatycznie uruchamiaj Hush po zalogowaniu."
       },
       "showTrayIcon": {
         "label": "Pokaż ikonę w zasobniku",
-        "description": "Wyświetlaj ikonę Flowy w zasobniku systemowym."
+        "description": "Wyświetlaj ikonę Hush w zasobniku systemowym."
       },
       "overlay": {
         "title": "Pozycja nakładki",
@@ -420,7 +420,7 @@
       },
       "updateChecks": {
         "label": "Sprawdzaj aktualizacje",
-        "description": "Automatycznie sprawdzaj nowe wersje Flowy"
+        "description": "Automatycznie sprawdzaj nowe wersje Hush"
       },
       "soundTheme": {
         "label": "Motyw dźwiękowy",
@@ -491,11 +491,11 @@
       "title": "O programie",
       "version": {
         "title": "Wersja",
-        "description": "Aktualna wersja Flowy"
+        "description": "Aktualna wersja Hush"
       },
       "appDataDirectory": {
         "title": "Katalog danych aplikacji",
-        "description": "Miejsce, gdzie Flowy przechowuje swoje dane"
+        "description": "Miejsce, gdzie Hush przechowuje swoje dane"
       },
       "sourceCode": {
         "title": "Kod źródłowy",
@@ -504,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "Wspieraj rozwój",
-        "description": "Pomóż nam dalej rozwijać Flowy",
+        "description": "Pomóż nam dalej rozwijać Hush",
         "button": "Wesprzyj"
       },
       "acknowledgments": {
@@ -512,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Wydajne wykonywanie modelu rozpoznawania mowy Whisper od OpenAI",
-          "details": "Flowy używa Whisper.cpp do szybkiego, lokalnego przetwarzania mowy na tekst. Dzięki niesamowitej pracy Georgi Gerganova i współtwórców."
+          "details": "Hush używa Whisper.cpp do szybkiego, lokalnego przetwarzania mowy na tekst. Dzięki niesamowitej pracy Georgi Gerganova i współtwórców."
         }
       }
     }
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Wymagane uprawnienia dostępności",
-    "permissionsDescription": "Flowy potrzebuje uprawnień dostępności, aby wpisywać transkrybowany tekst.",
+    "permissionsDescription": "Hush potrzebuje uprawnień dostępności, aby wpisywać transkrybowany tekst.",
     "openSettings": "Otwórz ustawienia systemowe",
     "dismiss": "Zamknij"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "Język aplikacji",
-    "description": "Zmień język interfejsu Flowy"
+    "description": "Zmień język interfejsu Hush"
   },
   "overlay": {
     "transcribing": "Transkrypcja...",

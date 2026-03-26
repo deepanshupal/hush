@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "Berechtigungen erforderlich",
-      "description": "Flowy benötigt einige Berechtigungen, um richtig zu funktionieren.",
+      "description": "Hush benötigt einige Berechtigungen, um richtig zu funktionieren.",
       "microphone": {
         "title": "Mikrofonzugriff",
         "description": "Erforderlich, um Ihre Stimme für die Transkription zu hören."
@@ -161,7 +161,7 @@
     "general": {
       "title": "Allgemein",
       "shortcut": {
-        "title": "Flowy-Tastenkürzel",
+        "title": "Hush-Tastenkürzel",
         "description": "Tastenkürzel für die Sprachaufnahme konfigurieren",
         "loading": "Tastenkürzel werden geladen...",
         "none": "Keine Tastenkürzel konfiguriert",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "Beim Start ausführen",
-        "description": "Flowy automatisch beim Anmelden starten."
+        "description": "Hush automatisch beim Anmelden starten."
       },
       "showTrayIcon": {
         "label": "Taskleistensymbol anzeigen",
-        "description": "Das Flowy-Symbol in der Taskleiste anzeigen."
+        "description": "Das Hush-Symbol in der Taskleiste anzeigen."
       },
       "overlay": {
         "title": "Overlay-Position",
@@ -420,7 +420,7 @@
       },
       "updateChecks": {
         "label": "Nach Updates suchen",
-        "description": "Automatisch nach neuen Versionen von Flowy suchen"
+        "description": "Automatisch nach neuen Versionen von Hush suchen"
       },
       "soundTheme": {
         "label": "Sound-Thema",
@@ -491,11 +491,11 @@
       "title": "Info",
       "version": {
         "title": "Version",
-        "description": "Aktuelle Version von Flowy"
+        "description": "Aktuelle Version von Hush"
       },
       "appDataDirectory": {
         "title": "App-Datenverzeichnis",
-        "description": "Speicherort der Flowy-Daten"
+        "description": "Speicherort der Hush-Daten"
       },
       "sourceCode": {
         "title": "Quellcode",
@@ -504,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "Entwicklung unterstützen",
-        "description": "Hilf uns, Flowy weiterzuentwickeln",
+        "description": "Hilf uns, Hush weiterzuentwickeln",
         "button": "Spenden"
       },
       "acknowledgments": {
@@ -512,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Hochleistungs-Inferenz des Whisper-Spracherkennungsmodells von OpenAI",
-          "details": "Flowy verwendet Whisper.cpp für schnelle, lokale Sprach-zu-Text-Verarbeitung. Dank an Georgi Gerganov und die Mitwirkenden für ihre großartige Arbeit."
+          "details": "Hush verwendet Whisper.cpp für schnelle, lokale Sprach-zu-Text-Verarbeitung. Dank an Georgi Gerganov und die Mitwirkenden für ihre großartige Arbeit."
         }
       }
     }
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Bedienungshilfen-Berechtigungen erforderlich",
-    "permissionsDescription": "Flowy benötigt Bedienungshilfen-Berechtigungen, um transkribierten Text einzugeben.",
+    "permissionsDescription": "Hush benötigt Bedienungshilfen-Berechtigungen, um transkribierten Text einzugeben.",
     "openSettings": "Systemeinstellungen öffnen",
     "dismiss": "Schließen"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "Anwendungssprache",
-    "description": "Sprache der Flowy-Oberfläche ändern"
+    "description": "Sprache der Hush-Oberfläche ändern"
   },
   "overlay": {
     "transcribing": "Transkribiere...",

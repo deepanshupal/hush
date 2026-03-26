@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "Vyžadována oprávnění",
-      "description": "Flowy potřebuje několik oprávnění pro správné fungování.",
+      "description": "Hush potřebuje několik oprávnění pro správné fungování.",
       "microphone": {
         "title": "Přístup k mikrofonu",
         "description": "Potřebný pro zachycení vašeho hlasu k přepisu."
@@ -161,7 +161,7 @@
     "general": {
       "title": "Obecné",
       "shortcut": {
-        "title": "Zkratky Flowy",
+        "title": "Zkratky Hush",
         "description": "Nastavte klávesové zkratky pro spuštění nahrávání řeči na text",
         "loading": "Načítám zkratky...",
         "none": "Žádné zkratky nejsou nastavené",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "Spouštět při startu",
-        "description": "Automaticky spustit Flowy po přihlášení do počítače."
+        "description": "Automaticky spustit Hush po přihlášení do počítače."
       },
       "showTrayIcon": {
         "label": "Zobrazit ikonu v systémové liště",
-        "description": "Zobrazit ikonu Flowy v systémové liště."
+        "description": "Zobrazit ikonu Hush v systémové liště."
       },
       "overlay": {
         "title": "Pozice překryvu",
@@ -420,7 +420,7 @@
       },
       "updateChecks": {
         "label": "Kontrolovat aktualizace",
-        "description": "Automaticky kontrolovat nové verze Flowy"
+        "description": "Automaticky kontrolovat nové verze Hush"
       },
       "soundTheme": {
         "label": "Zvukový motiv",
@@ -491,11 +491,11 @@
       "title": "O aplikaci",
       "version": {
         "title": "Verze",
-        "description": "Aktuální verze Flowy"
+        "description": "Aktuální verze Hush"
       },
       "appDataDirectory": {
         "title": "Adresář dat aplikace",
-        "description": "Umístění, kde Flowy ukládá data"
+        "description": "Umístění, kde Hush ukládá data"
       },
       "sourceCode": {
         "title": "Zdrojový kód",
@@ -504,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "Podpořte vývoj",
-        "description": "Pomozte nám pokračovat ve vývoji Flowy",
+        "description": "Pomozte nám pokračovat ve vývoji Hush",
         "button": "Přispět"
       },
       "acknowledgments": {
@@ -512,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Vysoce výkonné inferenční zpracování modelu automatického rozpoznávání řeči Whisper od OpenAI",
-          "details": "Flowy používá Whisper.cpp pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
+          "details": "Hush používá Whisper.cpp pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
         }
       }
     }
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Vyžadována oprávnění usnadnění přístupu",
-    "permissionsDescription": "Flowy potřebuje oprávnění usnadnění přístupu, aby mohlo psát přepsaný text.",
+    "permissionsDescription": "Hush potřebuje oprávnění usnadnění přístupu, aby mohlo psát přepsaný text.",
     "openSettings": "Otevřít Nastavení systému",
     "dismiss": "Zavřít"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "Jazyk aplikace",
-    "description": "Změňte jazyk rozhraní Flowy"
+    "description": "Změňte jazyk rozhraní Hush"
   },
   "overlay": {
     "transcribing": "Přepisuji...",

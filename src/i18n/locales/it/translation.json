@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "Permessi Richiesti",
-      "description": "Flowy ha bisogno di alcuni permessi per funzionare correttamente.",
+      "description": "Hush ha bisogno di alcuni permessi per funzionare correttamente.",
       "microphone": {
         "title": "Accesso al Microfono",
         "description": "Necessario per sentire la tua voce per la trascrizione."
@@ -161,7 +161,7 @@
     "general": {
       "title": "Generale",
       "shortcut": {
-        "title": "Scorciatoie di Flowy",
+        "title": "Scorciatoie di Hush",
         "description": "Configura le scorciatoie per attivare la trascrizione vocale",
         "loading": "Caricamento delle scorciatoie...",
         "none": "Nessuna scorciatoia configurata",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "Avvia all'Accensione",
-        "description": "Avvia Flowy automaticamente quando accedi al computer."
+        "description": "Avvia Hush automaticamente quando accedi al computer."
       },
       "showTrayIcon": {
         "label": "Mostra icona nella barra di sistema",
-        "description": "Mostra l'icona di Flowy nella barra di sistema."
+        "description": "Mostra l'icona di Hush nella barra di sistema."
       },
       "overlay": {
         "title": "Posizione della Sovrimpressione",
@@ -420,7 +420,7 @@
       },
       "updateChecks": {
         "label": "Controlla aggiornamenti",
-        "description": "Controlla automaticamente la disponibilità di nuove versioni di Flowy"
+        "description": "Controlla automaticamente la disponibilità di nuove versioni di Hush"
       },
       "soundTheme": {
         "label": "Tema Sonoro",
@@ -491,11 +491,11 @@
       "title": "Informazioni",
       "version": {
         "title": "Versione",
-        "description": "Versione attuale di Flowy"
+        "description": "Versione attuale di Hush"
       },
       "appDataDirectory": {
         "title": "Cartella Dati App",
-        "description": "Cartella in cui Flowy salva i dati"
+        "description": "Cartella in cui Hush salva i dati"
       },
       "sourceCode": {
         "title": "Codice Sorgente",
@@ -504,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "Supporta lo Sviluppo",
-        "description": "Aiutaci a sviluppare Flowy",
+        "description": "Aiutaci a sviluppare Hush",
         "button": "Dona"
       },
       "acknowledgments": {
@@ -512,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Inferenza ad alte prestazioni del modello di riconoscimento vocale automatico Whisper di OpenAI",
-          "details": "Flowy usa Whisper.cpp per il riconoscimento vocale veloce in locale. Grazie a Georgi Gerganov e collaboratori per il fantastico lavoro."
+          "details": "Hush usa Whisper.cpp per il riconoscimento vocale veloce in locale. Grazie a Georgi Gerganov e collaboratori per il fantastico lavoro."
         }
       }
     }
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Richiesti Permessi di Accessibilità",
-    "permissionsDescription": "Flowy ha bisogno dei permessi di accessibilità per digitare il testo trascritto.",
+    "permissionsDescription": "Hush ha bisogno dei permessi di accessibilità per digitare il testo trascritto.",
     "openSettings": "Apri Impostazioni di Sistema",
     "dismiss": "Ignora"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "Lingua Applicazione",
-    "description": "Cambia la lingua dell'interfaccia di Flowy"
+    "description": "Cambia la lingua dell'interfaccia di Hush"
   },
   "overlay": {
     "transcribing": "Trascrizione...",

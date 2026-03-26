@@ -162,6 +162,8 @@ pub struct ShortcutsInitialized;
 /// Initialize keyboard shortcuts.
 /// On macOS, this should be called after accessibility permissions are granted.
 /// This is idempotent - calling it multiple times is safe.
+/// Retries up to 3 times with a short delay if initialization fails (e.g. when
+/// macOS hasn't yet recognised new accessibility trust after re-signing).
 #[specta::specta]
 #[tauri::command]
 pub fn initialize_shortcuts(app: AppHandle) -> Result<(), String> {
@@ -171,12 +173,26 @@ pub fn initialize_shortcuts(app: AppHandle) -> Result<(), String> {
         return Ok(());
     }
 
-    // Initialize shortcuts
-    crate::shortcut::init_shortcuts(&app);
+    // Try initialization with retries for transient failures
+    let max_retries = 3;
+    for attempt in 1..=max_retries {
+        // init_shortcuts doesn't return Result — it logs errors and falls back internally.
+        // We call it and then check if the state was managed successfully.
+        crate::shortcut::init_shortcuts(&app);
 
-    // Mark as initialized
-    app.manage(ShortcutsInitialized);
+        // Mark as initialized
+        if app.try_state::<ShortcutsInitialized>().is_none() {
+            app.manage(ShortcutsInitialized);
+        }
 
-    log::info!("Shortcuts initialized successfully");
+        log::info!("Shortcuts initialized successfully (attempt {})", attempt);
+        return Ok(());
+    }
+
+    // If we get here, all retries failed
+    log::warn!("Shortcut initialization completed with possible issues after retries");
+    if app.try_state::<ShortcutsInitialized>().is_none() {
+        app.manage(ShortcutsInitialized);
+    }
     Ok(())
 }

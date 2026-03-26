@@ -8,28 +8,53 @@
 }
 
 @theme {
-  --color-text: #0f0f0f;
-  --color-background: #fbfbfb;
-  --color-background-ui: #00C9B1;
-  --color-logo-primary: #00C9B1;
-  --color-logo-stroke: #382731;
-  --color-text-stroke: #f6f6f6;
-  --color-mid-gray: #808080;
+  --color-text:           #1A1410;
+  --color-background:     #E4DCC8;
+  --color-background-ui:  #8B3030;
+  --color-logo-primary:   #8B3030;
+  --color-logo-stroke:    #1A1410;
+  --color-text-stroke:    #F5F0E8;
+  --color-mid-gray:       #8B7860;
+
+  /* New tokens for the cream palette */
+  --color-cream-50:       #F5F0E8;
+  --color-cream-100:      #EEE8D4;
+  --color-cream-200:      #E4DCC8;
+  --color-cream-300:      #D4CCB8;
+  --color-cream-400:      #C4BCA8;
+  --color-cream-500:      #B0A890;
+  --color-sidebar:        #D0C8B4;
+  --color-card:           #EDE7D3;
+  --color-panel:          #1A1410;
+
+  /* Shadows and bevels */
+  --shadow-bevel-light:   rgba(255,255,255,0.55);
+  --shadow-bevel-dark:    rgba(26,20,16,0.22);
 }
 
 :root {
+  --color-text:           #1A1410;
+  --color-background:     #E4DCC8;
+  --color-background-ui:  #8B3030;
+  --color-logo-primary:   #8B3030;
+  --color-logo-stroke:    #1A1410;
+  --color-text-stroke:    #F5F0E8;
+  --color-mid-gray:       #8B7860;
+  --color-cream-50:       #F5F0E8;
+  --color-cream-100:      #EEE8D4;
+  --color-cream-200:      #E4DCC8;
+  --color-cream-300:      #D4CCB8;
+  --color-cream-400:      #C4BCA8;
+  --color-cream-500:      #B0A890;
+  --color-sidebar:        #D0C8B4;
+  --color-card:           #EDE7D3;
+  --color-panel:          #1A1410;
+
   /* Typography */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 15px;
   line-height: 24px;
   font-weight: 400;
-
-  /* Colors - Light Theme */
-  /* --color-text: #0f0f0f;
-  --color-background: #fbfbfb;
-  --color-logo-primary: #00C9B1;
-  --color-logo-stroke: #382731;
-  --color-text-stroke: #f6f6f6; */
 
   /* Typography settings */
   font-synthesis: none;
@@ -54,11 +79,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Colors - Dark Theme */
-    --color-text: #fbfbfb;
-    --color-background: #2c2b29;
-    --color-logo-primary: #00C9B1;
-    --color-logo-stroke: #fad1ed;
+    --color-text:           #E4DCC8;
+    --color-background:     #2A2420;
+    --color-background-ui:  #8B3030;
+    --color-logo-primary:   #8B3030;
+    --color-logo-stroke:    #E4DCC8;
+    --color-text-stroke:    #1A1410;
+    --color-mid-gray:       #6A6050;
+    --color-sidebar:        #221E1A;
+    --color-card:           #332E28;
+    --color-panel:          #0E0C0A;
   }
 }
 
@@ -76,4 +106,64 @@
   fill: var(--color-logo-stroke);
   stroke: var(--color-logo-stroke);
   stroke-width: 1;
+}
+
+/* Base surface */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Sidebar surface */
+.sidebar-surface {
+  background-color: var(--color-sidebar);
+  border-right: 1px solid var(--color-cream-400);
+  box-shadow: inset -1px 0 3px rgba(26,20,16,0.08);
+}
+
+/* Card / settings group surface */
+.settings-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-cream-400);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 3px rgba(26,20,16,0.10),
+    0 1px 2px rgba(26,20,16,0.06);
+}
+
+/* Skeuomorphic button bevel */
+.btn-bevel {
+  box-shadow:
+    0 1px 0 var(--shadow-bevel-light) inset,
+    0 -1px 0 var(--shadow-bevel-dark) inset,
+    0 1px 3px rgba(26,20,16,0.12);
+}
+
+/* Input fields */
+input, select, textarea {
+  background-color: var(--color-cream-100);
+  border-color: var(--color-cream-400);
+}
+
+/* Focus ring */
+input:focus, select:focus, textarea:focus, button:focus-visible {
+  outline-color: var(--color-logo-primary);
+}
+
+/* Toggle ON state — ensure it uses the new red */
+[data-state="checked"],
+[aria-checked="true"] {
+  background-color: var(--color-background-ui) !important;
+}
+
+/* Section header labels (OUTPUT, GENERAL, SOUND etc) */
+[class*="section-label"],
+[class*="sectionLabel"],
+[class*="group-title"],
+[class*="groupTitle"] {
+  color: var(--color-mid-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 11px;
+  font-weight: 600;
 }

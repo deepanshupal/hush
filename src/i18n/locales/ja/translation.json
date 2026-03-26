@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "権限が必要です",
-      "description": "Flowyが正常に動作するにはいくつかの権限が必要です。",
+      "description": "Hushが正常に動作するにはいくつかの権限が必要です。",
       "microphone": {
         "title": "マイクへのアクセス",
         "description": "文字起こしのためにあなたの声を聞くために必要です。"
@@ -161,7 +161,7 @@
     "general": {
       "title": "一般",
       "shortcut": {
-        "title": "Flowyショートカット",
+        "title": "Hushショートカット",
         "description": "音声録音を開始するキーボードショートカットを設定",
         "loading": "ショートカットを読み込み中...",
         "none": "ショートカットが設定されていません",
@@ -242,11 +242,11 @@
       },
       "autostart": {
         "label": "起動時に実行",
-        "description": "コンピューターにログインしたときにFlowyを自動的に起動。"
+        "description": "コンピューターにログインしたときにHushを自動的に起動。"
       },
       "showTrayIcon": {
         "label": "トレイアイコンを表示",
-        "description": "システムトレイにFlowyのアイコンを表示します。"
+        "description": "システムトレイにHushのアイコンを表示します。"
       },
       "overlay": {
         "title": "オーバーレイ位置",
@@ -420,7 +420,7 @@
       },
       "updateChecks": {
         "label": "アップデートを確認",
-        "description": "Flowyの新しいバージョンを自動的にチェック"
+        "description": "Hushの新しいバージョンを自動的にチェック"
       },
       "soundTheme": {
         "label": "サウンドテーマ",
@@ -491,11 +491,11 @@
       "title": "概要",
       "version": {
         "title": "バージョン",
-        "description": "Flowyの現在のバージョン"
+        "description": "Hushの現在のバージョン"
       },
       "appDataDirectory": {
         "title": "アプリデータディレクトリ",
-        "description": "Flowyがデータを保存する場所"
+        "description": "Hushがデータを保存する場所"
       },
       "sourceCode": {
         "title": "ソースコード",
@@ -504,7 +504,7 @@
       },
       "supportDevelopment": {
         "title": "開発を支援",
-        "description": "Flowyの開発を支援してください",
+        "description": "Hushの開発を支援してください",
         "button": "寄付する"
       },
       "acknowledgments": {
@@ -512,7 +512,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "OpenAIのWhisper自動音声認識モデルの高性能推論",
-          "details": "Flowyは高速でローカルな音声からテキストへの変換にWhisper.cppを使用しています。Georgi Gerganov氏と貢献者の皆様の素晴らしい仕事に感謝します。"
+          "details": "Hushは高速でローカルな音声からテキストへの変換にWhisper.cppを使用しています。Georgi Gerganov氏と貢献者の皆様の素晴らしい仕事に感謝します。"
         }
       }
     }
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "アクセシビリティ権限が必要です",
-    "permissionsDescription": "Flowyが文字起こしテキストを入力するには、アクセシビリティ権限が必要です。",
+    "permissionsDescription": "Hushが文字起こしテキストを入力するには、アクセシビリティ権限が必要です。",
     "openSettings": "システム設定を開く",
     "dismiss": "閉じる"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "アプリケーション言語",
-    "description": "Flowyインターフェースの言語を変更"
+    "description": "Hushインターフェースの言語を変更"
   },
   "overlay": {
     "transcribing": "文字起こし中...",

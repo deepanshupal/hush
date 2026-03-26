@@ -1,10 +1,10 @@
 {
-  "name": "flowy",
+  "name": "hush",
   "private": true,
   "version": "0.7.9",
   "type": "module",
-  "description": "Voice-to-text that flows. Free, private, offline.",
-  "author": "Flowy Team",
+  "description": "Voice-to-text. Private, offline.",
+  "author": "Hush Team",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

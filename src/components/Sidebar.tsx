@@ -132,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     .map(([id, config]) => ({ id: id as SidebarSection, ...config }));
 
   return (
-    <div className="flex flex-col w-40 h-full border-e border-mid-gray/20 items-center px-2">
+    <div className="flex flex-col w-40 h-full items-center px-2 sidebar-surface">
       <div className="flex items-center justify-center w-full m-4">
         <HandyTextLogo />
       </div>
@@ -146,8 +146,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               key={section.id}
               className={`flex gap-2 items-center p-2 w-full rounded-lg cursor-pointer transition-colors ${
                 isActive
-                  ? "bg-logo-primary/80"
-                  : "hover:bg-mid-gray/20 hover:opacity-100 opacity-85"
+                  ? "bg-logo-primary text-[#F5F0E8] opacity-100"
+                  : "hover:bg-mid-gray/20 hover:opacity-100 opacity-80"
               }`}
               onClick={() => onSectionChange(section.id)}
             >

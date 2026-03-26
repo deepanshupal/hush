@@ -157,6 +157,9 @@ pub fn change_binding(
         }
     }
 
+    // Save original binding for rollback if new registration fails
+    let binding_to_modify_original = binding_to_modify.current_binding.clone();
+
     // Unregister the existing binding
     if let Err(e) = unregister_shortcut(&app, binding_to_modify.clone()) {
         let error_msg = format!("Failed to unregister shortcut: {}", e);
@@ -178,6 +181,12 @@ pub fn change_binding(
     if let Err(e) = register_shortcut(&app, updated_binding.clone()) {
         let error_msg = format!("Failed to register shortcut: {}", e);
         error!("change_binding error: {}", error_msg);
+        // Re-register the previous binding so the shortcut isn't left broken
+        let mut fallback = updated_binding.clone();
+        fallback.current_binding = binding_to_modify_original.clone();
+        if let Err(re_err) = register_shortcut(&app, fallback) {
+            error!("Failed to re-register previous shortcut: {}", re_err);
+        }
         return Ok(BindingResponse {
             success: false,
             binding: None,

@@ -87,7 +87,7 @@
     },
     "permissions": {
       "title": "الأذونات المطلوبة",
-      "description": ".يحتاج Flowy إلى بعض الأذونات ليعمل بشكل صحيح",
+      "description": ".يحتاج Hush إلى بعض الأذونات ليعمل بشكل صحيح",
       "microphone": {
         "title": "الوصول إلى الميكروفون",
         "description": ".مطلوب لسماع صوتك من أجل التفريغ الصوتي"
@@ -139,7 +139,7 @@
     "general": {
       "title": "عام",
       "shortcut": {
-        "title": "اختصارات Flowy",
+        "title": "اختصارات Hush",
         "description": "إعداد اختصارات لوحة المفاتيح لبدء تسجيل التفريغ الصوتي",
         "loading": "...جاري تحميل الاختصارات",
         "none": "لا توجد اختصارات مجهزة",
@@ -220,11 +220,11 @@
       },
       "autostart": {
         "label": "التشغيل عند بدء التشغيل",
-        "description": ".بدء تشغيل Flowy تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        "description": ".بدء تشغيل Hush تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
       },
       "showTrayIcon": {
         "label": "إظهار أيقونة شريط النظام",
-        "description": ".عرض أيقونة Flowy في شريط النظام"
+        "description": ".عرض أيقونة Hush في شريط النظام"
       },
       "overlay": {
         "title": "موقع التراكب",
@@ -398,7 +398,7 @@
       },
       "updateChecks": {
         "label": "التحقق من وجود تحديثات",
-        "description": "التحقق تلقائياً من وجود إصدارات جديدة من Flowy"
+        "description": "التحقق تلقائياً من وجود إصدارات جديدة من Hush"
       },
       "soundTheme": {
         "label": "سمة الصوت",
@@ -469,11 +469,11 @@
       "title": "حول",
       "version": {
         "title": "الإصدار",
-        "description": "الإصدار الحالي من Flowy"
+        "description": "الإصدار الحالي من Hush"
       },
       "appDataDirectory": {
         "title": "مجلد بيانات التطبيق",
-        "description": "الموقع الذي يخزن فيه Flowy بياناته"
+        "description": "الموقع الذي يخزن فيه Hush بياناته"
       },
       "sourceCode": {
         "title": "كود المصدر",
@@ -482,7 +482,7 @@
       },
       "supportDevelopment": {
         "title": "دعم التطوير",
-        "description": "ساعدنا في مواصلة بناء Flowy",
+        "description": "ساعدنا في مواصلة بناء Hush",
         "button": "تبرع"
       },
       "acknowledgments": {
@@ -490,7 +490,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
-          "details": ".يستخدم Flowy برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          "details": ".يستخدم Hush برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
         }
       }
     },
@@ -555,7 +555,7 @@
   },
   "accessibility": {
     "permissionsRequired": "أذونات إمكانية الوصول مطلوبة",
-    "permissionsDescription": ".يحتاج Flowy إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
+    "permissionsDescription": ".يحتاج Hush إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
     "openSettings": "فتح إعدادات النظام",
     "dismiss": "تجاهل"
   },
@@ -565,7 +565,7 @@
   },
   "appLanguage": {
     "title": "لغة التطبيق",
-    "description": "تغيير لغة واجهة Flowy"
+    "description": "تغيير لغة واجهة Hush"
   },
   "overlay": {
     "transcribing": "...جاري التفريغ",

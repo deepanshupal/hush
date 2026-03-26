@@ -18,6 +18,9 @@ interface ButtonConfig {
 const AccessibilityPermissions: React.FC = () => {
   const { t } = useTranslation();
   const [hasAccessibility, setHasAccessibility] = useState<boolean>(false);
+  const [dismissed, setDismissed] = useState<boolean>(() => {
+    try { return sessionStorage.getItem("accessibility-banner-dismissed") === "true"; } catch { return false; }
+  });
   const [permissionState, setPermissionState] =
     useState<PermissionState>("request");
 
@@ -62,8 +65,8 @@ const AccessibilityPermissions: React.FC = () => {
     initialSetup();
   }, [isMacOS]);
 
-  // Skip rendering on non-macOS platforms or if permission is already granted
-  if (!isMacOS || hasAccessibility) {
+  // Skip rendering on non-macOS platforms, if permission is already granted, or if dismissed
+  if (!isMacOS || hasAccessibility || dismissed) {
     return null;
   }
 
@@ -84,17 +87,29 @@ const AccessibilityPermissions: React.FC = () => {
 
   const config = buttonConfig[permissionState] as ButtonConfig;
 
+  const handleDismiss = () => {
+    setDismissed(true);
+    try { sessionStorage.setItem("accessibility-banner-dismissed", "true"); } catch {}
+  };
+
   return (
-    <div className="p-4 w-full rounded-lg border border-mid-gray">
-      <div className="flex justify-between items-center gap-2">
-        <div className="">
+    <div className="p-4 w-full rounded-lg border border-mid-gray/40 bg-card relative">
+      <button
+        onClick={handleDismiss}
+        className="absolute top-2 right-2 text-mid-gray hover:text-text text-lg leading-none cursor-pointer"
+        aria-label="Dismiss"
+      >
+        &times;
+      </button>
+      <div className="flex justify-between items-center gap-2 pr-4">
+        <div>
           <p className="text-sm font-medium">
             {t("accessibility.permissionsDescription")}
           </p>
         </div>
         <button
           onClick={handleButtonClick}
-          className={`min-h-10 ${config.className}`}
+          className="min-h-10 px-3 py-1 text-sm font-semibold bg-logo-primary text-[#F5F0E8] border border-logo-primary rounded cursor-pointer hover:opacity-90 transition-opacity"
         >
           {config.text}
         </button>
