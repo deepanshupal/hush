@@ -13,24 +13,6 @@ export function Hero() {
         <div className="w-full z-1 mx-auto animate-fade-in">
           <div className="min-h-[500px] px-6 md:px-8 py-16 relative flex w-full flex-col gap-8 items-center justify-center">
             <div className="flex flex-col gap-4 items-center justify-center">
-              <div className="opacity-0 animate-blur-fade-slide-in" style={{ animationDelay: "0.08s" }}>
-                <div
-                  className="flex items-center gap-1"
-                  style={{
-                    background: "#F0E0DC",
-                    color: "#8B3030",
-                    border: "1px solid #D4A8A0",
-                    borderRadius: "20px",
-                    padding: "4px 14px",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  Currently in Beta
-                </div>
-              </div>
-
               <h1
                 style={{
                   animationDelay: "0.1s",
@@ -41,16 +23,16 @@ export function Hero() {
                 }}
                 className="text-balance text-center tracking-tight max-w-[700px] opacity-0 animate-blur-fade-slide-in font-serif"
               >
-                <span style={{ color: "#8B3030" }}>Press a key.</span>{" "}
-                Speak. It types.
+                <span style={{ color: "#8B3030" }}>Stop typing.</span>{" "}
+                Start talking.
               </h1>
 
               <p
                 style={{ animationDelay: "0.2s", color: "#5A5040" }}
-                className="text-center leading-6.5 max-w-[420px] !text-base opacity-0 animate-blur-fade-slide-in"
+                className="text-center leading-6.5 max-w-[580px] !text-base opacity-0 animate-blur-fade-slide-in"
               >
-                Hush turns your voice into text instantly — in any app on your Mac.
-                No cloud. No subscription.
+                Every other voice tool ships your audio to a server. Hush doesn&apos;t.<br />
+                It runs entirely on your Mac. Press a key. Say it. Done.
               </p>
 
               <div

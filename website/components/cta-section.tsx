@@ -14,15 +14,14 @@ export function CTASection() {
         style={{ animationDelay: "0.1s", fontWeight: 300 }}
         className="text-3xl md:text-4xl text-balance text-center leading-tight tracking-tight opacity-0 animate-blur-fade-slide-in font-serif"
       >
-        <span style={{ color: "#1A1410" }}>Your voice.</span>{" "}
-        <span style={{ color: "#8B3030" }}>Your Mac.</span>
+        <span style={{ color: "#1A1410" }}>You talk faster</span>{" "}
+        <span style={{ color: "#8B3030" }}>than you type.</span>
       </h2>
       <p
         style={{ animationDelay: "0.2s", color: "#5A5040" }}
         className="text-center max-w-[440px] text-sm leading-relaxed opacity-0 animate-blur-fade-slide-in"
       >
-        Every other voice app sends your audio to a server. Hush never does.
-        Everything runs on your machine using on-device AI.
+        Way faster. Hush makes that actually useful.
       </p>
       <div
         style={{ animationDelay: "0.3s" }}
@@ -38,7 +37,7 @@ export function CTASection() {
             }}
           >
             <AppleIcon className="size-4" />
-            Download for Mac
+            Download Hush
           </button>
         </a>
         <span style={{ color: "#8B7860" }} className="text-sm">

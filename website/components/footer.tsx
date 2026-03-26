@@ -33,13 +33,13 @@ export function Footer() {
         <span className="text-xs" style={{ color: "#8B7860" }}>
           Hush © 2025 ·{" "}
           <a
-            href="mailto:support@hush.software"
+            href="mailto:hi@hush.software"
             className="transition-colors"
             style={{ color: "#8B7860" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#8B3030")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "#8B7860")}
           >
-            support@hush.software
+            hi@hush.software
           </a>
         </span>
       </div>

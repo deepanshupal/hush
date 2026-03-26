@@ -7,23 +7,23 @@ import {
 
 const features = [
   {
-    title: "Press Fn to record",
+    title: "One key. Literally.",
     description:
-      "Hold the Fn key and speak. Release to transcribe. Text appears wherever your cursor is.",
+      "Hold Fn. Say what you want. Let go. Your words appear exactly where your cursor is. Every app. Every text field. Zero friction.",
     icon: <CommandIcon className="size-4" />,
     delay: 0,
   },
   {
-    title: "100% Local & Private",
+    title: "Nobody gets your audio. Nobody.",
     description:
-      "All speech recognition runs on your Mac. Your audio never leaves your device — no cloud, no account.",
+      "Not a server. Not a company. Not Hush. It stays on your Mac completely. That is not something most tools can say.",
     icon: <LockIcon className="size-4" />,
     delay: 0.1,
   },
   {
-    title: "AI Polish (BYOK Groq)",
+    title: "AI that fixes your rambling.",
     description:
-      "Clean up grammar, fix punctuation, and polish your transcriptions with AI. Bring your own Groq key.",
+      "You talk fast. You repeat yourself. Hush cleans it up automatically using Groq with your own API key. No middlemen. No markups.",
     icon: <ChatIcon className="size-4" />,
     delay: 0.2,
   },

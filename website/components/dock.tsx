@@ -16,7 +16,8 @@ const dockApps = [
   {
     id: "hush",
     name: "Hush",
-    icon: "/hush-icon.png"
+    icon: "/hush-icon.png",
+    iconScale: 1.08,
   },
   {
     id: "pages",

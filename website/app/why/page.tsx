@@ -7,59 +7,79 @@ export default function WhyPage() {
     <>
       <MainContainer>
         <Header />
-        <div className="flex py-32 flex-col min-h-[60dvh] gap-8 max-w-xl mx-auto px-8">
-          <div className="prose prose-sm" style={{ color: "#5A5040" }}>
+        <div className="flex flex-col min-h-[60dvh] max-w-[620px] mx-auto px-8" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+          <div style={{ color: "#5A5040" }}>
             <h2
-              className="text-lg font-medium opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.05s", color: "#1A1410" }}
+              className="font-medium opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.05s", color: "#1A1410", fontSize: "28px", marginBottom: "32px" }}
             >
-              The idea behind Hush
+              Why we built this
             </h2>
             <p
-              className="opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.1s" }}
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.1s", fontSize: "17px", lineHeight: 1.85 }}
             >
-              I talk faster than I type. Most people do. But every voice-to-text
-              tool I tried sent my audio to someone else&apos;s server. That felt
-              wrong for something as personal as my voice.
+              Voice is faster than typing. Everyone knows this.
+              Most people just accept the tradeoff.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.15s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              We didn&apos;t want to.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.2s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              Every tool we tried sent your audio somewhere. A server in
+              Virginia. A cloud in Oregon. Some infrastructure you&apos;ll never
+              see, owned by a company with different priorities than yours.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.25s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              Your voice is personal. More personal than your emails.
+              More personal than your texts. You shouldn&apos;t have to hand
+              it over just to use it.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.3s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              On-device AI made it so you don&apos;t have to anymore. The
+              models got good enough. The hardware got fast enough.
+              The excuse to use the cloud ran out.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.35s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              So we built Hush.
+            </p>
+            <p
+              className="mb-6 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.4s", fontSize: "17px", lineHeight: 1.85 }}
+            >
+              Hold a key. Speak. Let go. Your words appear — right where
+              your cursor is, in whatever app you&apos;re using. Nothing is
+              recorded remotely. Nothing is sent anywhere. Nothing leaves
+              your Mac.
             </p>
             <p
               className="opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.2s" }}
+              style={{ animationDelay: "0.45s", fontSize: "17px", lineHeight: 1.85 }}
             >
-              With on-device AI models getting good enough to run locally, there
-              was no reason voice transcription still needed the cloud. So I
-              built Hush.
-            </p>
-            <p
-              className="opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.3s" }}
-            >
-              Hush is a native Mac app that lives in your menu bar. Press Fn,
-              speak, and your words appear as text wherever your cursor is. No
-              cloud. No account. No subscription.
-            </p>
-            <p
-              className="opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.4s" }}
-            >
-              Everything runs on your machine using on-device AI. Your audio
-              never leaves your Mac. It&apos;s that simple.
-            </p>
-            <p
-              className="opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.5s" }}
-            >
-              I wanted something that felt invisible — like a superpower that
-              just works. Hold a key, speak naturally, and text appears. That&apos;s
-              Hush.
+              It&apos;s not a technical achievement. It&apos;s just the right way
+              to do it. It should have worked this way from the start.
             </p>
             <div
-              className="pt-4 mt-8 opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.6s", borderTop: "1px solid #C4BCA8" }}
+              className="opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.5s", borderTop: "1px solid #C4BCA8", marginTop: "48px", paddingTop: "32px" }}
             >
               <p className="font-medium mb-0" style={{ color: "#1A1410" }}>Deepanshu</p>
-              <p className="text-xs mt-1 mb-0" style={{ color: "#8B7860" }}>Building Hush</p>
+              <p className="text-xs mt-1 mb-0" style={{ color: "#8B7860" }}>Founder, Hush</p>
             </div>
           </div>
         </div>

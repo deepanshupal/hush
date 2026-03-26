@@ -6,7 +6,7 @@ export function Logo({ className }: { className?: string }) {
       src="/hush-wordmark.png"
       alt="Hush"
       className={className}
-      style={{ height: "52px", width: "auto", objectFit: "contain" }}
+      style={{ height: "50px", width: "auto", objectFit: "contain" }}
     />
   )
 }
@@ -17,7 +17,7 @@ export function LogoFull({ className }: { className?: string }) {
       src="/hush-wordmark.png"
       alt="Hush"
       className={className}
-      style={{ height: "52px", width: "auto", objectFit: "contain" }}
+      style={{ height: "50px", width: "auto", objectFit: "contain" }}
     />
   )
 }

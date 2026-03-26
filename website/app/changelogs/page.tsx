@@ -18,16 +18,16 @@ const versions: VersionEntry[] = [
   {
     version: "0.7.9",
     date: "March 2026",
-    title: "Hush — Initial Release",
+    title: "First release.",
     changes: [
-      { type: "new", text: "Local voice-to-text transcription using on-device AI" },
-      { type: "new", text: "Press Fn to record, release to transcribe" },
-      { type: "new", text: "Text appears wherever your cursor is" },
-      { type: "new", text: "Voice Snippets — save and reuse frequent phrases" },
-      { type: "new", text: "Transcription History — browse and search past dictations" },
-      { type: "new", text: "AI Polish with Groq (BYOK) — clean up grammar and punctuation" },
-      { type: "new", text: "Per-App Tone — different writing styles for different apps" },
-      { type: "new", text: "Native macOS menu bar app" },
+      { type: "new", text: "Voice-to-text that runs entirely on your Mac" },
+      { type: "new", text: "Hold Fn to record. Let go to transcribe." },
+      { type: "new", text: "Text goes wherever your cursor is. Every app." },
+      { type: "new", text: "Snippets — phrases you say often, saved and ready" },
+      { type: "new", text: "History — everything you\u2019ve transcribed, searchable" },
+      { type: "new", text: "AI Polish — Groq fixes grammar as you go. Your key." },
+      { type: "new", text: "Per-App Tone — Hush writes differently in Mail than Slack" },
+      { type: "new", text: "Lives in the menu bar. Out of the way until you need it." },
     ],
   },
 ]
@@ -35,7 +35,7 @@ const versions: VersionEntry[] = [
 function getTypeStyles(type: ChangeItem["type"]) {
   switch (type) {
     case "new":
-      return { background: "#F0E0DC", color: "#8B3030" }
+      return { background: "#8B3030", color: "#F7F2EA" }
     case "improved":
       return { background: "#DCE8F0", color: "#305080" }
     case "fixed":
@@ -72,7 +72,7 @@ export default function ChangelogsPage() {
               Updates
             </h1>
             <p className="text-sm max-w-md leading-relaxed" style={{ color: "#5A5040" }}>
-              Stay up to date with the latest features, improvements, and bug fixes in Hush.
+              What&apos;s changed, what&apos;s fixed, what&apos;s next.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ export default function ChangelogsPage() {
           >
             <div className="text-center">
               <p className="text-sm" style={{ color: "#8B7860" }}>
-                Questions or feedback?{" "}
+                Questions or thoughts?{" "}
                 <a
                   href="mailto:hi@hush.software"
                   className="hover:underline"

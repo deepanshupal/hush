@@ -103,20 +103,22 @@ export function Header() {
               <div className="flex items-center justify-end gap-2 px-0 animate-blue-fade-in">
                 <Link href="/download">
                   <button
-                    className="inline-flex items-center cursor-pointer justify-center whitespace-nowrap outline-none gap-1.5 h-7 px-2.5 text-xs rounded-lg transition-colors"
+                    className="inline-flex items-center cursor-pointer justify-center whitespace-nowrap outline-none gap-1.5 h-7 text-xs rounded-lg transition-colors"
                     style={{
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid rgba(255, 255, 255, 0.06)",
-                      boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
-                      color: "rgba(26, 20, 16, 0.9)",
+                      padding: "7px 14px",
+                      marginRight: "8px",
+                      background: "rgba(26, 20, 16, 0.06)",
+                      border: "1px solid rgba(26, 20, 16, 0.10)",
+                      boxShadow: "0 0 0 1px rgba(26, 20, 16, 0.04)",
+                      color: "rgba(26, 20, 16, 0.85)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.12)";
+                      e.currentTarget.style.background = "rgba(26, 20, 16, 0.10)";
                       e.currentTarget.style.color = "#1A1410";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                      e.currentTarget.style.color = "rgba(26, 20, 16, 0.9)";
+                      e.currentTarget.style.background = "rgba(26, 20, 16, 0.06)";
+                      e.currentTarget.style.color = "rgba(26, 20, 16, 0.85)";
                     }}
                   >
                     <AppleIcon className="size-4" />

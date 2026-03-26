@@ -20,10 +20,10 @@ export function DemoVideo() {
         >
           <div className="min-w-[calc(100%+2px)] translate-x-[-1px] h-fit flex flex-col items-center justify-center relative overflow-hidden rounded-t-2xl">
             <Image
-              src="/capture-hero.png"
-              alt="Hush"
-              width={4000}
-              height={2250}
+              src="/images/banner-v1.png"
+              alt="Hush app screenshot"
+              width={1608}
+              height={949}
               className="w-full h-auto object-cover transition-opacity duration-300 opacity-100"
               priority
             />

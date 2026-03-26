@@ -6,6 +6,7 @@ interface DockApp {
   id: string;
   name: string;
   icon: string;
+  iconScale?: number;
 }
 
 interface MacOSDockProps {
@@ -233,6 +234,7 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
                   filter: isOpen
                     ? `drop-shadow(0 4px 8px rgba(0,0,0,0.3))`
                     : `drop-shadow(0 2px 4px rgba(0,0,0,0.2))`,
+                  ...(app.iconScale ? { transform: `scale(${app.iconScale})`, transformOrigin: 'center bottom' } : {}),
                 }}
               />
 

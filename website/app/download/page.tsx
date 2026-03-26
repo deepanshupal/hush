@@ -25,18 +25,13 @@ export default function DownloadPage() {
         <div className="relative flex flex-col min-h-[80dvh]">
           {/* Header */}
           <div className="flex flex-col gap-4 p-8 pt-12 pb-10 items-center text-center animate-blur-fade-slide-in">
-            <div
-              className="py-1 transition-colors px-2 h-5 rounded-md flex items-center gap-1 font-medium text-[11px]"
-              style={{ background: "#F0E0DC", color: "#8B3030" }}
-            >
-              Download
-            </div>
             <h1 className="text-2xl font-medium tracking-tight" style={{ color: "#1A1410" }}>
               Download Hush
             </h1>
             <p className="text-sm max-w-md leading-relaxed" style={{ color: "#5A5040" }}>
-              Local voice-to-text for Mac. No account needed, no cloud, no subscription.
-              Just download and start speaking.
+              Local voice-to-text for Mac.
+              No account. No cloud. No subscription.
+              Just download and start talking.
             </p>
           </div>
 
@@ -59,8 +54,18 @@ export default function DownloadPage() {
 
               <div className="flex flex-col gap-3">
                 <button
-                  className="btn-primary inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap font-medium transition-colors outline-none h-9 px-4 text-sm rounded-full w-full"
+                  className="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap transition-colors outline-none w-full"
                   onClick={handleDownload}
+                  style={{
+                    borderRadius: "10px",
+                    padding: "14px 28px",
+                    background: "#8B3030",
+                    color: "#F7F2EA",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                    border: "none",
+                    boxShadow: "0 1px 0 rgba(255,255,255,0.15) inset, 0 -1px 0 rgba(0,0,0,0.20) inset, 0 2px 8px rgba(139,48,48,0.25)",
+                  }}
                 >
                   <AppleIcon className="size-4" />
                   Download for Mac
@@ -69,7 +74,7 @@ export default function DownloadPage() {
             </div>
 
             {/* Right - Coming Soon */}
-            <div className="p-8 flex flex-col gap-4" style={{ borderTop: "1px solid #C4BCA8" }}>
+            <div className="p-8 flex flex-col gap-4 border-t border-[#C4BCA8] sm:border-t-0">
               <div
                 className="font-[380] py-1 transition-colors px-2 h-5 text-xs rounded-full flex items-center gap-1 w-fit"
                 style={{ background: "#D4CCB8", color: "#5A5040" }}
@@ -103,7 +108,8 @@ export default function DownloadPage() {
               </div>
 
               <p className="text-xs pt-2" style={{ color: "#8B7860" }}>
-                We&apos;re working on bringing Hush to more platforms. Stay tuned!
+                We&apos;re working on Windows and Linux versions.
+                We&apos;ll let you know when they&apos;re ready.
               </p>
             </div>
           </div>
@@ -122,7 +128,7 @@ export default function DownloadPage() {
                 className="flex items-center justify-center size-12 rounded-xl shrink-0"
                 style={{ background: "#E4DCC8" }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#5A5040">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
               </div>
@@ -133,7 +139,7 @@ export default function DownloadPage() {
                   </span>
                 </div>
                 <span className="text-sm max-w-[500px]" style={{ color: "#5A5040" }}>
-                  Connect and stay updated with development progress.
+                  Development updates and occasional thoughts on building software.
                 </span>
               </div>
               <ChevronRightIcon className="size-4 shrink-0 text-[#C4BCA8]" />
@@ -158,7 +164,7 @@ export default function DownloadPage() {
                   <span className="font-medium" style={{ color: "#1A1410" }}>Follow on X</span>
                 </div>
                 <span className="text-sm max-w-[500px]" style={{ color: "#5A5040" }}>
-                  Stay updated with new features and development progress.
+                  Shorter updates. More frequently.
                 </span>
               </div>
               <ChevronRightIcon className="size-4 shrink-0 text-[#C4BCA8]" />
@@ -178,7 +184,7 @@ export default function DownloadPage() {
             >
               hi@hush.software
             </a>
-            . We read every email.
+            {" "}&mdash; We read every email.
           </div>
         </div>
       </MainContainer>
