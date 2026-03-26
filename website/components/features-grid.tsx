@@ -1,7 +1,5 @@
 import { FeatureCard } from "@/components/feature-card"
 import {
-  BoltIcon,
-  SparklesIcon,
   LockIcon,
   CommandIcon,
   ChatIcon,
@@ -16,32 +14,18 @@ const features = [
     delay: 0,
   },
   {
-    title: "Voice Snippets",
+    title: "100% Local & Private",
     description:
-      "Save frequently used phrases and transcriptions as reusable snippets you can paste anywhere.",
-    icon: <BoltIcon className="size-4" />,
+      "All speech recognition runs on your Mac. Your audio never leaves your device — no cloud, no account.",
+    icon: <LockIcon className="size-4" />,
     delay: 0.1,
-  },
-  {
-    title: "Transcription History",
-    description:
-      "Browse and search everything you've ever dictated. Copy, edit, or reuse past transcriptions.",
-    icon: <SparklesIcon className="size-4" />,
-    delay: 0.2,
   },
   {
     title: "AI Polish (BYOK Groq)",
     description:
       "Clean up grammar, fix punctuation, and polish your transcriptions with AI. Bring your own Groq key.",
     icon: <ChatIcon className="size-4" />,
-    delay: 0.3,
-  },
-  {
-    title: "Per-App Tone",
-    description:
-      "Set different writing tones for different apps. Casual in Slack, formal in Mail — automatically.",
-    icon: <LockIcon className="size-4" />,
-    delay: 0.4,
+    delay: 0.2,
   },
 ]
 

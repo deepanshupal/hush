@@ -8,10 +8,10 @@ export default function WhyPage() {
       <MainContainer>
         <Header />
         <div className="flex py-32 flex-col min-h-[60dvh] gap-8 max-w-xl mx-auto px-8">
-          <div className="prose prose-sm text-foreground/55">
+          <div className="prose prose-sm" style={{ color: "#5A5040" }}>
             <h2
-              className="text-lg font-medium text-foreground opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.05s" }}
+              className="text-lg font-medium opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.05s", color: "#1A1410" }}
             >
               The idea behind Hush
             </h2>
@@ -55,11 +55,11 @@ export default function WhyPage() {
               Hush.
             </p>
             <div
-              className="pt-4 border-t border-white/[0.06] mt-8 opacity-0 animate-blur-fade-slide-in"
-              style={{ animationDelay: "0.6s" }}
+              className="pt-4 mt-8 opacity-0 animate-blur-fade-slide-in"
+              style={{ animationDelay: "0.6s", borderTop: "1px solid #C4BCA8" }}
             >
-              <p className="font-medium text-foreground mb-0">Deepanshu</p>
-              <p className="text-xs mt-1 mb-0">Building Hush</p>
+              <p className="font-medium mb-0" style={{ color: "#1A1410" }}>Deepanshu</p>
+              <p className="text-xs mt-1 mb-0" style={{ color: "#8B7860" }}>Building Hush</p>
             </div>
           </div>
         </div>

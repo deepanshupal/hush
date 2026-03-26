@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
@@ -8,14 +8,14 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  weight: "400",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  weight: ["700", "800", "900"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Hush — Local Voice-to-Text for Mac",
+  title: "Hush",
   description:
     "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
   authors: [{ name: "Deepanshu" }],
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   publisher: "Hush",
   robots: "index, follow",
   openGraph: {
-    title: "Hush — Local Voice-to-Text for Mac",
+    title: "Hush",
     description:
       "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
     url: "https://hush.software",
@@ -63,13 +63,16 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hush — Local Voice-to-Text for Mac",
+    title: "Hush",
     description:
       "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
     images: ["/vault0og.png"],
   },
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
     apple: "/favicon.png",
   },
   metadataBase: new URL("https://hush.software"),
@@ -81,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" style={{ colorScheme: "light" }}>
       <head>
         <script
           type="application/ld+json"
@@ -101,7 +104,7 @@ export default function RootLayout({
               },
               offers: {
                 "@type": "Offer",
-                price: "0",
+                price: "19",
                 priceCurrency: "USD",
               },
             }),
@@ -109,7 +112,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${GeistMono.variable} ${instrumentSerif.variable} font-sans antialiased overscroll-contain`}
+        className={`${inter.variable} ${GeistMono.variable} ${fraunces.variable} font-sans antialiased overscroll-contain`}
       >
         {children}
       </body>

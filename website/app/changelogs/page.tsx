@@ -35,11 +35,11 @@ const versions: VersionEntry[] = [
 function getTypeStyles(type: ChangeItem["type"]) {
   switch (type) {
     case "new":
-      return "bg-emerald-500/15 text-emerald-400"
+      return { background: "#F0E0DC", color: "#8B3030" }
     case "improved":
-      return "bg-blue-500/15 text-blue-400"
+      return { background: "#DCE8F0", color: "#305080" }
     case "fixed":
-      return "bg-amber-500/15 text-amber-400"
+      return { background: "#F0ECDC", color: "#806030" }
   }
 }
 
@@ -62,13 +62,16 @@ export default function ChangelogsPage() {
         <div className="relative flex flex-col min-h-[80dvh]">
           {/* Header */}
           <div className="flex flex-col gap-4 p-8 pt-12 pb-10 items-center text-center opacity-0 animate-blur-fade-slide-in">
-            <div className="opacity-90 hover:opacity-100 py-1 transition-colors bg-white/[0.08] text-foreground/70 px-2 h-5 rounded-md flex items-center gap-1 font-medium text-[11px]">
+            <div
+              className="py-1 transition-colors px-2 h-5 rounded-md flex items-center gap-1 font-medium text-[11px]"
+              style={{ background: "#D4CCB8", color: "#5A5040" }}
+            >
               What&apos;s New
             </div>
-            <h1 className="text-2xl font-medium tracking-tight text-foreground">
+            <h1 className="text-2xl font-medium tracking-tight" style={{ color: "#1A1410" }}>
               Updates
             </h1>
-            <p className="text-foreground/50 text-sm max-w-md leading-relaxed">
+            <p className="text-sm max-w-md leading-relaxed" style={{ color: "#5A5040" }}>
               Stay up to date with the latest features, improvements, and bug fixes in Hush.
             </p>
           </div>
@@ -78,21 +81,27 @@ export default function ChangelogsPage() {
             {versions.map((version, versionIndex) => (
               <div
                 key={version.version}
-                className="p-8 border-t border-white/[0.06] opacity-0 animate-blur-fade-slide-in"
-                style={{ animationDelay: `${100 + versionIndex * 50}ms` }}
+                className="p-8 opacity-0 animate-blur-fade-slide-in"
+                style={{
+                  animationDelay: `${100 + versionIndex * 50}ms`,
+                  borderTop: "1px solid #C4BCA8",
+                }}
               >
                 {/* Version Header */}
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="bg-white/[0.08] text-foreground/70 px-2 py-0.5 rounded-md text-xs font-medium">
+                  <span
+                    className="px-2 py-0.5 rounded-md text-xs font-medium"
+                    style={{ background: "#D4CCB8", color: "#5A5040" }}
+                  >
                     v{version.version}
                   </span>
-                  <span className="text-foreground/35 text-xs">
+                  <span className="text-xs" style={{ color: "#8B7860" }}>
                     {version.date}
                   </span>
                 </div>
 
                 {/* Version Title */}
-                <h2 className="text-base font-medium text-foreground mb-4">
+                <h2 className="text-base font-medium mb-4" style={{ color: "#1A1410" }}>
                   {version.title}
                 </h2>
 
@@ -101,12 +110,12 @@ export default function ChangelogsPage() {
                   {version.changes.map((change, changeIndex) => (
                     <li
                       key={changeIndex}
-                      className="flex items-start gap-3 text-sm text-foreground/55"
+                      className="flex items-start gap-3 text-sm"
+                      style={{ color: "#5A5040" }}
                     >
                       <span
-                        className={`shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium ${getTypeStyles(
-                          change.type
-                        )}`}
+                        className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium"
+                        style={getTypeStyles(change.type)}
                       >
                         {getTypeLabel(change.type)}
                       </span>
@@ -120,15 +129,19 @@ export default function ChangelogsPage() {
 
           {/* Newsletter CTA */}
           <div
-            className="p-8 border-t border-white/[0.06] opacity-0 animate-blur-fade-slide-in"
-            style={{ animationDelay: `${100 + versions.length * 50 + 50}ms` }}
+            className="p-8 opacity-0 animate-blur-fade-slide-in"
+            style={{
+              animationDelay: `${100 + versions.length * 50 + 50}ms`,
+              borderTop: "1px solid #C4BCA8",
+            }}
           >
             <div className="text-center">
-              <p className="text-sm text-foreground/35">
+              <p className="text-sm" style={{ color: "#8B7860" }}>
                 Questions or feedback?{" "}
                 <a
                   href="mailto:hi@hush.software"
-                  className="text-foreground/55 hover:underline"
+                  className="hover:underline"
+                  style={{ color: "#8B3030" }}
                 >
                   hi@hush.software
                 </a>

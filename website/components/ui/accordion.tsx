@@ -12,7 +12,8 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b border-white/[0.06]", className)}
+    className={cn("", className)}
+    style={{ borderBottom: "1px solid #C4BCA8" }}
     {...props}
   />
 ))
@@ -26,9 +27,10 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 text-left px-8 text-base font-medium cursor-pointer text-foreground/70 transition-all hover:bg-white/[0.03] [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between py-4 text-left px-8 text-base font-medium cursor-pointer transition-all hover:bg-[#E4DCC8]/50 [&[data-state=open]>svg]:rotate-180",
         className
       )}
+      style={{ color: "#1A1410" }}
       {...props}
     >
       {children}
@@ -36,7 +38,8 @@ const AccordionTrigger = React.forwardRef<
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"
-        className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
+        className="h-4 w-4 shrink-0 transition-transform duration-200"
+        style={{ color: "#8B3030" }}
         aria-hidden="true"
       >
         <path
@@ -60,7 +63,7 @@ const AccordionContent = React.forwardRef<
     className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("px-8 pb-4 pt-0 text-foreground/50", className)}>{children}</div>
+    <div className={cn("px-8 pb-4 pt-0", className)} style={{ color: "#5A5040" }}>{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName

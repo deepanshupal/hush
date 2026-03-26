@@ -43,19 +43,33 @@ function VideoSection({
   return (
     <div
       ref={containerRef}
-      className={`flex flex-col gap-6 px-6 md:px-10 py-10 ${showBorder ? "border-t border-white/[0.06]" : ""} ${
+      className={`flex flex-col gap-6 px-6 md:px-10 py-10 ${showBorder ? "" : ""} ${
         isVisible ? "animate-blur-fade-slide-in" : "opacity-0"
       }`}
+      style={showBorder ? { borderTop: "1px solid #C4BCA8" } : undefined}
     >
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-medium text-foreground/25 tracking-wide">
+        <span
+          className="text-xs font-medium tracking-wide uppercase"
+          style={{ color: "#8B7860", letterSpacing: "0.1em", fontSize: "12px" }}
+        >
           {label}
         </span>
-        <h3 className="text-2xl font-medium tracking-tight md:text-2xl text-foreground">
+        <h3
+          className="text-2xl tracking-tight md:text-2xl font-serif"
+          style={{ color: "#1A1410", fontWeight: 700 }}
+        >
           {title}
         </h3>
       </div>
-      <div className="w-full relative ring bg-white/[0.03] ring-white/[0.08] ring-inset rounded-md overflow-hidden transition-opacity duration-500 opacity-100">
+      <div
+        className="w-full relative rounded-xl overflow-hidden transition-opacity duration-500 opacity-100"
+        style={{
+          background: "#F0EBE0",
+          border: "1px solid #C4BCA8",
+          boxShadow: "0 2px 8px rgba(26,20,16,0.08), 0 1px 0 rgba(255,255,255,0.7) inset",
+        }}
+      >
         <video
           ref={videoRef}
           src={src}
@@ -65,7 +79,6 @@ function VideoSection({
           preload="auto"
           className="w-full h-auto object-cover"
         />
-        <div className="absolute inset-0 rounded-md border border-white/[0.1] z-10" />
       </div>
     </div>
   )

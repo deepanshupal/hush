@@ -233,10 +233,6 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
                   filter: isOpen
                     ? `drop-shadow(0 4px 8px rgba(0,0,0,0.3))`
                     : `drop-shadow(0 2px 4px rgba(0,0,0,0.2))`,
-                  ...(app.id === 'hush' && {
-                    borderRadius: '16px',
-                    border: '0.5px solid #ffffff',
-                  })
                 }}
               />
 

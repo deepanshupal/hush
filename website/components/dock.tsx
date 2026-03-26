@@ -16,7 +16,7 @@ const dockApps = [
   {
     id: "hush",
     name: "Hush",
-    icon: "/logo vault0.svg"
+    icon: "/hush-icon.png"
   },
   {
     id: "pages",

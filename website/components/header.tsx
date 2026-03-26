@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/icons/logo"
 import { AppleIcon } from "@/components/icons/apple-icon"
 
@@ -51,13 +50,12 @@ export function Header() {
               <div className="flex items-center justify-start gap-2 px-0 animate-blue-fade-in min-w-0">
                 <div className="min-w-0">
                   <div ref={navContainerRef} className="nav-container relative">
-                    {/* Hover indicator with blur effect */}
                     <div
-                      className="absolute bg-foreground/8 rounded-md pointer-events-none"
+                      className="absolute rounded-md pointer-events-none"
                       style={{
                         opacity: hoverStyle.opacity,
                         height: "100%",
-                        filter: "blur(1px)",
+                        background: "rgba(26,20,16,0.06)",
                         left: hoverStyle.left,
                         width: hoverStyle.width,
                         top: 0,
@@ -70,9 +68,10 @@ export function Header() {
                       <li>
                         <Link
                           href="/why"
-                          className="rounded-full flex items-center gap-2 px-3 h-7 text-foreground/70 font-medium transition-colors duration-200 hover:text-foreground text-xs"
-                          onMouseEnter={handleMouseEnter}
-                          onMouseLeave={handleMouseLeave}
+                          className="rounded-full flex items-center gap-2 px-3 h-7 font-medium transition-colors duration-200 text-xs"
+                          style={{ color: "#1A1410" }}
+                          onMouseEnter={(e) => { handleMouseEnter(e); e.currentTarget.style.color = "#8B3030"; }}
+                          onMouseLeave={(e) => { handleMouseLeave(); e.currentTarget.style.color = "#1A1410"; }}
                         >
                           Why
                         </Link>
@@ -80,9 +79,10 @@ export function Header() {
                       <li>
                         <Link
                           href="/changelogs"
-                          className="rounded-full flex items-center gap-2 px-3 h-7 text-foreground/70 font-medium transition-colors duration-200 hover:text-foreground text-xs"
-                          onMouseEnter={handleMouseEnter}
-                          onMouseLeave={handleMouseLeave}
+                          className="rounded-full flex items-center gap-2 px-3 h-7 font-medium transition-colors duration-200 text-xs"
+                          style={{ color: "#1A1410" }}
+                          onMouseEnter={(e) => { handleMouseEnter(e); e.currentTarget.style.color = "#8B3030"; }}
+                          onMouseLeave={(e) => { handleMouseLeave(); e.currentTarget.style.color = "#1A1410"; }}
                         >
                           Updates
                         </Link>
@@ -95,17 +95,33 @@ export function Header() {
               {/* Center logo */}
               <div className="flex items-center justify-center animate-blue-fade-in">
                 <Link className="inline-flex" href="/" aria-label="Home">
-                  <Logo className="size-5 shrink-0 text-foreground/70" />
+                  <Logo />
                 </Link>
               </div>
 
               {/* Right - Download button */}
               <div className="flex items-center justify-end gap-2 px-0 animate-blue-fade-in">
                 <Link href="/download">
-                  <Button variant="secondary" size="sm">
+                  <button
+                    className="inline-flex items-center cursor-pointer justify-center whitespace-nowrap outline-none gap-1.5 h-7 px-2.5 text-xs rounded-lg transition-colors"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.08)",
+                      border: "1px solid rgba(255, 255, 255, 0.06)",
+                      boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
+                      color: "rgba(26, 20, 16, 0.9)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.12)";
+                      e.currentTarget.style.color = "#1A1410";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                      e.currentTarget.style.color = "rgba(26, 20, 16, 0.9)";
+                    }}
+                  >
                     <AppleIcon className="size-4" />
                     Download
-                  </Button>
+                  </button>
                 </Link>
               </div>
             </div>

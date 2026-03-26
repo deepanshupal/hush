@@ -7,14 +7,6 @@ import { ArrowLeftIcon } from "@/components/icons/arrow-icons"
 import { Button } from "@/components/ui/button"
 import { Footer } from "@/components/footer"
 
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-    </svg>
-  )
-}
-
 function SparkleIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -68,11 +60,16 @@ export default function PaymentSuccessPage() {
     <>
       {/* Sticky Header with Back Button */}
       <div
-        style={{ animationDelay: "0.05s" }}
-        className="w-full z-20 sticky top-0 bg-[#0F0F0F]/95 backdrop-blur-xl left-0 right-0 flex flex-row items-center justify-center"
+        style={{
+          animationDelay: "0.05s",
+          background: "rgba(228, 220, 200, 0.92)",
+          backdropFilter: "blur(8px)",
+          borderBottom: "1px solid #C4BCA8",
+        }}
+        className="w-full z-20 sticky top-0 left-0 right-0 flex flex-row items-center justify-center"
       >
         <div className="w-full mx-auto px-4">
-          <div className="max-w-[52rem] w-full z-1 mx-auto border-x animate-fade-in origin-center border-b border-white/[0.06] relative flex flex-row items-center justify-center p-1">
+          <div className="max-w-[52rem] w-full z-1 mx-auto animate-fade-in origin-center relative flex flex-row items-center justify-center p-1">
             <div
               className="flex flex-row w-full z-300 items-center justify-between p-1 rounded-lg max-w-4xl shrink-0 gap-1"
               style={{ width: "100%" }}
@@ -82,11 +79,11 @@ export default function PaymentSuccessPage() {
                 <div className="flex items-center justify-start gap-2 px-0 animate-blue-fade-in min-w-0">
                   <div ref={navContainerRef} className="nav-container relative">
                     <div
-                      className="absolute bg-foreground/8 rounded-md pointer-events-none"
+                      className="absolute rounded-md pointer-events-none"
                       style={{
                         opacity: hoverStyle.opacity,
                         height: "100%",
-                        filter: "blur(1px)",
+                        background: "rgba(26,20,16,0.06)",
                         left: hoverStyle.left,
                         width: hoverStyle.width,
                         top: 0,
@@ -99,7 +96,8 @@ export default function PaymentSuccessPage() {
                       <li>
                         <Link
                           href="/"
-                          className="rounded-full flex items-center gap-1.5 px-3 h-7 text-foreground/50 font-medium transition-colors duration-200 hover:text-foreground text-xs"
+                          className="rounded-full flex items-center gap-1.5 px-3 h-7 font-medium transition-colors duration-200 text-xs"
+                          style={{ color: "#5A5040" }}
                           onMouseEnter={handleMouseEnter}
                           onMouseLeave={handleMouseLeave}
                         >
@@ -114,7 +112,7 @@ export default function PaymentSuccessPage() {
                 {/* Center logo */}
                 <div className="flex items-center justify-center animate-blue-fade-in">
                   <Link className="inline-flex" href="/" aria-label="Home">
-                    <Logo className="size-5 shrink-0 text-foreground/50" />
+                    <Logo className="h-5 w-auto shrink-0" />
                   </Link>
                 </div>
 
@@ -128,31 +126,34 @@ export default function PaymentSuccessPage() {
       </div>
 
       <div className="w-full mx-auto px-4">
-        <div className="max-w-[52rem] w-full mx-auto border-x border-white/[0.06]">
-          <div className="relative flex flex-col min-h-[80dvh] bg-background">
+        <div className="max-w-[52rem] w-full mx-auto" style={{ borderLeft: "1px solid #C4BCA8", borderRight: "1px solid #C4BCA8" }}>
+          <div className="relative flex flex-col min-h-[80dvh]" style={{ background: "#F0EBE0" }}>
             {/* Content */}
             <div className="flex flex-col items-center justify-center flex-1 p-8 py-16">
               <div className="flex flex-col items-center gap-6 max-w-md text-center animate-blur-fade-slide-in">
                 {/* Logo */}
                 <img
-                  src="/logo-vault0.png"
+                  src="/hush-icon.png"
                   alt="Hush"
-                  className="size-20 object-contain"
+                  className="h-16 w-auto object-contain"
                 />
 
                 {/* Badge */}
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF8C00]/20 text-[#FFD700] font-medium text-sm">
+                <div
+                  className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm"
+                  style={{ background: "#F0E0DC", color: "#8B3030" }}
+                >
                   <SparkleIcon className="size-4" />
                   Thank You!
                 </div>
 
                 {/* Title */}
-                <h1 className="text-2xl font-medium tracking-tight text-foreground">
+                <h1 className="text-2xl font-medium tracking-tight" style={{ color: "#1A1410" }}>
                   Payment Successful
                 </h1>
 
                 {/* Description */}
-                <p className="text-foreground/50 text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed" style={{ color: "#5A5040" }}>
                   Thank you for your support. Click below to open Hush.
                 </p>
 
@@ -161,7 +162,7 @@ export default function PaymentSuccessPage() {
                   <Button className="w-full rounded-lg" onClick={handleOpenApp}>
                     Open Hush
                   </Button>
-                  <p className="text-xs text-foreground/35">
+                  <p className="text-xs" style={{ color: "#8B7860" }}>
                     You can close this tab after opening the app.
                   </p>
                 </div>
@@ -169,10 +170,14 @@ export default function PaymentSuccessPage() {
             </div>
 
             {/* Support Email */}
-            <div className="p-8 text-sm text-foreground/50 leading-6 [animation-delay:400ms] border-t border-white/[0.06] animate-blur-fade-slide-in text-center">
+            <div
+              className="p-8 text-sm leading-6 [animation-delay:400ms] animate-blur-fade-slide-in text-center"
+              style={{ borderTop: "1px solid #C4BCA8", color: "#5A5040" }}
+            >
               Questions?{" "}
               <a
-                className="text-foreground/70 hover:underline"
+                className="hover:underline"
+                style={{ color: "#8B3030" }}
                 href="mailto:hi@hush.software"
               >
                 Contact support
