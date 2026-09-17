@@ -65,7 +65,7 @@ export const LicenseSettings: React.FC = () => {
             <Button
               variant="secondary"
               size="md"
-              onClick={() => openUrl("https://hush.software/pricing")}
+              onClick={() => openUrl("https://hush.software/license")}
             >
               {t("settings.license.buyButton")}
             </Button>

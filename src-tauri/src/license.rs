@@ -1,7 +1,7 @@
 //! Trial and license management for Hush.
 //!
 //! Model: a 14-day free trial starting at first launch, then a paid
-//! lifetime license activated against the Lemon Squeezy License API.
+//! lifetime license activated against the Dodo Payments license API.
 //! Everything stays local-first: after activation the entitlement is
 //! cached on disk and validation is re-checked online at most every
 //! few days. Network failures never lock out a licensed user.
@@ -16,7 +16,10 @@ use std::path::PathBuf;
 use tauri::{AppHandle, Emitter, Manager};
 
 pub const TRIAL_DAYS: i64 = 14;
-const LS_API_BASE: &str = "https://api.lemonsqueezy.com/v1/licenses";
+fn license_api_base() -> String {
+    std::env::var("HUSH_LICENSE_API_BASE")
+        .unwrap_or_else(|_| "https://live.dodopayments.com/licenses".to_string())
+}
 const REVALIDATE_AFTER_SECS: i64 = 7 * 24 * 60 * 60; // weekly best-effort revalidation
 const DAY_SECS: i64 = 86_400;
 
@@ -348,45 +351,28 @@ fn instance_name_for(state: &StoredLicense) -> String {
     format!("Mac {}", &hash[..6])
 }
 
-// ---------- Lemon Squeezy License API ----------
+// ---------- Dodo Payments license API ----------
 
 #[derive(Deserialize)]
-struct LsError {
+struct DodoError {
     error: Option<String>,
 }
 
 #[derive(Deserialize)]
-struct LsActivateResponse {
-    activated: Option<bool>,
+struct DodoActivateResponse {
+    id: Option<String>,
     error: Option<String>,
-    instance: Option<LsInstance>,
-    license_key: Option<LsLicenseKey>,
-    meta: Option<LsMeta>,
+    message: Option<String>,
 }
 
 #[derive(Deserialize)]
-struct LsValidateResponse {
+struct DodoValidateResponse {
     valid: Option<bool>,
     error: Option<String>,
-    license_key: Option<LsLicenseKey>,
+    message: Option<String>,
 }
 
-#[derive(Deserialize)]
-struct LsInstance {
-    id: String,
-}
-
-#[derive(Deserialize)]
-struct LsLicenseKey {
-    status: Option<String>,
-}
-
-#[derive(Deserialize)]
-struct LsMeta {
-    customer_email: Option<String>,
-}
-
-fn ls_client() -> reqwest::Client {
+fn dodo_client() -> reqwest::Client {
     reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(20))
         .build()
@@ -394,10 +380,10 @@ fn ls_client() -> reqwest::Client {
 }
 
 async fn activate_remote(key: &str, instance_name: &str) -> Result<(String, Option<String>), String> {
-    let resp = ls_client()
-        .post(format!("{}/activate", LS_API_BASE))
+    let resp = dodo_client()
+        .post(format!("{}/activate", license_api_base()))
         .header("Accept", "application/json")
-        .form(&[("license_key", key), ("instance_name", instance_name)])
+        .json(&serde_json::json!({ "license_key": key, "name": instance_name }))
         .send()
         .await
         .map_err(|e| format!("Could not reach the license server. Check your connection and try again. ({})", e))?;
@@ -406,7 +392,7 @@ async fn activate_remote(key: &str, instance_name: &str) -> Result<(String, Opti
     let body = resp.text().await.map_err(|e| e.to_string())?;
 
     if !status.is_success() {
-        if let Ok(parsed) = serde_json::from_str::<LsError>(&body) {
+        if let Ok(parsed) = serde_json::from_str::<DodoError>(&body) {
             if let Some(err) = parsed.error {
                 return Err(err);
             }
@@ -414,35 +400,24 @@ async fn activate_remote(key: &str, instance_name: &str) -> Result<(String, Opti
         return Err(format!("Activation failed (HTTP {}).", status.as_u16()));
     }
 
-    let parsed: LsActivateResponse =
+    let parsed: DodoActivateResponse =
         serde_json::from_str(&body).map_err(|_| "Unexpected response from the license server.".to_string())?;
 
-    if parsed.activated != Some(true) {
-        return Err(parsed
-            .error
-            .unwrap_or_else(|| "This license key could not be activated.".to_string()));
-    }
-
     let instance_id = parsed
-        .instance
-        .map(|i| i.id)
-        .ok_or_else(|| "The license server did not return an activation instance.".to_string())?;
+        .id
+        .ok_or_else(|| parsed
+            .error
+            .or(parsed.message)
+            .unwrap_or_else(|| "The license server did not return an activation instance.".to_string()))?;
 
-    if let Some(lk) = &parsed.license_key {
-        if lk.status.as_deref() != Some("active") {
-            return Err("This license key is not active.".to_string());
-        }
-    }
-
-    let email = parsed.meta.and_then(|m| m.customer_email);
-    Ok((instance_id, email))
+    Ok((instance_id, None))
 }
 
 async fn validate_remote(key: &str, instance_id: &str) -> Result<bool, String> {
-    let resp = ls_client()
-        .post(format!("{}/validate", LS_API_BASE))
+    let resp = dodo_client()
+        .post(format!("{}/validate", license_api_base()))
         .header("Accept", "application/json")
-        .form(&[("license_key", key), ("instance_id", instance_id)])
+        .json(&serde_json::json!({ "license_key": key, "license_key_instance_id": instance_id }))
         .send()
         .await
         .map_err(|e| e.to_string())?;
@@ -451,15 +426,15 @@ async fn validate_remote(key: &str, instance_id: &str) -> Result<bool, String> {
         return Err(format!("HTTP {}", resp.status().as_u16()));
     }
 
-    let parsed: LsValidateResponse = resp.json().await.map_err(|e| e.to_string())?;
+    let parsed: DodoValidateResponse = resp.json().await.map_err(|e| e.to_string())?;
     Ok(parsed.valid == Some(true))
 }
 
 async fn deactivate_remote(key: &str, instance_id: &str) -> Result<(), String> {
-    let resp = ls_client()
-        .post(format!("{}/deactivate", LS_API_BASE))
+    let resp = dodo_client()
+        .post(format!("{}/deactivate", license_api_base()))
         .header("Accept", "application/json")
-        .form(&[("license_key", key), ("instance_id", instance_id)])
+        .json(&serde_json::json!({ "license_key": key, "license_key_instance_id": instance_id }))
         .send()
         .await
         .map_err(|e| e.to_string())?;
