@@ -213,7 +213,7 @@ export const ModelsSettings: React.FC = () => {
       </div>
       {filteredModels.length > 0 ? (
         <div className="space-y-6">
-          {/* Downloaded Models Section — header always visible so filter stays accessible */}
+          {/* Downloaded Models Section - header always visible so filter stays accessible */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-medium text-text/60">

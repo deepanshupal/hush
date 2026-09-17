@@ -150,7 +150,7 @@ input:focus, select:focus, textarea:focus, button:focus-visible {
   outline-color: var(--color-logo-primary);
 }
 
-/* Toggle ON state — ensure it uses the new red */
+/* Toggle ON state - ensure it uses the new red */
 [data-state="checked"],
 [aria-checked="true"] {
   background-color: var(--color-background-ui) !important;

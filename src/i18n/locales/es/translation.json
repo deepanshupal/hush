@@ -522,7 +522,7 @@
       "title": "License",
       "loading": "Checking license status…",
       "statusLicensed": "Hush is activated. Thank you for supporting it.",
-      "statusTrial": "Free trial — {{count}} days left. Activate a license to keep using Hush after the trial.",
+      "statusTrial": "Free trial: {{count}} days left. Activate a license to keep using Hush after the trial.",
       "statusExpired": "Your free trial has ended. Activate a license to keep using Hush.",
       "activated": "License activated. Enjoy Hush!",
       "deactivated": "License deactivated on this Mac.",
@@ -609,8 +609,8 @@
   },
   "paywall": {
     "title": "Your free trial has ended",
-    "subtitle": "Hush is a one-time $19 purchase — lifetime updates, up to 2 Macs, no account, no subscription.",
-    "buyButton": "Get Hush — $19",
+    "subtitle": "Hush is a one-time $19 purchase: lifetime updates, up to 2 Macs, no account, no subscription.",
+    "buyButton": "Get Hush - $19",
     "help": "Need help with your license?"
   }
 }
