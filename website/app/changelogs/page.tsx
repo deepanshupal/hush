@@ -16,6 +16,16 @@ interface VersionEntry {
 
 const versions: VersionEntry[] = [
   {
+    version: "0.8.0",
+    date: "September 2026",
+    title: "Free trial and lifetime licenses.",
+    changes: [
+      { type: "new", text: "Free 14-day trial with every feature, nothing held back" },
+      { type: "new", text: "Activate your lifetime license right inside Hush" },
+      { type: "improved", text: "Stability fixes across transcription and settings" },
+    ],
+  },
+  {
     version: "0.7.9",
     date: "March 2026",
     title: "First release.",
@@ -23,10 +33,10 @@ const versions: VersionEntry[] = [
       { type: "new", text: "Voice-to-text that runs entirely on your Mac" },
       { type: "new", text: "Hold Fn to record. Let go to transcribe." },
       { type: "new", text: "Text goes wherever your cursor is. Every app." },
-      { type: "new", text: "Snippets — phrases you say often, saved and ready" },
-      { type: "new", text: "History — everything you\u2019ve transcribed, searchable" },
-      { type: "new", text: "AI Polish — Groq fixes grammar as you go. Your key." },
-      { type: "new", text: "Per-App Tone — Hush writes differently in Mail than Slack" },
+      { type: "new", text: "Snippets: phrases you say often, saved and ready" },
+      { type: "new", text: "History: everything you\u2019ve transcribed, searchable" },
+      { type: "new", text: "AI Polish: Groq fixes grammar as you go. Your key." },
+      { type: "new", text: "Per-App Tone: Hush writes differently in Mail than Slack" },
       { type: "new", text: "Lives in the menu bar. Out of the way until you need it." },
     ],
   },

@@ -20,7 +20,7 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <p className="text-sm max-w-md leading-relaxed" style={{ color: "#5A5040" }}>
-              At Hush, your privacy is not a feature — it&apos;s the foundation. This Privacy Policy explains how we handle your information.
+              At Hush, your privacy is not a feature. It&apos;s the foundation. This Privacy Policy explains how we handle your information.
             </p>
           </div>
 

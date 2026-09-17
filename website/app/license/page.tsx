@@ -87,7 +87,7 @@ export default function LicensePage() {
                 </div>
               </div>
               <p className="text-sm leading-relaxed" style={{ color: "#5A5040" }}>
-                Not a subscription. Not a trial. You buy it, it&apos;s yours —<br />
+                Free 14-day trial, then one payment and it&apos;s yours,<br />
                 on up to 2 Macs. We think software should work that way.
               </p>
               <a href={PAYMENT_URL} className="mt-6 block">
@@ -111,7 +111,7 @@ export default function LicensePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="inline size-3.5 mr-1 -mt-0.5">
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
-                Secure checkout via Polar
+                Secure checkout via Lemon Squeezy
               </p>
             </div>
             <div className="w-full p-8">
@@ -140,7 +140,7 @@ export default function LicensePage() {
                     <path fillRule="evenodd" clipRule="evenodd" d="M16.53 7.15214C16.9983 7.44485 17.1407 8.0618 16.848 8.53013L11.848 16.5301C11.6865 16.7886 11.4159 16.9592 11.1132 16.9937C10.8104 17.0282 10.5084 16.9227 10.2929 16.7072L7.29289 13.7072C6.90237 13.3167 6.90237 12.6836 7.29289 12.293C7.68342 11.9025 8.31658 11.9025 8.70711 12.293L10.8182 14.4042L15.152 7.47013C15.4447 7.0018 16.0617 6.85943 16.53 7.15214Z" fill="currentColor"></path>
                   </svg>
                 </div>
-                <p className="text-sm leading-6" style={{ color: "#5A5040" }}>Everything runs locally — no cloud</p>
+                <p className="text-sm leading-6" style={{ color: "#5A5040" }}>Everything runs locally, no cloud</p>
               </div>
               <div className="flex items-start gap-4 mt-3">
                 <div className="mt-0.5">

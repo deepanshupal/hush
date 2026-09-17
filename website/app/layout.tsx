@@ -54,9 +54,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/vault0og.png",
-        width: 4000,
-        height: 2250,
+        url: "/og.png",
+        width: 1200,
+        height: 630,
         type: "image/png",
       },
     ],
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: "Hush",
     description:
       "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
-    images: ["/vault0og.png"],
+    images: ["/og.png"],
   },
   icons: {
     icon: [

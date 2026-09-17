@@ -62,7 +62,7 @@ export default function WhyPage() {
               className="mb-6 opacity-0 animate-blur-fade-slide-in"
               style={{ animationDelay: "0.4s", fontSize: "17px", lineHeight: 1.85 }}
             >
-              Hold a key. Speak. Let go. Your words appear — right where
+              Hold a key. Speak. Let go. Your words appear, right where
               your cursor is, in whatever app you&apos;re using. Nothing is
               recorded remotely. Nothing is sent anywhere. Nothing leaves
               your Mac.
