@@ -44,6 +44,7 @@ function App() {
   const hasCompletedPostOnboardingInit = useRef(false);
 
   const license = useLicenseStore((state) => state.license);
+  const licenseLoading = useLicenseStore((state) => state.loading);
 
   useEffect(() => {
     checkOnboardingStatus();
@@ -166,6 +167,12 @@ function App() {
 
   if (onboardingStep === "model") {
     return <Onboarding onModelSelected={handleModelSelected} />;
+  }
+
+  // Hold a blank shell until the first license check resolves so an
+  // expired user never sees the main UI flash on launch.
+  if (licenseLoading && !license) {
+    return <div className="h-screen bg-background" />;
   }
 
   // Trial expired and no active license: the whole app sits behind the

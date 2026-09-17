@@ -345,7 +345,7 @@ fn instance_name_for(state: &StoredLicense) -> String {
     if let Some(n) = &state.instance_name {
         return n.clone();
     }
-    // Stable per-install label shown in the Lemon Squeezy dashboard.
+    // Stable per-install label shown in the payment provider dashboard.
     let seed = format!("{}:{}", state.trial_started_at, state.last_seen_at);
     let hash = to_hex(&sha256(seed.as_bytes()));
     format!("Mac {}", &hash[..6])
