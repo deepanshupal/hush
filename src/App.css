@@ -49,6 +49,8 @@
   --color-sidebar:        #D0C8B4;
   --color-card:           #EDE7D3;
   --color-panel:          #1A1410;
+  --input-bg:             var(--color-cream-100);
+  --input-border:         var(--color-cream-400);
 
   /* Typography */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -79,6 +81,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
+    --input-bg:             var(--color-card);
+    --input-border:         var(--color-mid-gray);
     --color-text:           #E4DCC8;
     --color-background:     #2A2420;
     --color-background-ui:  #8B3030;
@@ -139,10 +144,13 @@ body {
     0 1px 3px rgba(26,20,16,0.12);
 }
 
-/* Input fields */
-input, select, textarea {
-  background-color: var(--color-cream-100);
-  border-color: var(--color-cream-400);
+/* Input field defaults (base layer so component utilities override them) */
+@layer base {
+  input, select, textarea {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--color-text);
+  }
 }
 
 /* Focus ring */
