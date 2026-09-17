@@ -1,7 +1,7 @@
-//! Handy-keys based keyboard shortcut implementation
+//! Keyboard shortcut implementation
 //!
 //! This module provides an alternative to Tauri's global-shortcut plugin
-//! using the handy-keys library for more control over keyboard events.
+//! with low-level control over keyboard events.
 //!
 //! ## Architecture
 //!
@@ -56,7 +56,7 @@ enum ManagerCommand {
     Shutdown,
 }
 
-/// State for the handy-keys shortcut manager
+/// State for the keyboard shortcut listener
 pub struct HandyKeysState {
     /// Channel to send commands to the manager thread (wrapped in Mutex for Sync)
     command_sender: Mutex<Sender<ManagerCommand>>,
@@ -108,7 +108,7 @@ impl HandyKeysState {
 
     /// The main manager thread - owns the HotkeyManager and processes commands
     fn manager_thread(cmd_rx: Receiver<ManagerCommand>, app: AppHandle) {
-        info!("handy-keys manager thread started");
+        info!("keyboard-listener manager thread started");
 
         // Create the HotkeyManager in this thread
         let manager = match HotkeyManager::new_with_blocking() {
@@ -128,7 +128,7 @@ impl HandyKeysState {
             while let Some(event) = manager.try_recv() {
                 if let Some((binding_id, hotkey_string)) = hotkey_to_binding.get(&event.id) {
                     debug!(
-                        "handy-keys event: binding={}, hotkey={}, state={:?}",
+                        "keyboard-listener event: binding={}, hotkey={}, state={:?}",
                         binding_id, hotkey_string, event.state
                     );
                     let is_pressed = event.state == HotkeyState::Pressed;
@@ -166,7 +166,7 @@ impl HandyKeysState {
                         let _ = response.send(result);
                     }
                     ManagerCommand::Shutdown => {
-                        info!("handy-keys manager thread shutting down");
+                        info!("keyboard-listener manager thread shutting down");
                         break;
                     }
                 },
@@ -180,7 +180,7 @@ impl HandyKeysState {
             }
         }
 
-        info!("handy-keys manager thread stopped");
+        info!("keyboard-listener manager thread stopped");
     }
 
     /// Register a hotkey
@@ -203,7 +203,7 @@ impl HandyKeysState {
         hotkey_to_binding.insert(id, (binding_id.to_string(), hotkey_string.to_string()));
 
         debug!(
-            "Registered handy-keys shortcut: {} -> {:?}",
+            "Registered keyboard-listener shortcut: {} -> {:?}",
             binding_id, hotkey
         );
         Ok(())
@@ -221,7 +221,7 @@ impl HandyKeysState {
                 .unregister(id)
                 .map_err(|e| format!("Failed to unregister hotkey: {}", e))?;
             hotkey_to_binding.remove(&id);
-            debug!("Unregistered handy-keys shortcut: {}", binding_id);
+            debug!("Unregistered keyboard-listener shortcut: {}", binding_id);
         }
         Ok(())
     }
@@ -294,7 +294,7 @@ impl HandyKeysState {
             Self::recording_loop(app_clone, recording_running);
         });
 
-        debug!("Started handy-keys recording mode");
+        debug!("Started keyboard-listener recording mode");
         Ok(())
     }
 
@@ -354,7 +354,7 @@ impl HandyKeysState {
             *binding = None;
         }
 
-        debug!("Stopped handy-keys recording mode");
+        debug!("Stopped keyboard-listener recording mode");
         Ok(())
     }
 }
@@ -379,7 +379,7 @@ impl Drop for HandyKeysState {
     }
 }
 
-/// Convert handy-keys Modifiers to a list of strings
+/// Convert listener Modifiers to a list of strings
 fn modifiers_to_strings(modifiers: handy_keys::Modifiers) -> Vec<String> {
     let mut result = Vec::new();
 
@@ -421,7 +421,7 @@ pub fn validate_shortcut(raw: &str) -> Result<(), String> {
         .map_err(|e| format!("Invalid shortcut for HandyKeys: {}", e))
 }
 
-/// Initialize handy-keys shortcuts
+/// Initialize keyboard listener shortcuts
 pub fn init_shortcuts(app: &AppHandle) -> Result<(), String> {
     let state = HandyKeysState::new(app.clone())?;
 
@@ -446,14 +446,14 @@ pub fn init_shortcuts(app: &AppHandle) -> Result<(), String> {
 
         if let Err(e) = state.register(&binding) {
             error!(
-                "Failed to register handy-keys shortcut {} during init: {}",
+                "Failed to register keyboard-listener shortcut {} during init: {}",
                 id, e
             );
         }
     }
 
     app.manage(state);
-    info!("handy-keys shortcuts initialized");
+    info!("keyboard-listener shortcuts initialized");
     Ok(())
 }
 
@@ -524,7 +524,7 @@ pub fn unregister_shortcut(app: &AppHandle, binding: ShortcutBinding) -> Result<
 pub fn start_handy_keys_recording(app: AppHandle, binding_id: String) -> Result<(), String> {
     let settings = get_settings(&app);
     if settings.keyboard_implementation != settings::KeyboardImplementation::HandyKeys {
-        return Err("handy-keys is not the active keyboard implementation".into());
+        return Err("keyboard listener is not the active keyboard implementation".into());
     }
 
     let state = app
@@ -539,7 +539,7 @@ pub fn start_handy_keys_recording(app: AppHandle, binding_id: String) -> Result<
 pub fn stop_handy_keys_recording(app: AppHandle) -> Result<(), String> {
     let settings = get_settings(&app);
     if settings.keyboard_implementation != settings::KeyboardImplementation::HandyKeys {
-        return Err("handy-keys is not the active keyboard implementation".into());
+        return Err("keyboard listener is not the active keyboard implementation".into());
     }
 
     let state = app

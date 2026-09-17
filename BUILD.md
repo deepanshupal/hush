@@ -78,7 +78,7 @@ This compiles a release binary and generates platform-specific bundles (deb, rpm
 
 ## Linux Install (from source)
 
-The raw binary (`src-tauri/target/release/handy`) cannot run standalone — it needs Tauri resource files (tray icons, sounds, VAD model) to be co-located at the expected path.
+The raw binary (`src-tauri/target/release/hush`) cannot run standalone — it needs Tauri resource files (tray icons, sounds, VAD model) to be co-located at the expected path.
 
 **Install from the deb bundle** (works on any Linux distro):
 
@@ -95,7 +95,7 @@ sudo cp usr/share/applications/Hush.desktop /usr/share/applications/
 After subsequent rebuilds, only the binary needs re-copying:
 
 ```bash
-sudo cp src-tauri/target/release/handy /usr/bin/
+sudo cp src-tauri/target/release/hush /usr/bin/
 ```
 
 Resources only need re-copying if they change upstream (new icons, sounds, etc.).

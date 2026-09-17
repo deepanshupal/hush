@@ -5,7 +5,7 @@ import { toast, Toaster } from "sonner";
 import { useLicenseStore } from "../stores/licenseStore";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
-import HushTextLogo from "./icons/HandyTextLogo";
+import HushTextLogo from "./icons/HushTextLogo";
 
 const Paywall: React.FC = () => {
   const { t } = useTranslation();

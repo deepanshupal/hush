@@ -1,12 +1,12 @@
 import React from "react";
 import hushWordmark from "../../assets/hush-wordmark.png";
 
-interface HandyTextLogoProps {
+interface HushTextLogoProps {
   width?: number;
   size?: "sm" | "md";
 }
 
-export const HandyTextLogo = ({ width, size = "md" }: HandyTextLogoProps) => {
+export const HushTextLogo = ({ width, size = "md" }: HushTextLogoProps) => {
   const resolvedWidth = width ?? (size === "sm" ? 120 : 180);
   return (
     <img
@@ -17,4 +17,4 @@ export const HandyTextLogo = ({ width, size = "md" }: HandyTextLogoProps) => {
   );
 };
 
-export default HandyTextLogo;
+export default HushTextLogo;

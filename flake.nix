@@ -1,5 +1,5 @@
 {
-  description = "Handy - A free, open source, and extensible speech-to-text application that works completely offline";
+  description = "Hush - a speech-to-text application that works completely offline";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -28,7 +28,7 @@
           lib = pkgs.lib;
 
           bunDeps = pkgs.stdenv.mkDerivation {
-            pname = "handy-bun-deps";
+            pname = "hush-bun-deps";
             inherit version;
             src = self;
 
@@ -55,8 +55,8 @@
           };
         in
         {
-          handy = pkgs.rustPlatform.buildRustPackage {
-            pname = "handy";
+          hush = pkgs.rustPlatform.buildRustPackage {
+            pname = "hush";
             inherit version;
             src = self;
 
@@ -185,15 +185,15 @@
             '';
 
             meta = {
-              description = "A free, open source, and extensible speech-to-text application that works completely offline";
-              homepage = "https://github.com/cjpais/Handy";
+              description = "A speech-to-text application that works completely offline";
+              homepage = "https://hush.software";
               license = lib.licenses.mit;
-              mainProgram = "handy";
+              mainProgram = "hush";
               platforms = supportedSystems;
             };
           };
 
-          default = self.packages.${system}.handy;
+          default = self.packages.${system}.hush;
         }
       );
 
@@ -254,7 +254,7 @@
             XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:${pkgs.hicolor-icon-theme}/share";
 
             shellHook = ''
-              echo "Handy development environment"
+              echo "Hush development environment"
               bun install
               echo "Run 'bun run tauri dev' to start"
             '';

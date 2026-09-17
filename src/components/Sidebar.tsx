@@ -10,7 +10,7 @@ import {
   MessageSquare,
   KeyRound,
 } from "lucide-react";
-import HandyTextLogo from "./icons/HandyTextLogo";
+import HushTextLogo from "./icons/HushTextLogo";
 import { useSettings } from "../hooks/useSettings";
 import {
   GeneralSettings,
@@ -154,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className="flex flex-col w-40 h-full items-center px-2 sidebar-surface">
       <div className="flex items-center justify-center w-full m-4">
-        <HandyTextLogo />
+        <HushTextLogo />
       </div>
       <div className="flex flex-col w-full items-center gap-1 pt-2 border-t border-mid-gray/20">
         {availableSections.map((section) => {

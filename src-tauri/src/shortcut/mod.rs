@@ -4,7 +4,7 @@
 //! multiple backend implementations:
 //!
 //! - `tauri`: Uses Tauri's built-in global-shortcut plugin
-//! - `handy_keys`: Uses the handy-keys library for more control
+//! - `handy_keys`: Uses a low-level keyboard listener for more control
 //!
 //! The active implementation is determined by the `keyboard_implementation`
 //! setting and can be changed at runtime.
@@ -39,11 +39,11 @@ pub fn init_shortcuts(app: &AppHandle) {
         }
         KeyboardImplementation::HandyKeys => {
             if let Err(e) = handy_keys::init_shortcuts(app) {
-                error!("Failed to initialize handy-keys shortcuts: {}", e);
+                error!("Failed to initialize keyboard listener shortcuts: {}", e);
                 // Fall back to Tauri implementation and persist this fallback
                 warn!("Falling back to Tauri global shortcut implementation and saving fallback to settings");
 
-                // Update settings to persist the fallback so we don't retry HandyKeys on next launch
+                // Update settings to persist the fallback so we don't retry the listener on next launch
                 let mut settings = settings::get_settings(app);
                 settings.keyboard_implementation = KeyboardImplementation::Tauri;
                 settings::write_settings(app, settings);
@@ -289,7 +289,7 @@ pub fn change_keyboard_implementation_setting(
     settings.keyboard_implementation = new_impl;
     settings::write_settings(&app, settings);
 
-    // Initialize new implementation if needed (HandyKeys needs state)
+    // Initialize new implementation if needed (keyboard listener needs state)
     if new_impl == KeyboardImplementation::HandyKeys {
         if initialize_handy_keys_with_rollback(&app)? {
             // Shortcuts already registered during init
@@ -451,21 +451,21 @@ fn register_all_shortcuts_for_implementation(
     reset_bindings
 }
 
-/// Initialize HandyKeys if not already initialized, with rollback on failure
+/// Initialize the keyboard listener if not already initialized, with rollback on failure
 fn initialize_handy_keys_with_rollback(app: &AppHandle) -> Result<bool, String> {
     if app.try_state::<handy_keys::HandyKeysState>().is_some() {
         return Ok(false); // Already initialized, caller should continue
     }
 
     if let Err(e) = handy_keys::init_shortcuts(app) {
-        error!("Failed to initialize HandyKeys: {}", e);
+        error!("Failed to initialize keyboard listener: {}", e);
         // Rollback to Tauri
         let mut settings = settings::get_settings(app);
         settings.keyboard_implementation = KeyboardImplementation::Tauri;
         settings::write_settings(app, settings);
         tauri_impl::init_shortcuts(app);
         return Err(format!(
-            "Failed to initialize HandyKeys: {}. Reverted to Tauri.",
+            "Failed to initialize keyboard listener: {}. Reverted to Tauri.",
             e
         ));
     }
