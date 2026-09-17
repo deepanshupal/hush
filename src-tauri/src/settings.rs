@@ -171,8 +171,8 @@ pub enum KeyboardImplementation {
 
 impl Default for KeyboardImplementation {
     fn default() -> Self {
-        // Default to HandyKeys only on macOS where it's well-tested.
-        // Windows and Linux use Tauri by default (handy-keys not sufficiently tested yet).
+        // Default to HushKeys only on macOS where it's well-tested.
+        // Windows and Linux use Tauri by default (hush-keys not sufficiently tested yet).
         #[cfg(target_os = "macos")]
         return KeyboardImplementation::HandyKeys;
         #[cfg(not(target_os = "macos"))]
@@ -275,7 +275,7 @@ impl Default for TypingTool {
     }
 }
 
-/* still handy for composing the initial JSON in the store ------------- */
+/* still useful for composing the initial JSON in the store ------------- */
 #[derive(Serialize, Deserialize, Debug, Clone, Type)]
 pub struct AppSettings {
     pub bindings: HashMap<String, ShortcutBinding>,

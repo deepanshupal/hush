@@ -36,12 +36,12 @@ bun run preview    # Preview built frontend
 mkdir -p src-tauri/resources/models
 
 # Download required VAD model
-curl -o src-tauri/resources/models/silero_vad_v4.onnx https://blob.flowy.app/silero_vad_v4.onnx
+curl -o src-tauri/resources/models/silero_vad_v4.onnx https://blob.hush.app/silero_vad_v4.onnx
 ```
 
 ## Architecture Overview
 
-Flowy is a cross-platform desktop speech-to-text application built with Tauri (Rust backend + React/TypeScript frontend).
+Hush is a cross-platform desktop speech-to-text application built with Tauri (Rust backend + React/TypeScript frontend).
 
 ### Core Components
 
