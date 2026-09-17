@@ -27,6 +27,10 @@ const faqs = [
     answer: "macOS 14 or later, Apple Silicon. That\u2019s the requirement.",
   },
   {
+    question: "macOS says Hush cannot be opened. What now?",
+    answer: "Hush is not notarized with Apple yet. Right-click the app and choose Open, or go to System Settings > Privacy & Security and click Open Anyway. You only do this once.",
+  },
+  {
     question: "Is there a subscription?",
     answer: "No. $19, once. You own it. Use it on up to 2 Macs. No account, no recurring charges.",
   },

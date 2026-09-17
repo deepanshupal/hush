@@ -73,6 +73,11 @@ export default function DownloadClient() {
                   <AppleIcon className="size-4" />
                   Download for Mac
                 </button>
+                <p className="text-xs leading-relaxed" style={{ color: "#8A8070" }}>
+                  First launch: right-click Hush and choose Open.
+                  <br />
+                  macOS asks once because the app is not notarized. You can also use System Settings &gt; Privacy &amp; Security &gt; Open Anyway.
+                </p>
               </div>
             </div>
 
