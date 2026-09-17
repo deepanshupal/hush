@@ -49,6 +49,9 @@
   --color-sidebar:        #D0C8B4;
   --color-card:           #EDE7D3;
   --color-panel:          #1A1410;
+  --input-bg:             var(--color-cream-100);
+  --input-border:         var(--color-cream-400);
+  --glass-border:         rgba(26,20,16,0.10);
 
   /* Typography */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -79,16 +82,55 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-text:           #E4DCC8;
-    --color-background:     #2A2420;
-    --color-background-ui:  #8B3030;
-    --color-logo-primary:   #8B3030;
-    --color-logo-stroke:    #E4DCC8;
+    color-scheme: dark;
+    --color-text:           #EDE6D8;
+    --color-background:     #17130F;
+    --color-background-ui:  #C05B4D;
+    --color-logo-primary:   #C05B4D;
+    --color-logo-stroke:    #EDE6D8;
     --color-text-stroke:    #1A1410;
-    --color-mid-gray:       #6A6050;
-    --color-sidebar:        #221E1A;
-    --color-card:           #332E28;
+    --color-mid-gray:       #9C8E7C;
+    --color-cream-400:      rgba(237,230,216,0.10);
+    --color-sidebar:        rgba(255,255,255,0.025);
+    --color-card:           rgba(255,255,255,0.035);
     --color-panel:          #0E0C0A;
+    --input-bg:             rgba(255,255,255,0.055);
+    --input-border:         rgba(237,230,216,0.14);
+    --glass-border:         rgba(237,230,216,0.09);
+  }
+
+  body {
+    background:
+      radial-gradient(1200px 700px at 70% -10%, rgba(192,91,77,0.06), transparent 60%),
+      linear-gradient(180deg, #1B1610 0%, #14100C 100%);
+    background-attachment: fixed;
+  }
+
+  /* Glassmorphism surfaces */
+  .sidebar-surface {
+    background-color: var(--color-sidebar);
+    -webkit-backdrop-filter: blur(24px) saturate(1.3);
+    backdrop-filter: blur(24px) saturate(1.3);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: none;
+  }
+
+  .settings-card {
+    background-color: var(--color-card);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+    backdrop-filter: blur(18px) saturate(1.25);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.25),
+      0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+
+  /* Sidebar selection: calm glass pill with accent edge */
+  .sidebar-item-active {
+    background-color: rgba(237,230,216,0.09);
+    color: var(--color-text);
+    box-shadow: inset 2px 0 0 var(--color-logo-primary);
   }
 }
 
@@ -112,6 +154,14 @@
 body {
   background-color: var(--color-background);
   color: var(--color-text);
+}
+
+/* Sidebar selection (light mode: brand red pill) */
+@media (prefers-color-scheme: light) {
+  .sidebar-item-active {
+    background-color: var(--color-logo-primary);
+    color: #F5F0E8;
+  }
 }
 
 /* Sidebar surface */
@@ -139,10 +189,14 @@ body {
     0 1px 3px rgba(26,20,16,0.12);
 }
 
-/* Input fields */
-input, select, textarea {
-  background-color: var(--color-cream-100);
-  border-color: var(--color-cream-400);
+/* Input field defaults (base layer: utility classes override these) */
+@layer base {
+  input, select, textarea {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--color-text);
+    border-radius: 8px;
+  }
 }
 
 /* Focus ring */
