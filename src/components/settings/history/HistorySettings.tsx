@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { AudioPlayer } from "../../ui/AudioPlayer";
 import { Button } from "../../ui/Button";
-import { Copy, Star, Check, Trash2, FolderOpen, History as HistoryIcon } from "lucide-react";
+import { Copy, Star, Check, Trash2, FolderOpen } from "lucide-react";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { readFile } from "@tauri-apps/plugin-fs";
@@ -173,11 +173,8 @@ export const HistorySettings: React.FC = () => {
             />
           </div>
           <div className="bg-background border border-mid-gray/20 rounded-lg overflow-visible">
-            <div className="flex flex-col items-center justify-center gap-2 py-10 px-4">
-              <HistoryIcon className="h-5 w-5 text-mid-gray" strokeWidth={1.75} />
-              <div className="text-sm text-mid-gray text-center">
-                {t("settings.history.empty")}
-              </div>
+            <div className="px-4 py-3 text-center text-text/60">
+              {t("settings.history.empty")}
             </div>
           </div>
         </div>

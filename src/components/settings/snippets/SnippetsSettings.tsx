@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Trash2, Plus, X, Zap } from "lucide-react";
+import { Trash2, Plus, X } from "lucide-react";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { commands } from "@/bindings";
 
@@ -105,11 +105,8 @@ export const SnippetsSettings: React.FC = () => {
           )}
 
           {snippets.length === 0 && !showAddForm && (
-            <div className="flex flex-col items-center justify-center gap-2 py-10 px-4 rounded-lg border border-dashed border-mid-gray/30 bg-mid-gray/5">
-              <Zap className="h-5 w-5 text-mid-gray" strokeWidth={1.75} />
-              <div className="text-sm text-mid-gray text-center">
-                {t("settings.snippets.noSnippets")}
-              </div>
+            <div className="text-sm text-mid-gray italic py-8 px-4 text-center">
+              {t("settings.snippets.noSnippets")}
             </div>
           )}
 
