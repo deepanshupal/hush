@@ -2,7 +2,7 @@
 
 import { AppleIcon } from "@/components/icons/apple-icon"
 
-const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
+const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.8.0/Hush_0.8.0_aarch64.dmg"
 
 export function CTASection() {
   return (

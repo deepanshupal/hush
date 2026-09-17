@@ -11,7 +11,7 @@ import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { MainContainer } from "@/components/main-container"
 
-const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
+const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.8.0/Hush_0.8.0_aarch64.dmg"
 
 export default function DownloadClient() {
   const handleDownload = () => {
@@ -48,7 +48,7 @@ export default function DownloadClient() {
                   Download for Mac
                 </h2>
                 <p className="text-sm" style={{ color: "#5A5040" }}>
-                  Version 0.7.9 · macOS 14.0+ · Apple Silicon
+                  Version 0.8.0 · macOS 14.0+ · Apple Silicon
                 </p>
                 <p className="text-sm" style={{ color: "#5A5040" }}>
                   Free for 14 days. $19 once after that, lifetime updates.
