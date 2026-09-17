@@ -4,7 +4,7 @@ import Link from "next/link"
 import { AppleIcon } from "@/components/icons/apple-icon"
 import { Dock } from "@/components/dock"
 
-const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
+const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
 
 export function Hero() {
   return (

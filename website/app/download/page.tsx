@@ -11,7 +11,7 @@ import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { MainContainer } from "@/components/main-container"
 
-const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
+const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.7.9/Hush_0.7.9_aarch64.dmg"
 
 export default function DownloadPage() {
   const handleDownload = () => {
