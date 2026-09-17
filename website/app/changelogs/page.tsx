@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Hush changelog",
+  description:
+    "Every Hush release, what changed, and what is next.",
+}
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MainContainer } from "@/components/main-container"

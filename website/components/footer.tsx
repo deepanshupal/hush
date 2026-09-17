@@ -31,7 +31,7 @@ export function Footer() {
       {/* Copyright */}
       <div className="flex flex-row items-center gap-2">
         <span className="text-xs" style={{ color: "#8B7860" }}>
-          Hush © 2025 ·{" "}
+          Hush © 2026 ·{" "}
           <a
             href="mailto:hi@hush.software"
             className="transition-colors"

@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Hush feedback",
+  description:
+    "Tell us what to build next.",
+}
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MainContainer } from "@/components/main-container"

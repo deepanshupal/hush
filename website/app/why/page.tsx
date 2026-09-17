@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Why Hush",
+  description:
+    "Why voice beats typing, and why Hush keeps your audio on your Mac.",
+}
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MainContainer } from "@/components/main-container"

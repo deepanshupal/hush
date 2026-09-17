@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Hush privacy policy",
+  description:
+    "How Hush handles your data: your audio never leaves your Mac.",
+}
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MainContainer } from "@/components/main-container"
