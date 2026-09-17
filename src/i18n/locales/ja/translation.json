@@ -14,7 +14,8 @@
     "postProcessing": "後処理",
     "history": "履歴",
     "debug": "デバッグ",
-    "about": "概要"
+    "about": "概要",
+    "license": "License"
   },
   "onboarding": {
     "subtitle": "開始するには、文字起こしモデルを選択してください",
@@ -515,6 +516,39 @@
           "details": "Hushは高速でローカルな音声からテキストへの変換にWhisper.cppを使用しています。Georgi Gerganov氏と貢献者の皆様の素晴らしい仕事に感謝します。"
         }
       }
+    },
+    "license": {
+      "title": "License",
+      "loading": "Checking license status…",
+      "statusLicensed": "Hush is activated. Thank you for supporting it.",
+      "statusTrial": "Free trial — {{count}} days left. Activate a license to keep using Hush after the trial.",
+      "statusExpired": "Your free trial has ended. Activate a license to keep using Hush.",
+      "activated": "License activated. Enjoy Hush!",
+      "deactivated": "License deactivated on this Mac.",
+      "activateError": "Activation failed. Check the key and try again.",
+      "deactivateError": "Deactivation failed. Try again.",
+      "status": {
+        "title": "Status"
+      },
+      "buyButton": "Get a License",
+      "email": {
+        "title": "Licensed to"
+      },
+      "key": {
+        "title": "License key"
+      },
+      "deactivate": {
+        "title": "Deactivate",
+        "description": "Free up this Mac's activation so you can use the license on another Mac (up to 2).",
+        "button": "Deactivate This Mac"
+      },
+      "activate": {
+        "title": "Activate License",
+        "description": "Enter the license key from your purchase email.",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+        "button": "Activate",
+        "activating": "Activating…"
+      }
     }
   },
   "footer": {
@@ -529,7 +563,8 @@
     "downloading": "ダウンロード中... {{progress}}%",
     "installing": "インストール中...",
     "preparing": "準備中...",
-    "checkForUpdates": "アップデートを確認"
+    "checkForUpdates": "アップデートを確認",
+    "trialBadge": "Trial: {{count}} days left"
   },
   "common": {
     "loading": "読み込み中...",
@@ -570,5 +605,11 @@
   "overlay": {
     "transcribing": "文字起こし中...",
     "processing": "処理中..."
+  },
+  "paywall": {
+    "title": "Your free trial has ended",
+    "subtitle": "Hush is a one-time $19 purchase — lifetime updates, up to 2 Macs, no account, no subscription.",
+    "buyButton": "Get Hush — $19",
+    "help": "Need help with your license?"
   }
 }

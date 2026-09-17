@@ -1,6 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu, MessageSquare } from "lucide-react";
+import {
+  Cog,
+  FlaskConical,
+  History,
+  Info,
+  Sparkles,
+  Cpu,
+  MessageSquare,
+  KeyRound,
+} from "lucide-react";
 import HandyTextLogo from "./icons/HandyTextLogo";
 import { useSettings } from "../hooks/useSettings";
 import {
@@ -9,6 +18,7 @@ import {
   HistorySettings,
   DebugSettings,
   AboutSettings,
+  LicenseSettings,
   PostProcessingSettings,
   ModelsSettings,
   SnippetsSettings,
@@ -32,7 +42,11 @@ interface SectionConfig {
   enabled: (settings: any) => boolean;
 }
 
-const WaveIcon: React.FC<IconProps> = ({ width = 18, height = 18, className }) => (
+const WaveIcon: React.FC<IconProps> = ({
+  width = 18,
+  height = 18,
+  className,
+}) => (
   <svg
     width={width}
     height={height}
@@ -94,6 +108,12 @@ export const SECTIONS_CONFIG = {
     icon: Sparkles,
     component: PostProcessingSettings,
     enabled: (settings) => settings?.post_process_enabled ?? false,
+  },
+  license: {
+    labelKey: "sidebar.license",
+    icon: KeyRound,
+    component: LicenseSettings,
+    enabled: () => true,
   },
   history: {
     labelKey: "sidebar.history",

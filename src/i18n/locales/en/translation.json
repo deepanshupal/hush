@@ -16,7 +16,8 @@
     "postProcessing": "Post Process",
     "history": "History",
     "debug": "Debug",
-    "about": "About"
+    "about": "About",
+    "license": "License"
   },
   "onboarding": {
     "subtitle": "To get started, choose a transcription model",
@@ -527,6 +528,39 @@
           "details": "Hush uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
+    },
+    "license": {
+      "title": "License",
+      "loading": "Checking license status…",
+      "statusLicensed": "Hush is activated. Thank you for supporting it.",
+      "statusTrial": "Free trial — {{count}} days left. Activate a license to keep using Hush after the trial.",
+      "statusExpired": "Your free trial has ended. Activate a license to keep using Hush.",
+      "activated": "License activated. Enjoy Hush!",
+      "deactivated": "License deactivated on this Mac.",
+      "activateError": "Activation failed. Check the key and try again.",
+      "deactivateError": "Deactivation failed. Try again.",
+      "status": {
+        "title": "Status"
+      },
+      "buyButton": "Get a License",
+      "email": {
+        "title": "Licensed to"
+      },
+      "key": {
+        "title": "License key"
+      },
+      "deactivate": {
+        "title": "Deactivate",
+        "description": "Free up this Mac's activation so you can use the license on another Mac (up to 2).",
+        "button": "Deactivate This Mac"
+      },
+      "activate": {
+        "title": "Activate License",
+        "description": "Enter the license key from your purchase email.",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+        "button": "Activate",
+        "activating": "Activating…"
+      }
     }
   },
   "footer": {
@@ -541,7 +575,8 @@
     "downloading": "Downloading... {{progress}}%",
     "installing": "Installing...",
     "preparing": "Preparing...",
-    "checkForUpdates": "Check for updates"
+    "checkForUpdates": "Check for updates",
+    "trialBadge": "Trial: {{count}} days left"
   },
   "common": {
     "loading": "Loading...",
@@ -582,5 +617,11 @@
   "overlay": {
     "transcribing": "Transcribing...",
     "processing": "Processing..."
+  },
+  "paywall": {
+    "title": "Your free trial has ended",
+    "subtitle": "Hush is a one-time $19 purchase — lifetime updates, up to 2 Macs, no account, no subscription.",
+    "buyButton": "Get Hush — $19",
+    "help": "Need help with your license?"
   }
 }

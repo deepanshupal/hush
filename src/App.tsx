@@ -10,6 +10,8 @@ import Onboarding, { AccessibilityOnboarding } from "./components/onboarding";
 import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
+import { useLicenseStore, initLicenseListeners } from "./stores/licenseStore";
+import Paywall from "./components/Paywall";
 import { commands } from "@/bindings";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 
@@ -41,8 +43,11 @@ function App() {
   );
   const hasCompletedPostOnboardingInit = useRef(false);
 
+  const license = useLicenseStore((state) => state.license);
+
   useEffect(() => {
     checkOnboardingStatus();
+    initLicenseListeners();
   }, []);
 
   // Initialize RTL direction when language changes
@@ -57,9 +62,9 @@ function App() {
       hasCompletedPostOnboardingInit.current = true;
 
       const initWithRetry = async () => {
-        await commands.initializeEnigo().catch((e) =>
-          console.warn("Failed to initialize Enigo:", e),
-        );
+        await commands
+          .initializeEnigo()
+          .catch((e) => console.warn("Failed to initialize Enigo:", e));
         // Try shortcuts immediately, then retry twice with delays
         for (let attempt = 0; attempt < 3; attempt++) {
           try {
@@ -161,6 +166,12 @@ function App() {
 
   if (onboardingStep === "model") {
     return <Onboarding onModelSelected={handleModelSelected} />;
+  }
+
+  // Trial expired and no active license: the whole app sits behind the
+  // activation screen. The transcription pipeline is gated in Rust too.
+  if (license?.status === "expired") {
+    return <Paywall />;
   }
 
   return (

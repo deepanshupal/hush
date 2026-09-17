@@ -8,6 +8,7 @@ mod clipboard;
 mod commands;
 mod helpers;
 mod input;
+mod license;
 mod llm_client;
 mod managers;
 mod overlay;
@@ -84,6 +85,10 @@ fn build_console_filter() -> env_filter::Filter {
     builder.build()
 }
 
+pub(crate) fn show_main_window_pub(app: &AppHandle) {
+    show_main_window(app)
+}
+
 fn show_main_window(app: &AppHandle) {
     if let Some(main_window) = app.get_webview_window("main") {
         // First, ensure the window is visible
@@ -133,6 +138,10 @@ fn initialize_core_logic(app_handle: &AppHandle) {
     app_handle.manage(transcription_manager.clone());
     app_handle.manage(history_manager.clone());
     app_handle.manage(snippets_manager.clone());
+
+    // Trial/license state: starts the trial clock on first launch and
+    // schedules best-effort revalidation for licensed users.
+    license::initialize(app_handle);
 
     // Note: Shortcuts are NOT initialized here.
     // The frontend is responsible for calling the `initialize_shortcuts` command
@@ -312,6 +321,9 @@ pub fn run(cli_args: CliArgs) {
         shortcut::handy_keys::start_handy_keys_recording,
         shortcut::handy_keys::stop_handy_keys_recording,
         trigger_update_check,
+        license::get_license_state,
+        license::activate_license,
+        license::deactivate_license,
         commands::cancel_operation,
         commands::get_app_dir_path,
         commands::get_app_settings,

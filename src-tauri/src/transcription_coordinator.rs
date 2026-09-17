@@ -159,6 +159,12 @@ impl TranscriptionCoordinator {
 }
 
 fn start(app: &AppHandle, stage: &mut Stage, binding_id: &str, hotkey_string: &str) {
+    // License gate: the trial must be active or a license activated.
+    if !crate::license::is_transcription_allowed(app) {
+        log::info!("Transcription blocked: trial expired and no active license");
+        crate::license::notify_license_blocked(app);
+        return;
+    }
     let Some(action) = ACTION_MAP.get(binding_id) else {
         warn!("No action in ACTION_MAP for '{binding_id}'");
         return;

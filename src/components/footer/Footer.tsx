@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { getVersion } from "@tauri-apps/api/app";
+import { useTranslation } from "react-i18next";
+import { useLicenseStore } from "../../stores/licenseStore";
 
 import ModelSelector from "../model-selector";
 import UpdateChecker from "../update-checker";
+
+const TrialBadge: React.FC = () => {
+  const { t } = useTranslation();
+  const license = useLicenseStore((state) => state.license);
+
+  if (!license || license.status !== "trial") {
+    return null;
+  }
+
+  return (
+    <>
+      <span className="text-logo-primary font-medium">
+        {t("footer.trialBadge", { count: license.days_remaining })}
+      </span>
+      <span>•</span>
+    </>
+  );
+};
 
 const Footer: React.FC = () => {
   const [version, setVersion] = useState("");
@@ -30,7 +50,7 @@ const Footer: React.FC = () => {
 
         {/* Update Status */}
         <div className="flex items-center gap-1">
-          <UpdateChecker />
+          <TrialBadge /> <UpdateChecker />
           <span>•</span>
           {/* eslint-disable-next-line i18next/no-literal-string */}
           <span>v{version}</span>
