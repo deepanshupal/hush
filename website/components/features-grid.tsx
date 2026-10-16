@@ -66,7 +66,7 @@ export function FeaturesGrid() {
         id="features-title"
         eyebrow="Features"
         title="Everything you need to stop typing"
-        lead="What other dictation apps charge every month for, free and on your own Mac. The app speaks 25 languages too."
+        lead="What other dictation apps charge every month for, free and on your own Mac. The app speaks 26 languages too."
       />
       <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-panel border border-line bg-line sm:grid-cols-2">
         {features.map(({ title, description, icon: Icon }) => (
