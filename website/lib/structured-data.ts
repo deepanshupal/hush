@@ -22,6 +22,21 @@ const APP_ID = `${SITE_URL}/#software`
 
 const absolute = (path: string) => (path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`)
 
+/** What the current release does, as listed on the home page. Keep in sync with components/features-grid.tsx. */
+const APP_FEATURES = [
+  "Push-to-talk dictation into any app (hold Fn, or any shortcut)",
+  "Hands-free mode: tap or double-tap to keep recording",
+  "On-device speech recognition with Parakeet, Nemotron Streaming, Granite Speech, Whisper and other open models",
+  "Works offline after the speech model downloads",
+  "Live preview of words while you speak",
+  "Optional AI clean-up with your own API key or Apple Intelligence",
+  "Per-app styles: Default, Message, Email, Code and Raw",
+  "Voice snippets and custom vocabulary",
+  "Pauses music and video while you dictate",
+  "Paste the last transcript again with Ctrl+Cmd+V",
+  "Local history; no account and no telemetry",
+]
+
 /** Organization + WebSite, rendered on every page from the root layout. */
 export function siteJsonLd() {
   return {
@@ -75,6 +90,7 @@ export function softwareApplicationJsonLd(download: Download) {
     ...(download.size && { fileSize: `${Math.round(download.size / 1e6)} MB` }),
     license: GITHUB_LICENSE_URL,
     isAccessibleForFree: true,
+    featureList: APP_FEATURES,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     screenshot: `${SITE_URL}/opengraph-image`,
     image: `${SITE_URL}/icons/icon-512.png`,
@@ -84,7 +100,11 @@ export function softwareApplicationJsonLd(download: Download) {
   }
 }
 
-/** FAQPage for a list of questions that are visible on the page. */
+/**
+ * FAQPage for a list of questions that are visible on the page. Google stopped
+ * showing FAQ rich results in 2026; the markup stays because it describes
+ * visible content and answer engines (ChatGPT, Perplexity, Copilot) read it.
+ */
 export function faqJsonLd(items: FaqItem[]) {
   return {
     "@context": "https://schema.org",
@@ -97,15 +117,42 @@ export function faqJsonLd(items: FaqItem[]) {
   }
 }
 
-/** Home > Page breadcrumb for inner pages. */
+/** Home > (parent >) page breadcrumb for inner pages, following `parent` in lib/pages.ts. */
 export function breadcrumbJsonLd(key: PageKey) {
-  const page = PAGES[key]
+  const trail: PageKey[] = []
+  for (let k: PageKey | undefined = key; k; k = PAGES[k].parent) trail.unshift(k)
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: SITE_NAME, item: absolute("/") },
-      { "@type": "ListItem", position: 2, name: page.name, item: absolute(page.path) },
+      ...trail.map((k, i) => ({
+        "@type": "ListItem",
+        position: i + 2,
+        name: PAGES[k].name,
+        item: absolute(PAGES[k].path),
+      })),
     ],
+  }
+}
+
+/**
+ * HowTo for the install steps on /download. Google no longer shows HowTo rich
+ * results (retired 2023); this is kept as plain semantic markup that other
+ * search and AI engines can read. It mirrors the visible steps exactly.
+ */
+export function howToJsonLd({ name, steps }: { name: string; steps: { name: string; text: string }[] }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    totalTime: "PT2M",
+    tool: { "@type": "HowToTool", name: SYSTEM_REQUIREMENTS },
+    step: steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+    })),
   }
 }

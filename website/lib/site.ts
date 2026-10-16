@@ -5,7 +5,7 @@ export const SITE_NAME = "Hush"
 export const SITE_TAGLINE = "Free, private dictation for Mac"
 export const SITE_POSITIONING = "The free, open-source Wispr Flow alternative"
 export const SITE_DESCRIPTION =
-  "Hush is a free, open-source alternative to Wispr Flow. Hold Fn, talk, and clean, punctuated text appears in any app. Speech recognition runs on your Mac, so your voice never leaves it."
+  "Hush is a free, open-source (MIT) push-to-talk dictation app for Apple Silicon Macs, and an alternative to Wispr Flow. Hold Fn, talk, and clean, punctuated text appears in any app. Speech recognition runs on your Mac, so your voice never leaves it."
 
 export const SOURCE_REPO = "DeepanshuPal/hush"
 export const DOWNLOADS_REPO = "DeepanshuPal/hush-downloads"

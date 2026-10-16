@@ -15,9 +15,9 @@ export function Hero({ download, stars }: { download: Download; stars: number | 
           Dictation that stays <span className="text-accent">on your Mac.</span>
         </h1>
         <p className="max-w-[36rem] animate-enter text-body text-ink-muted [animation-delay:200ms]">
-          Hold <kbd className="kbd">Fn</kbd>, talk, let go. Clean, punctuated text appears wherever
-          your cursor is. Speech recognition runs on your Mac, so your voice never leaves it. Free
-          forever, no account, no telemetry.
+          Hush is a free, open-source dictation app for Mac. Hold <kbd className="kbd">Fn</kbd>,
+          talk, let go, and clean, punctuated text appears wherever your cursor is. Your speech is
+          recognized on your Mac, so your voice never leaves it.
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export function Hero({ download, stars }: { download: Download; stars: number | 
         </div>
         <p className="text-caption text-ink-subtle">
           Apple Silicon Macs
-          {download.version ? ` · Version ${download.version}` : ""} · Free forever
+          {download.version ? ` · Version ${download.version}` : ""} · Free forever · No account
         </p>
       </div>
     </div>

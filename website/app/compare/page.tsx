@@ -8,7 +8,9 @@ import { MainContainer } from "@/components/main-container"
 import { PageHeader, Section, SectionHeading } from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { AppleIcon } from "@/components/icons/apple-icon"
+import { ALTERNATIVE_ORDER, ALTERNATIVES } from "@/lib/alternatives"
 import { CHECKED } from "@/lib/comparison-data"
+import { PAGES } from "@/lib/pages"
 import { faqs } from "@/lib/faq"
 import { getLatestDownload } from "@/lib/github"
 import { pageMetadata } from "@/lib/metadata"
@@ -55,6 +57,7 @@ const reasons = [
 
 const FAQ_QUESTIONS = [
   "How is Hush different from Wispr Flow?",
+  "How is Hush different from Superwhisper?",
   "So what's the catch?",
   "Does it work offline?",
 ]
@@ -69,7 +72,7 @@ export default async function ComparePage() {
     <MainContainer>
       <JsonLd data={breadcrumbJsonLd("compare")} />
       <PageHeader
-        eyebrow="Compare"
+        eyebrow="Mac dictation apps compared"
         title={
           <>
             Everything you want from Wispr Flow. <span className="text-accent">Free.</span>
@@ -137,6 +140,26 @@ export default async function ComparePage() {
           </Link>
           .
         </p>
+      </Section>
+
+      <Section aria-labelledby="alternatives-title">
+        <SectionHeading
+          id="alternatives-title"
+          eyebrow="Alternatives"
+          title="Switching from one app in particular?"
+          lead="Each page goes deeper on one app: why people leave it, where it's still ahead, and how to switch."
+        />
+        <ul className="grid gap-4 sm:grid-cols-3">
+          {ALTERNATIVE_ORDER.map((key) => (
+            <li key={key} className="flex flex-col gap-2 rounded-panel border border-line p-5">
+              <h3>{ALTERNATIVES[key].name}</h3>
+              <p className="flex-1 text-small text-ink-muted">{ALTERNATIVES[key].reasons[0].title}.</p>
+              <Link href={PAGES[key].path} className="link text-small font-medium">
+                Hush as a {PAGES[key].name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Section>
 
       <Section aria-labelledby="compare-faq-title">

@@ -5,8 +5,8 @@ import { JsonLd } from "@/components/json-ld"
 import { breadcrumbJsonLd, faqJsonLd } from "@/lib/structured-data"
 import { FaqList } from "@/components/faq"
 import { MainContainer } from "@/components/main-container"
-import { PageHeader, Section } from "@/components/section"
-import { faqs } from "@/lib/faq"
+import { PageHeader, Section, SectionHeading } from "@/components/section"
+import { FAQ_CATEGORIES, faqs } from "@/lib/faq"
 import { GITHUB_ISSUES_URL } from "@/lib/site"
 
 export const metadata: Metadata = pageMetadata("faq")
@@ -17,12 +17,21 @@ export default function FaqPage() {
       <JsonLd data={[faqJsonLd(faqs), breadcrumbJsonLd("faq")]} />
       <PageHeader
         eyebrow="Help"
-        title="Frequently asked questions"
-        lead="Everything people usually ask before and after installing Hush."
+        title="Questions about Hush, answered"
+        lead="Everything people usually ask before and after installing Hush, the free, open-source dictation app for Mac."
       />
+      {FAQ_CATEGORIES.map((category) => {
+        const items = faqs.filter((f) => f.category === category.id)
+        if (items.length === 0) return null
+        return (
+          <Section key={category.id} id={category.id} aria-labelledby={`${category.id}-title`}>
+            <SectionHeading id={`${category.id}-title`} title={category.title} />
+            <FaqList items={items} />
+          </Section>
+        )
+      })}
       <Section>
-        <FaqList items={faqs} />
-        <p className="mt-6 text-small text-ink-muted">
+        <p className="text-small text-ink-muted">
           Ready to try it?{" "}
           <Link href="/download" className="link">
             Download Hush for Mac

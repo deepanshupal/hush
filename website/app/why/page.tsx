@@ -18,7 +18,9 @@ export default function WhyPage() {
       <article className="prose mx-auto max-w-[38rem] px-6 pb-16 sm:px-0">
         <p>
           Voice is faster than typing. Most of us talk at well over a hundred words a minute and
-          type at a fraction of that. Dictation should be the easy win.
+          type at a fraction of that; in a{" "}
+          <a href="https://hci.stanford.edu/research/speech/">Stanford study</a>, speech input was
+          about three times faster than typing on a phone keyboard. Dictation should be the easy win.
         </p>
         <p>
           But the most popular dictation tools send your voice to a server to be transcribed, and
@@ -27,7 +29,7 @@ export default function WhyPage() {
           else&apos;s cloud.
         </p>
         <p>
-          You don&apos;t have to any more. Open speech models like Parakeet and Whisper got good
+          You don&apos;t have to anymore. Open speech models like Parakeet and Whisper got good
           enough, and Apple Silicon got fast enough, that a Mac can recognize speech on its own and
           keep up with you. So that is what Hush does.
         </p>
