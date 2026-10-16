@@ -4,13 +4,14 @@ The marketing and download site for **Hush**, free and open-source push-to-talk 
 
 **Live:** https://www.hush.software (the apex `hush.software` redirects to `www`, which is canonical)
 
-The app lives in [`DeepanshuPal/hush`](https://github.com/DeepanshuPal/hush). Release builds are published to [`DeepanshuPal/hush-downloads`](https://github.com/DeepanshuPal/hush-downloads), which this site reads at build time.
+The app lives in the same repository, one folder up (`src/` and `src-tauri/`). Release builds are published to [`DeepanshuPal/hush-downloads`](https://github.com/DeepanshuPal/hush-downloads), which this site reads at build time.
 
 ## Pages
 
 | Route | What it is |
 |---|---|
-| `/` | Hero, screenshot, features, comparison with Wispr Flow / Superwhisper, privacy, FAQ, open source, CTA |
+| `/` | Hero, animated dictation demo, use cases, features, comparison, privacy, FAQ, open source, CTA |
+| `/compare` | Hush side by side with Wispr Flow, Superwhisper, VoiceInk, OpenWhispr, Spokenly, Willow and Apple Dictation |
 | `/download` | Latest DMG, install steps, Gatekeeper note, permissions |
 | `/changelog` | Release notes, generated from GitHub Releases |
 | `/faq` | All FAQs (with FAQPage structured data) |
@@ -60,4 +61,4 @@ npm run build
 
 ## Deployment
 
-Hosted on Vercel (project `hush-website`). Pushes to `main` deploy to production; other branches get preview deployments.
+Hosted on Vercel (project `hush-website`, Root Directory `website`). Pushes to `main` that change `website/` deploy to production; other branches get preview deployments. Changes outside `website/` are skipped (Ignored Build Step: `git diff --quiet HEAD^ HEAD -- .`).

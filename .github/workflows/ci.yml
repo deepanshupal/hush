@@ -1,11 +1,14 @@
 name: CI
 
-# Frontend checks on every push/PR, plus an unpublished Apple Silicon DMG
-# for pushes to the v1 branch (downloadable from the run's artifacts).
+# App checks on every push/PR, plus an unpublished Apple Silicon DMG for
+# pushes to main (downloadable from the run's artifacts). Changes that only
+# touch the website are checked by website.yml instead.
 on:
   push:
-    branches: [v1]
+    branches: [main]
+    paths-ignore: ["website/**"]
   pull_request:
+    paths-ignore: ["website/**"]
   workflow_dispatch:
 
 concurrency:

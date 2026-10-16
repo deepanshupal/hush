@@ -16,6 +16,9 @@ src-tauri/gen
 src/bindings.ts
 src-tauri/src/catalog/catalog.json
 
+# The website has its own lint and formatting setup (website/)
+website
+
 # Misc
 .DS_Store
 *.log

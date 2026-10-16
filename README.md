@@ -1,5 +1,16 @@
 # Hush
 
+<p align="center">
+  <a href="https://www.hush.software"><img src="docs/images/hush-banner.png" alt="Hush: dictation that stays on your Mac" width="720"></a>
+</p>
+
+<p align="center">
+  <a href="https://www.hush.software/download"><strong>Download for Mac</strong></a> ·
+  <a href="https://www.hush.software">Website</a> ·
+  <a href="https://www.hush.software/compare">Compare</a> ·
+  <a href="https://github.com/DeepanshuPal/hush-downloads/releases">Releases</a>
+</p>
+
 **Free, private push-to-talk dictation for the Mac.** Hold a key, speak, let
 go: your words are typed into whatever app you're using. Speech recognition runs
 entirely on your Mac. No account, no subscription, no word limits.
@@ -115,6 +126,17 @@ See [BUILD.md](BUILD.md) for release builds and details.
 Hush is built with [Tauri](https://tauri.app) (Rust + React/TypeScript) and
 [transcribe.cpp](https://github.com/handy-computer/transcribe.cpp) /
 [ggml](https://github.com/ggml-org/ggml) for on-device speech recognition.
+
+## Repository layout
+
+| Folder | What it is |
+|---|---|
+| `src/` | The app's interface (React, TypeScript, Tailwind) |
+| `src-tauri/` | The app's core (Rust, Tauri): audio, speech recognition, AI clean-up, paste |
+| `website/` | [hush.software](https://www.hush.software) (Next.js). See [`website/README.md`](website/README.md) |
+| `docs/` | Images and notes used by this README |
+
+The app and the website share the same design language: cream surfaces, a burgundy accent and a serif display face.
 
 ## Contributing
 
