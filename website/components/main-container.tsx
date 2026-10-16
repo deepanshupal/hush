@@ -1,20 +1,23 @@
-"use client"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
+/** Page shell: header, the single cream card, and the footer outside it. */
 export function MainContainer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-start pt-12 pb-4 px-4">
-      <div className="min-h-0 w-full animate-slide-in-from-bottom">
-        <div
-          className="max-w-[52rem] w-full mx-auto rounded-2xl overflow-hidden"
-          style={{
-            background: "#F0EBE0",
-            border: "1px solid #C4BCA8",
-            boxShadow: "0 8px 24px -4px rgba(26,20,16,0.12), 0 16px 40px -8px rgba(26,20,16,0.08)",
-          }}
-        >
-          {children}
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-surface-raised focus:px-4 focus:py-2 focus:text-small focus:text-ink focus:shadow-panel"
+      >
+        Skip to content
+      </a>
+      <div className="flex min-h-screen w-full flex-col items-center px-4 pb-4 pt-6 sm:pt-12">
+        <div className="w-full max-w-[52rem] animate-card-in overflow-hidden rounded-card border border-line bg-surface shadow-card">
+          <Header />
+          <main id="main">{children}</main>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }

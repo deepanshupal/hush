@@ -1,51 +1,62 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
+import Link from "next/link"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
-const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer justify-center whitespace-nowrap font-medium transition-colors disabled:pointer-events-none disabled:opacity-20 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none",
+/**
+ * The one button style on the site. Renders a <Link> for internal hrefs,
+ * an <a> for external hrefs and a <button> otherwise, so a button is never
+ * nested inside a link.
+ */
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-semibold transition-colors duration-150 cursor-pointer select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default:
-          "btn-primary",
+        primary: "bg-accent text-accent-ink shadow-button hover:bg-accent-hover",
         secondary:
-          "btn-secondary-skeu",
-        ghost:
-          "hover:bg-[#D4CCB8] text-[#5A5040] hover:text-[#1A1410]",
+          "bg-surface-raised text-ink border border-line shadow-button-secondary hover:bg-surface-muted",
+        ghost: "text-ink-muted hover:text-ink hover:bg-surface-muted",
       },
       size: {
-        default: "h-9 px-4 has-[>svg]:px-3 text-sm rounded-full gap-2",
-        sm: "h-7 gap-1.5 px-2.5 has-[>svg]:px-2 text-xs rounded-lg",
-        xs: "h-6 gap-1.5 px-2.5 has-[>svg]:px-2 text-xs rounded-lg",
+        sm: "h-8 px-3.5 text-caption",
+        md: "h-11 px-5 text-small",
+        lg: "h-12 px-6 text-body",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
-  }
+  },
 )
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+type Variants = VariantProps<typeof buttonVariants>
+
+type ButtonAsLink = Variants &
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+    href: string
+  }
+
+type ButtonAsButton = Variants &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    href?: undefined
+  }
+
+export type ButtonProps = ButtonAsLink | ButtonAsButton
+
+function isExternal(href: string) {
+  return /^(https?:|mailto:)/.test(href)
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
+export function Button(props: ButtonProps) {
+  if (props.href !== undefined) {
+    const { variant, size, className, href, ...rest } = props
+    const classes = cn(buttonVariants({ variant, size }), className)
+    if (isExternal(href)) {
+      return <a href={href} className={classes} {...rest} />
+    }
+    return <Link href={href} className={classes} {...rest} />
   }
-)
-Button.displayName = "Button"
-
-export { Button, buttonVariants }
+  const { variant, size, className, type = "button", ...rest } = props
+  return <button type={type} className={cn(buttonVariants({ variant, size }), className)} {...rest} />
+}

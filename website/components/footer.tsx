@@ -1,48 +1,78 @@
-"use client"
-
 import Link from "next/link"
+import {
+  AUTHOR_NAME,
+  AUTHOR_URL,
+  CONTACT_EMAIL,
+  GITHUB_ISSUES_URL,
+  GITHUB_LICENSE_URL,
+  GITHUB_URL,
+} from "@/lib/site"
 
-const footerLinks = [
-  { label: "Terms", href: "/terms" },
-  { label: "Privacy", href: "/privacy" },
+const columns = [
+  {
+    title: "Product",
+    links: [
+      { label: "Download", href: "/download" },
+      { label: "Changelog", href: "/changelog" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Why Hush", href: "/why" },
+    ],
+  },
+  {
+    title: "Open source",
+    links: [
+      { label: "Source code", href: GITHUB_URL },
+      { label: "Contribute", href: "/open-source" },
+      { label: "Report an issue", href: GITHUB_ISSUES_URL },
+      { label: "MIT licence", href: GITHUB_LICENSE_URL },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+    ],
+  },
 ]
+
+const linkClass = "text-small text-ink-muted transition-colors hover:text-accent"
 
 export function Footer() {
   return (
-    <div
-      className="w-full flex flex-col items-center gap-4 py-8 px-4"
-    >
-      {/* Navigation links */}
-      <div className="flex flex-row flex-wrap justify-center items-center gap-1">
-        {footerLinks.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            className="rounded-full flex items-center gap-2 px-3 h-7 font-medium transition-colors duration-200 text-xs"
-            style={{ color: "#8B7860" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#8B3030")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#8B7860")}
-          >
-            {link.label}
-          </Link>
+    <footer className="mx-auto w-full max-w-[52rem] px-6 pb-12 pt-6 sm:px-10">
+      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        {columns.map((column) => (
+          <div key={column.title} className="flex flex-col gap-2">
+            <p className="text-caption font-semibold uppercase tracking-wider text-ink">
+              {column.title}
+            </p>
+            <ul className="flex flex-col gap-1.5">
+              {column.links.map((link) => (
+                <li key={link.href}>
+                  {link.href.startsWith("/") ? (
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className={linkClass}>
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
-
-      {/* Copyright */}
-      <div className="flex flex-row items-center gap-2">
-        <span className="text-xs" style={{ color: "#8B7860" }}>
-          Hush © 2026 ·{" "}
-          <a
-            href="mailto:hi@hush.software"
-            className="transition-colors"
-            style={{ color: "#8B7860" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#8B3030")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#8B7860")}
-          >
-            hi@hush.software
-          </a>
-        </span>
-      </div>
-    </div>
+      <p className="mt-10 text-caption text-ink-muted">
+        Hush is free and open source under the MIT licence. Made by{" "}
+        <a href={AUTHOR_URL} className="underline underline-offset-2 hover:text-accent">
+          {AUTHOR_NAME}
+        </a>
+        .
+      </p>
+    </footer>
   )
 }

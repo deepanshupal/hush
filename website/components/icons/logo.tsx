@@ -1,23 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
+/** The Hush keycap wordmark. Source image is 480x171, trimmed, shown at 36px tall. */
 export function Logo({ className }: { className?: string }) {
   return (
-    <img
+    <Image
       src="/hush-wordmark.png"
       alt="Hush"
-      className={className}
-      style={{ height: "50px", width: "auto", objectFit: "contain" }}
-    />
-  )
-}
-
-export function LogoFull({ className }: { className?: string }) {
-  return (
-    <img
-      src="/hush-wordmark.png"
-      alt="Hush"
-      className={className}
-      style={{ height: "50px", width: "auto", objectFit: "contain" }}
+      width={480}
+      height={171}
+      priority
+      className={cn("h-9 w-auto", className)}
     />
   )
 }

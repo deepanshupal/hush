@@ -1,72 +1,54 @@
-import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
-import { GeistMono } from "geist/font/mono";
-import "./globals.css";
+import type { Metadata, Viewport } from "next"
+import { Inter } from "next/font/google"
+import { AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site"
+import "./globals.css"
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  weight: ["700", "800", "900"],
-  subsets: ["latin"],
-});
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: "Hush",
-  description:
-    "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
-  authors: [{ name: "Deepanshu" }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} · ${SITE_TAGLINE}`,
+    template: `%s · ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: AUTHOR_NAME }],
+  creator: AUTHOR_NAME,
+  publisher: SITE_NAME,
   keywords: [
-    "voice to text",
-    "speech to text",
-    "transcription",
-    "macOS",
-    "local",
-    "privacy",
     "dictation",
+    "speech to text",
     "voice typing",
-    "on-device AI",
-    "whisper",
-    "voice notes",
-    "transcribe",
-    "speech recognition",
-    "mac app",
-    "voice recorder",
-    "audio to text",
-    "local first",
+    "Mac",
+    "macOS",
+    "open source",
+    "free",
+    "Wispr Flow alternative",
+    "Superwhisper alternative",
+    "on-device speech recognition",
+    "Parakeet",
+    "Whisper",
+    "push to talk",
     "private dictation",
-    "keyboard shortcut",
-    "productivity",
   ],
-  creator: "Deepanshu",
-  publisher: "Hush",
-  robots: "index, follow",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Hush",
-    description:
-      "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
-    url: "https://hush.software",
-    siteName: "Hush",
-    locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        type: "image/png",
-      },
-    ],
+    siteName: SITE_NAME,
+    locale: "en_US",
+    url: "/",
+    title: `${SITE_NAME} · ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hush",
-    description:
-      "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
-    images: ["/og.png"],
+    title: `${SITE_NAME} · ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
   },
   icons: {
     icon: [
@@ -75,47 +57,37 @@ export const metadata: Metadata = {
     ],
     apple: "/favicon.png",
   },
-  metadataBase: new URL("https://hush.software"),
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#d4ccb8",
+  colorScheme: "light",
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: SITE_NAME,
+  applicationCategory: "ProductivityApplication",
+  operatingSystem: "macOS (Apple Silicon)",
+  description: SITE_DESCRIPTION,
+  url: SITE_URL,
+  license: "https://opensource.org/licenses/MIT",
+  isAccessibleForFree: true,
+  author: { "@type": "Person", name: AUTHOR_NAME },
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" style={{ colorScheme: "light" }}>
-      <head>
+    <html lang="en" className={inter.variable}>
+      <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Hush",
-              applicationCategory: "ProductivityApplication",
-              operatingSystem: "macOS",
-              description:
-                "Hush turns your voice into text, instantly, in any app. No cloud. No subscription. No one listening.",
-              url: "https://hush.software",
-              author: {
-                "@type": "Person",
-                name: "Deepanshu",
-              },
-              offers: {
-                "@type": "Offer",
-                price: "19",
-                priceCurrency: "USD",
-              },
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body
-        className={`${inter.variable} ${GeistMono.variable} ${fraunces.variable} font-sans antialiased overscroll-contain`}
-      >
         {children}
       </body>
     </html>
-  );
+  )
 }
