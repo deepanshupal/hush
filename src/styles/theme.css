@@ -57,6 +57,8 @@
   --hush-warning: var(--hush-light-warning);
   --hush-success: var(--hush-light-success);
   --hush-shadow: 0 1px 2px rgb(26 20 16 / 0.06), 0 1px 3px rgb(26 20 16 / 0.08);
+  --hush-shadow-popover: 0 10px 30px rgb(26 20 16 / 0.18);
+  --hush-scrim: rgb(26 20 16 / 0.45);
   color-scheme: light;
 }
 
@@ -75,6 +77,8 @@
     --hush-warning: var(--hush-dark-warning);
     --hush-success: var(--hush-dark-success);
     --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+    --hush-shadow-popover: 0 10px 30px rgb(0 0 0 / 0.45);
+    --hush-scrim: rgb(0 0 0 / 0.6);
     color-scheme: dark;
   }
 }
@@ -93,6 +97,8 @@
   --hush-warning: var(--hush-dark-warning);
   --hush-success: var(--hush-dark-success);
   --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+  --hush-shadow-popover: 0 10px 30px rgb(0 0 0 / 0.45);
+  --hush-scrim: rgb(0 0 0 / 0.6);
   color-scheme: dark;
 }
 

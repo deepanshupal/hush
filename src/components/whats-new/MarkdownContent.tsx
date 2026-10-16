@@ -74,7 +74,7 @@ const components: Components = {
     </ul>
   ),
   li: ({ children }) => (
-    <li className="pl-1 marker:text-text/50">{children}</li>
+    <li className="pl-1 marker:text-text-muted">{children}</li>
   ),
   ol: ({ children }) => (
     <ol className="list-decimal space-y-1 ps-5 text-sm leading-relaxed text-text/80">
@@ -97,7 +97,7 @@ const components: Components = {
     );
   },
   blockquote: ({ children }) => (
-    <blockquote className="border-s-2 border-logo-primary/50 ps-3 text-sm leading-relaxed text-text/70">
+    <blockquote className="border-s-2 border-logo-primary/50 ps-3 text-sm leading-relaxed text-text-muted">
       {children}
     </blockquote>
   ),

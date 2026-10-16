@@ -65,7 +65,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         type="button"
-        className={`px-2 py-[5px] text-sm font-semibold bg-surface-raised border border-border rounded-md min-w-[200px] w-full text-start grid grid-cols-[1fr_auto] gap-2 items-center transition-all duration-150 ${
+        className={`px-2 py-[5px] text-sm font-semibold bg-surface-raised border border-border rounded-md min-w-[200px] w-full text-start grid grid-cols-[1fr_auto] gap-2 items-center transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
           disabled
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-logo-primary/10 cursor-pointer hover:border-logo-primary"
@@ -90,7 +90,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       </button>
       {isOpen && !disabled && (
         <div
-          className={`absolute top-full mt-1 bg-surface-raised border border-border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto ${
+          className={`absolute top-full mt-1 bg-surface-raised border border-border rounded-md shadow-popover z-50 max-h-60 overflow-y-auto ${
             menuClassName ?? "left-0 right-0"
           }`}
         >
