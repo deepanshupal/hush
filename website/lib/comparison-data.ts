@@ -488,7 +488,7 @@ export const groups: Group[] = [
         id: "pause-media",
         label: "Pauses media while dictating",
         cells: {
-          hush: { value: "no", planned: "1.1" },
+          hush: { value: "yes", note: "Pause, lower the volume or mute; resumes only what it paused.", source: HUSH },
           wispr: { value: "yes", note: "Mutes music on desktop.", source: "https://docs.wisprflow.ai/articles/7231650589-auto-mute-music-while-dictating-on-macos-how-audio-detection-works" },
           superwhisper: { value: "yes", source: SW_SETTINGS },
           voiceink: { value: "yes", source: "https://tryvoiceink.com/docs/audio-input" },

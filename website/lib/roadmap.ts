@@ -13,24 +13,23 @@ export const ROADMAP_STAGES: Record<
   { title: string; lead: string; pill: string; items: RoadmapItem[] }
 > = {
   "1.1": {
-    title: "Shipping in 1.1",
-    lead: "Built and being polished for the next release.",
-    pill: "Coming in 1.1",
+    title: "Shipped in 1.1",
+    lead: "Out now. Download the latest version to get them.",
+    pill: "New in 1.1",
     items: [
-      { title: "Esc to cancel", description: "Changed your mind mid-sentence? Press Esc and nothing gets pasted." },
       {
         title: "Double-tap for hands-free",
-        description: "Double-tap your shortcut to keep listening without holding a key, for longer dictation.",
+        description: "Double-tap your shortcut to keep listening without holding a key, even in Hold mode.",
       },
       {
         title: "Paste the last transcript",
-        description: "A shortcut that pastes your last dictation again, in case it landed in the wrong place.",
+        description: "Ctrl+Cmd+V pastes your last dictation again, in case it landed in the wrong place. Also in the menu bar.",
       },
       {
         title: "Pause music while you dictate",
-        description: "Music and videos pause while Hush is listening, then carry on.",
+        description: "Music and videos pause while Hush is listening, then carry on. Or lower the volume, or mute.",
       },
-      { title: "Simpler settings", description: "A cleaner settings window that's quicker to find your way around." },
+      { title: "Simpler settings", description: "Everyday options up front, power-user controls tucked into Advanced, and a one-click Fast / Live / Accurate model choice." },
     ],
   },
   next: {

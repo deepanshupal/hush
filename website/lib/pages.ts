@@ -181,7 +181,7 @@ export const PAGES: Record<PageKey, PageSeo> = {
       eyebrow: "Roadmap",
       headline: "What's next",
       accent: "for Hush",
-      sub: "Shipping in 1.1 · Next · Later",
+      sub: "New in 1.1 · Next · Later",
       alt: "The Hush roadmap: what's shipping in 1.1, what's next and what's planned later.",
     },
     sitemap: { priority: 0.6, changeFrequency: "monthly", lastModified: "build" },
