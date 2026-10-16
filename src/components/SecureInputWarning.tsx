@@ -7,13 +7,13 @@ import { commands, type SecureInputStatus } from "@/bindings";
 
 // Detailed remediation steps live in the docs rather than in the banner
 export const SECURE_INPUT_HELP_URL =
-  "https://handy.computer/docs/troubleshooting#shortcuts-stopped-working-on-macos-secure-input";
+  "https://github.com/DeepanshuPal/hush#shortcuts-stopped-working-secure-input";
 
 /**
  * Compact warning banner shown while macOS Secure Input is stuck on.
  *
  * Secure Input (password fields, Terminal's "Secure Keyboard Entry", a stuck
- * loginwindow) blocks key events from reaching Handy's keyboard listener, so
+ * loginwindow) blocks key events from reaching Hush's keyboard listener, so
  * keyed shortcuts silently stop firing (issue #1578). The backend monitor
  * emits `secure-input-changed` on state transitions; `sustained` filters out
  * the normal momentary activation from focusing a password field.
@@ -108,7 +108,7 @@ const SecureInputWarning: React.FC = () => {
           <button
             onClick={() => setDismissed(true)}
             aria-label={t("secureInput.dismiss")}
-            className="cursor-pointer rounded p-1.5 text-mid-gray hover:bg-warning/15 hover:text-warning focus:outline-none focus:ring-1 focus:ring-warning"
+            className="cursor-pointer rounded p-1.5 text-text-muted hover:bg-warning/15 hover:text-warning focus:outline-none focus:ring-1 focus:ring-warning"
           >
             <X className="h-4 w-4" />
           </button>
