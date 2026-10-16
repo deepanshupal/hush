@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Suono",
+      "mediaWhileRecording": {
+        "title": "Durante la dettatura",
+        "description": "Cosa fare con musica e video mentre detti",
+        "options": {
+          "pause": "Metti in pausa",
+          "lowerVolume": "Abbassa il volume",
+          "mute": "Disattiva tutto l'audio",
+          "off": "Non fare nulla"
+        }
+      },
       "microphone": {
         "title": "Microfono",
         "description": "Scegli il microfono preferito",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Pulizia IA",
         "description": "Ripulisci la dettatura con un fornitore IA a tua scelta"
-      },
-      "muteWhileRecording": {
-        "label": "Silenzia durante la registrazione",
-        "description": "Silenzia l'audio di sistema durante la registrazione"
       },
       "appendTrailingSpace": {
         "label": "Aggiungi Spazio Finale",

@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Âm thanh",
+      "mediaWhileRecording": {
+        "title": "Khi đọc chính tả",
+        "description": "Xử lý nhạc và video khi bạn đọc chính tả",
+        "options": {
+          "pause": "Tạm dừng phương tiện",
+          "lowerVolume": "Giảm âm lượng",
+          "mute": "Tắt toàn bộ âm thanh",
+          "off": "Không làm gì"
+        }
+      },
       "microphone": {
         "title": "Micrô",
         "description": "Chọn thiết bị micrô ưa thích của bạn",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Làm sạch bằng AI",
         "description": "Làm sạch văn bản đọc bằng nhà cung cấp AI bạn chọn"
-      },
-      "muteWhileRecording": {
-        "label": "Tắt tiếng khi ghi âm",
-        "description": "Tắt tiếng âm thanh hệ thống trong khi ghi âm"
       },
       "appendTrailingSpace": {
         "label": "Thêm dấu cách cuối",

@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Zvuk",
+      "mediaWhileRecording": {
+        "title": "Během diktování",
+        "description": "Co dělat s hudbou a videi, když diktujete",
+        "options": {
+          "pause": "Pozastavit média",
+          "lowerVolume": "Ztlumit hlasitost",
+          "mute": "Vypnout veškerý zvuk",
+          "off": "Nic nedělat"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Vyberte preferované zařízení mikrofonu",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Úprava AI",
         "description": "Upravujte diktát pomocí poskytovatele AI dle vaší volby"
-      },
-      "muteWhileRecording": {
-        "label": "Ztlumit při nahrávání",
-        "description": "Ztlumit systémový zvuk během nahrávání"
       },
       "appendTrailingSpace": {
         "label": "Přidat koncovou mezeru",

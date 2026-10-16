@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "आवाज़",
+      "mediaWhileRecording": {
+        "title": "डिक्टेट करते समय",
+        "description": "डिक्टेट करते समय संगीत और वीडियो के साथ क्या करें",
+        "options": {
+          "pause": "मीडिया रोकें",
+          "lowerVolume": "आवाज़ कम करें",
+          "mute": "सारी आवाज़ म्यूट करें",
+          "off": "कुछ न करें"
+        }
+      },
       "microphone": {
         "title": "माइक्रोफ़ोन",
         "description": "अपना पसंदीदा माइक्रोफ़ोन डिवाइस चुनें",
@@ -579,10 +589,6 @@
       "postProcessingToggle": {
         "label": "AI सफ़ाई",
         "description": "अपने चुने हुए AI प्रदाता से डिक्टेशन साफ़ करें"
-      },
-      "muteWhileRecording": {
-        "label": "रिकॉर्डिंग के दौरान म्यूट करें",
-        "description": "रिकॉर्डिंग के दौरान सिस्टम ऑडियो म्यूट करें"
       },
       "appendTrailingSpace": {
         "label": "आखिर में स्पेस जोड़ें",

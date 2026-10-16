@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "So",
+      "mediaWhileRecording": {
+        "title": "Mentre dictes",
+        "description": "Què fer amb la música i els vídeos mentre dictes",
+        "options": {
+          "pause": "Posa en pausa",
+          "lowerVolume": "Abaixa el volum",
+          "mute": "Silencia-ho tot",
+          "off": "No facis res"
+        }
+      },
       "microphone": {
         "title": "Micròfon",
         "description": "Selecciona el micròfon preferit",
@@ -579,10 +589,6 @@
       "postProcessingToggle": {
         "label": "Neteja amb IA",
         "description": "Neteja el dictat amb el proveïdor d’IA que triïs"
-      },
-      "muteWhileRecording": {
-        "label": "Silencia durant l'enregistrament",
-        "description": "Silencia l'àudio del sistema durant l'enregistrament"
       },
       "appendTrailingSpace": {
         "label": "Afegiu un espai al final",

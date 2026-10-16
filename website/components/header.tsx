@@ -7,7 +7,7 @@ import { GITHUB_URL } from "@/lib/site"
 const navLinks = [
   { label: "Why", href: "/why" },
   { label: "Compare", href: "/compare" },
-  { label: "Changelog", href: "/changelog", hideOnMobile: true },
+  { label: "Roadmap", href: "/roadmap", hideOnMobile: true },
   { label: "GitHub", href: GITHUB_URL, hideOnMobile: true },
 ]
 

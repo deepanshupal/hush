@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Sound",
+      "mediaWhileRecording": {
+        "title": "While dictating",
+        "description": "What to do with music and videos while you dictate",
+        "options": {
+          "pause": "Pause media",
+          "lowerVolume": "Lower volume",
+          "mute": "Mute all sound",
+          "off": "Do nothing"
+        }
+      },
       "microphone": {
         "title": "Microphone",
         "description": "Select your preferred microphone device",
@@ -579,10 +589,6 @@
       "postProcessingToggle": {
         "label": "AI clean-up",
         "description": "Clean up dictation with an AI provider you choose"
-      },
-      "muteWhileRecording": {
-        "label": "Mute While Recording",
-        "description": "Mute system audio during recording"
       },
       "appendTrailingSpace": {
         "label": "Append Trailing Space",

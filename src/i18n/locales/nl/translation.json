@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Geluid",
+      "mediaWhileRecording": {
+        "title": "Tijdens dicteren",
+        "description": "Wat er met muziek en video's gebeurt terwijl je dicteert",
+        "options": {
+          "pause": "Media pauzeren",
+          "lowerVolume": "Volume verlagen",
+          "mute": "Alle geluid dempen",
+          "off": "Niets doen"
+        }
+      },
       "microphone": {
         "title": "Microfoon",
         "description": "Selecteer de gewenste microfoon",
@@ -579,10 +589,6 @@
       "postProcessingToggle": {
         "label": "AI-opschoning",
         "description": "Schoon dictaat op met een AI-aanbieder naar keuze"
-      },
-      "muteWhileRecording": {
-        "label": "Dempen tijdens opname",
-        "description": "Systeemgeluid dempen tijdens het opnemen"
       },
       "appendTrailingSpace": {
         "label": "Spatie achteraan toevoegen",

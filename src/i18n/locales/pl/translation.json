@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Dźwięk",
+      "mediaWhileRecording": {
+        "title": "Podczas dyktowania",
+        "description": "Co robić z muzyką i filmami podczas dyktowania",
+        "options": {
+          "pause": "Wstrzymaj multimedia",
+          "lowerVolume": "Ścisz dźwięk",
+          "mute": "Wycisz wszystko",
+          "off": "Nic nie rób"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Wybierz preferowane urządzenie mikrofonowe",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Porządkowanie AI",
         "description": "Porządkuj dyktowanie za pomocą wybranego dostawcy AI"
-      },
-      "muteWhileRecording": {
-        "label": "Wycisz podczas nagrywania",
-        "description": "Wycisz dźwięk systemu podczas nagrywania"
       },
       "appendTrailingSpace": {
         "label": "Dodaj spację na końcu",

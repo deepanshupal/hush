@@ -183,6 +183,16 @@
     },
     "sound": {
       "title": "الصوت",
+      "mediaWhileRecording": {
+        "title": "أثناء الإملاء",
+        "description": "ما يحدث للموسيقى والفيديو أثناء الإملاء",
+        "options": {
+          "pause": "إيقاف الوسائط مؤقتًا",
+          "lowerVolume": "خفض مستوى الصوت",
+          "mute": "كتم كل الأصوات",
+          "off": "عدم فعل شيء"
+        }
+      },
       "microphone": {
         "title": "الميكروفون",
         "description": "اختر جهاز الميكروفون المفضل لديك",
@@ -535,10 +545,6 @@
       "postProcessingToggle": {
         "label": "التنظيف بالذكاء الاصطناعي",
         "description": "نظّف الإملاء بمزوّد ذكاء اصطناعي تختاره"
-      },
-      "muteWhileRecording": {
-        "label": "كتم الصوت أثناء التسجيل",
-        "description": "كتم صوت النظام أثناء التسجيل"
       },
       "appendTrailingSpace": {
         "label": "إضافة مسافة تابعة",

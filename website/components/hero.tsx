@@ -30,7 +30,7 @@ export function Hero({ download, stars }: { download: Download; stars: number | 
           <Button href={GITHUB_URL} variant="secondary" size="lg">
             <GitHubIcon />
             View on GitHub
-            {stars !== null && (
+            {stars !== null && stars >= 10 && (
               <span
                 className="ml-1 inline-flex items-center gap-1 border-l border-line pl-3 text-small text-ink-muted"
                 aria-label={`${stars} stars`}

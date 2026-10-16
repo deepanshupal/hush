@@ -15,6 +15,7 @@ mod helpers;
 mod input;
 mod llm_client;
 mod managers;
+mod media_control;
 mod memory;
 mod overlay;
 mod paste_tx;
@@ -691,7 +692,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
             shortcut::update_custom_words,
             shortcut::suspend_all_bindings,
             shortcut::resume_all_bindings,
-            shortcut::change_mute_while_recording_setting,
+            shortcut::change_media_while_recording_setting,
             shortcut::change_append_trailing_space_setting,
             shortcut::change_lazy_stream_close_setting,
             shortcut::change_vad_enabled_setting,
@@ -1142,8 +1143,6 @@ pub fn run(cli_args: CliArgs) {
     #[cfg(target_os = "macos")]
     apply_startup_activation_policy(&mut app, headless_mode);
 
-    // `app` is only used by the macOS arm.
-    #[cfg_attr(not(target_os = "macos"), allow(unused_variables))]
     app.run(|app, event| match &event {
         #[cfg(target_os = "macos")]
         tauri::RunEvent::Reopen { .. } => {
@@ -1161,6 +1160,14 @@ pub fn run(cli_args: CliArgs) {
                 tray::recreate_tray_icon(app);
             }
             show_main_window(app);
+        }
+        // Quitting mid-recording must not leave music paused, the volume
+        // lowered or the system muted.
+        tauri::RunEvent::Exit => {
+            if let Some(rm) = app.try_state::<Arc<AudioRecordingManager>>() {
+                rm.remove_mute();
+            }
+            media_control::end_blocking(std::time::Duration::from_secs(2));
         }
         // No transcription teardown on exit: transcribe.cpp runs only in the
         // worker process, which exits by itself as soon as this process's end

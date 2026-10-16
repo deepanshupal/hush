@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Ses",
+      "mediaWhileRecording": {
+        "title": "Dikte sırasında",
+        "description": "Dikte ederken müzik ve videolara ne olacağı",
+        "options": {
+          "pause": "Medyayı duraklat",
+          "lowerVolume": "Sesi kıs",
+          "mute": "Tüm sesi kapat",
+          "off": "Hiçbir şey yapma"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Tercih ettiğiniz mikrofon cihazını seçin",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Yapay zekâ düzeltme",
         "description": "Dikteyi seçtiğiniz yapay zekâ sağlayıcısıyla düzeltin"
-      },
-      "muteWhileRecording": {
-        "label": "Kayıt Sırasında Sessize Al",
-        "description": "Kayıt sırasında sistem sesini kapatır"
       },
       "appendTrailingSpace": {
         "label": "Sonuna Boşluk Ekle",

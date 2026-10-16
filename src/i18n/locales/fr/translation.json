@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Son",
+      "mediaWhileRecording": {
+        "title": "Pendant la dictée",
+        "description": "Que faire de la musique et des vidéos pendant que vous dictez",
+        "options": {
+          "pause": "Mettre en pause",
+          "lowerVolume": "Baisser le volume",
+          "mute": "Couper tout le son",
+          "off": "Ne rien faire"
+        }
+      },
       "microphone": {
         "title": "Microphone",
         "description": "Sélectionnez votre périphérique d'entrée audio",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Nettoyage IA",
         "description": "Nettoyer la dictée avec le fournisseur d’IA de votre choix"
-      },
-      "muteWhileRecording": {
-        "label": "Muet pendant l'enregistrement",
-        "description": "Couper le son du système pendant l'enregistrement"
       },
       "appendTrailingSpace": {
         "label": "Ajouter une espace final",

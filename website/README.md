@@ -11,9 +11,10 @@ The app lives in the same repository, one folder up (`src/` and `src-tauri/`). R
 | Route | What it is |
 |---|---|
 | `/` | Hero, animated dictation demo, use cases, features, comparison, privacy, FAQ, open source, CTA |
-| `/compare` | Hush side by side with Wispr Flow, Superwhisper, VoiceInk, OpenWhispr, Spokenly, Willow and Apple Dictation |
+| `/compare` | Hush vs Wispr Flow, Superwhisper, VoiceInk and OpenWhispr (plus Spokenly, Willow and Apple Dictation behind "Show more apps"; a pick-one view on phones) |
 | `/download` | Latest DMG, install steps, Gatekeeper note, permissions |
 | `/changelog` | Release notes, generated from GitHub Releases |
+| `/roadmap` | Public roadmap: shipping in 1.1, next, later (`lib/roadmap.ts`) |
 | `/faq` | All FAQs (with FAQPage structured data) |
 | `/why` | Manifesto: free, private, open |
 | `/open-source` | Contribute, build from source, report issues, license |
@@ -36,6 +37,29 @@ Release notes are rendered from GitHub's own sanitized HTML (`body_html`), so wr
 ## Design system
 
 All tokens live in `app/globals.css` (`@theme`): colors (`page`, `surface`, `surface-muted`, `surface-raised`, `line`, `ink`, `ink-muted`, `ink-subtle`, `accent`, ...), fonts, the type scale (`text-display`, `text-h1`, `text-h2`, `text-h3`, `text-body`, `text-small`, `text-caption`), radii (`rounded-control`, `rounded-panel`, `rounded-card`) and shadows. Don't hard-code hex values in components.
+
+### Shared with the app
+
+The site and the app (`src/styles/theme.css`, light scheme) use the same palette. These tokens must match; `scripts/check-design-tokens.mjs` (run from the repo root, and in the Website CI workflow) fails if they drift. `BRAND` in `lib/site.ts` is checked too.
+
+| Shared token | Site (`app/globals.css`) | App (`src/styles/theme.css`) | Value |
+|---|---|---|---|
+| Page / background | `--color-page` | `--hush-light-bg` | `#e9e2d0` |
+| Surface | `--color-surface` | `--hush-light-surface` | `#f1ecdf` |
+| Raised surface | `--color-surface-raised` | `--hush-light-surface-raised` | `#f8f5ee` |
+| Border | `--color-line` | `--hush-light-border` | `#cfc5ae` |
+| Text | `--color-ink` | `--hush-light-text` | `#1a1410` |
+| Muted text | `--color-ink-muted` | `--hush-light-text-muted` | `#5a5040` |
+| Accent | `--color-accent` | `--hush-light-accent` | `#8b3030` |
+| Text on accent | `--color-accent-ink` | `--hush-light-accent-contrast` | `#fdf8f1` |
+
+To change one, edit both files and run `node scripts/check-design-tokens.mjs`. Site-only tokens (`page-dot`, `surface-muted`, `ink-subtle`, `accent-soft`, `accent-hover`) have no app equivalent.
+
+### Scaling
+
+The root font size is 16px up to a 1440px-wide window and grows linearly to 22px at 2560px (`html` in `app/globals.css`), so the site looks the same on a 13" laptop and a 27" monitor, like zooming. Size things in rem (Tailwind's spacing and type utilities already are); avoid px for widths, heights and gaps.
+
+### Conventions
 
 - `h1`, `h2`, `h3` are styled globally, so headings look the same on every page.
 - `components/ui/button.tsx` is the only button (`primary`, `secondary`, `ghost`). Pass `href` to render a link.

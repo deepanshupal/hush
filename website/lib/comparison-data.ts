@@ -6,9 +6,15 @@
  *   terms or source repository. Put the URL in `source`. If it can't be confirmed
  *   there, use "unknown" (shown as "?"). Never guess.
  * - Hush gets "yes" only for features in the current release. Roadmap features are
- *   `{ value: "no", planned: true }`, which renders as "Coming soon".
+ *   `{ value: "no", planned: "1.1" | "next" | "later" }`, matching the stage on
+ *   /roadmap (lib/roadmap.ts); they render as "Coming in 1.1", "Coming next" or
+ *   "Coming later". Flip them to "yes" only once the release ships.
+ * - `note` is shown as a short tooltip on the cell; `source` is the evidence and is
+ *   kept here for maintainers, not rendered.
  * - Update CHECKED whenever you re-check the competitors.
  */
+
+import type { RoadmapStage } from "@/lib/roadmap"
 
 export const CHECKED = "October 2026"
 
@@ -29,12 +35,12 @@ export type CellValue = "yes" | "no" | "partial" | "unknown" | (string & {})
 
 export type Cell = {
   value: CellValue
-  /** Shown as a numbered note under the table. */
+  /** Short nuance, shown as a tooltip on the cell. */
   note?: string
   /** Official page the value was checked against. */
   source?: string
-  /** Hush only: on the roadmap. Renders "Coming soon" instead of ✗. */
-  planned?: boolean
+  /** Hush only: on the roadmap, at this stage. Renders a "Coming …" pill instead of ✗. */
+  planned?: RoadmapStage
 }
 
 export type Row = {
@@ -439,7 +445,7 @@ export const groups: Group[] = [
         label: "Edit selected text by voice",
         description: "“Make this more formal”",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "next" },
           wispr: { value: "yes", note: "Command Mode, Pro plan.", source: "https://docs.wisprflow.ai/articles/4816967992-how-to-use-command-mode" },
           superwhisper: { value: "yes", source: SW_BUILTIN },
           voiceink: { value: "yes", source: VI_CONTEXT },
@@ -454,7 +460,7 @@ export const groups: Group[] = [
         label: "Context awareness",
         description: "Uses text on screen or around the cursor",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "next" },
           wispr: { value: "yes", source: "https://docs.wisprflow.ai/articles/4678293671-feature-context-awareness" },
           superwhisper: { value: "yes", note: "Pro feature.", source: "https://superwhisper.com/docs/common-issues/context" },
           voiceink: { value: "yes", note: "Selected text, clipboard and screen text.", source: VI_CONTEXT },
@@ -468,7 +474,7 @@ export const groups: Group[] = [
         id: "learns",
         label: "Learns from your corrections",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "next" },
           wispr: { value: "yes", source: WISPR_DICTIONARY },
           superwhisper: { value: "unknown" },
           voiceink: { value: "yes", source: "https://tryvoiceink.com/docs/auto-learn-dictionary" },
@@ -482,7 +488,7 @@ export const groups: Group[] = [
         id: "pause-media",
         label: "Pauses media while dictating",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "1.1" },
           wispr: { value: "yes", note: "Mutes music on desktop.", source: "https://docs.wisprflow.ai/articles/7231650589-auto-mute-music-while-dictating-on-macos-how-audio-detection-works" },
           superwhisper: { value: "yes", source: SW_SETTINGS },
           voiceink: { value: "yes", source: "https://tryvoiceink.com/docs/audio-input" },
@@ -497,7 +503,7 @@ export const groups: Group[] = [
         label: "File transcription",
         description: "Turn audio or video files into text",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "later" },
           wispr: { value: "no", source: "https://docs.wisprflow.ai/articles/7689167034-can-i-upload-audio-files-to-wispr-flow-for-transcription" },
           superwhisper: { value: "yes", note: "Pro feature.", source: "https://superwhisper.com/docs/get-started/transcribe-files" },
           voiceink: { value: "yes", source: VI_INTRO },
@@ -545,7 +551,7 @@ export const groups: Group[] = [
         id: "mac-intel",
         label: "Mac (Intel)",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "later" },
           wispr: { value: "yes", source: WISPR_DEVICES },
           superwhisper: { value: "yes", note: "Works best with cloud models on Intel.", source: SW_HOME },
           voiceink: { value: "no", source: VI_PRICING },
@@ -559,7 +565,7 @@ export const groups: Group[] = [
         id: "windows",
         label: "Windows",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", planned: "later" },
           wispr: { value: "yes", source: WISPR_DEVICES },
           superwhisper: { value: "yes", source: "https://superwhisper.com/docs/get-started/windows" },
           voiceink: { value: "no", source: VI_PRICING },
@@ -573,7 +579,7 @@ export const groups: Group[] = [
         id: "ios",
         label: "iPhone",
         cells: {
-          hush: { value: "no", planned: true },
+          hush: { value: "no", note: "Not on the roadmap yet." },
           wispr: { value: "yes", source: WISPR_DEVICES },
           superwhisper: { value: "yes", source: "https://superwhisper.com/docs/get-started/ios" },
           voiceink: { value: "yes", source: VI_HOME },

@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "声音",
+      "mediaWhileRecording": {
+        "title": "听写时",
+        "description": "听写时如何处理音乐和视频",
+        "options": {
+          "pause": "暂停媒体",
+          "lowerVolume": "降低音量",
+          "mute": "全部静音",
+          "off": "不做处理"
+        }
+      },
       "microphone": {
         "title": "麦克风",
         "description": "选择您偏好的麦克风设备",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "AI 润色",
         "description": "用你选择的 AI 服务商润色听写内容"
-      },
-      "muteWhileRecording": {
-        "label": "录制时静音",
-        "description": "录制期间静音系统音频"
       },
       "appendTrailingSpace": {
         "label": "追加尾部空格",

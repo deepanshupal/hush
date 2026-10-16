@@ -186,6 +186,16 @@
     },
     "sound": {
       "title": "사운드",
+      "mediaWhileRecording": {
+        "title": "받아쓰기 중",
+        "description": "받아쓰기 중 음악과 동영상 처리 방법",
+        "options": {
+          "pause": "미디어 일시정지",
+          "lowerVolume": "볼륨 낮추기",
+          "mute": "모든 소리 음소거",
+          "off": "아무것도 안 함"
+        }
+      },
       "microphone": {
         "title": "마이크",
         "description": "선호하는 마이크 장치를 선택하세요",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "AI 다듬기",
         "description": "선택한 AI 제공자로 받아쓰기를 다듬습니다"
-      },
-      "muteWhileRecording": {
-        "label": "녹음 중 음소거",
-        "description": "녹음 중 시스템 오디오 음소거"
       },
       "appendTrailingSpace": {
         "label": "끝 공백 추가",

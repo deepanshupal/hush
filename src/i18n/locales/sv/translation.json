@@ -213,6 +213,16 @@
     },
     "sound": {
       "title": "Ljud",
+      "mediaWhileRecording": {
+        "title": "Under diktering",
+        "description": "Vad som händer med musik och video medan du dikterar",
+        "options": {
+          "pause": "Pausa media",
+          "lowerVolume": "Sänk volymen",
+          "mute": "Stäng av allt ljud",
+          "off": "Gör ingenting"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Välj din föredragna mikrofonenhet",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "AI-städning",
         "description": "Städa upp diktering med en AI-leverantör du väljer"
-      },
-      "muteWhileRecording": {
-        "label": "Ljudlös under inspelning",
-        "description": "Stäng av systemljudet under inspelning"
       },
       "appendTrailingSpace": {
         "label": "Lägg till avslutande mellanslag",

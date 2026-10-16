@@ -14,25 +14,31 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
+  /*
+   * Shared with the app (src/styles/theme.css, light scheme). The values marked
+   * "shared" must match the app's --hush-light-* tokens;
+   * scripts/check-design-tokens.mjs fails CI if they drift apart.
+   */
+
   /* Page */
-  --color-page: #d4ccb8; /* dotted page background */
-  --color-page-dot: #b0a890;
+  --color-page: #e9e2d0; /* shared: --hush-light-bg. Dotted page background */
+  --color-page-dot: #c4b9a0;
 
   /* Surfaces */
-  --color-surface: #f0ebe0; /* the main card */
+  --color-surface: #f1ecdf; /* shared: --hush-light-surface. The main card */
   --color-surface-muted: #e4dcc8; /* insets, hover rows, code */
-  --color-surface-raised: #f7f2ea; /* secondary buttons, highlighted panels */
-  --color-line: #c4bca8; /* borders and dividers */
+  --color-surface-raised: #f8f5ee; /* shared: --hush-light-surface-raised. Buttons, highlighted panels */
+  --color-line: #cfc5ae; /* shared: --hush-light-border. Borders and dividers */
 
   /* Text */
-  --color-ink: #1a1410; /* headings, primary text: 15.3:1 on surface */
-  --color-ink-muted: #5a5040; /* body copy: 6.6:1 on surface */
+  --color-ink: #1a1410; /* shared: --hush-light-text. Headings, primary text: 15.3:1 on surface */
+  --color-ink-muted: #5a5040; /* shared: --hush-light-text-muted. Body copy: 6.7:1 on surface */
   --color-ink-subtle: #665844; /* captions, meta: 5.8:1 on surface */
 
   /* Brand accent (burgundy) */
-  --color-accent: #8b3030; /* 6.9:1 on surface */
+  --color-accent: #8b3030; /* shared: --hush-light-accent. 6.9:1 on surface */
   --color-accent-hover: #7a2828;
-  --color-accent-ink: #f7f2ea; /* text on accent: 7.4:1 */
+  --color-accent-ink: #fdf8f1; /* shared: --hush-light-accent-contrast. Text on accent: 7.7:1 */
   --color-accent-soft: #f0e0dc;
 
   /* Fonts */
@@ -72,6 +78,23 @@
   --animate-enter: enter 0.6s ease-out both;
   --animate-card-in: card-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-wave: wave 0.9s ease-in-out infinite;
+  --animate-dock-bounce: dock-bounce 0.9s cubic-bezier(0.3, 0, 0.3, 1) both;
+
+  @keyframes dock-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-45%);
+    }
+    55% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(-15%);
+    }
+  }
 
   @keyframes wave {
     0%,
@@ -109,7 +132,13 @@
 }
 
 @layer base {
+  /*
+   * Proportional scaling: 16px up to a 1440px-wide viewport (a 13" MacBook),
+   * then growing linearly to 22px at 2560px (a 27" monitor), like zooming.
+   * Everything is sized in rem, so the whole site scales with it.
+   */
   html {
+    font-size: clamp(16px, calc(16px + (100vw - 1440px) * 0.005357), 22px);
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
@@ -121,8 +150,8 @@
     line-height: var(--text-body--line-height);
     color: var(--color-ink);
     background-color: var(--color-page);
-    background-image: radial-gradient(circle, var(--color-page-dot) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(circle, var(--color-page-dot) 0.0625rem, transparent 0.0625rem);
+    background-size: 1.5rem 1.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

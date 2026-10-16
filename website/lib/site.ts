@@ -24,13 +24,16 @@ export const SYSTEM_REQUIREMENTS = "Mac with Apple Silicon (M1 or later)"
 /** Shown when GitHub can't be reached at build time; otherwise the latest release wins. */
 export const FALLBACK_APP_VERSION = "1.0.0"
 
-/** Brand colors for places that can't read CSS variables (manifest, theme-color, OG images). */
+/**
+ * Brand colors for places that can't read CSS variables (manifest, theme-color, OG images).
+ * Keep in sync with app/globals.css; scripts/check-design-tokens.mjs checks the shared ones.
+ */
 export const BRAND = {
-  page: "#d4ccb8",
-  pageDot: "#b0a890",
-  surface: "#f0ebe0",
+  page: "#e9e2d0",
+  pageDot: "#c4b9a0",
+  surface: "#f1ecdf",
   surfaceMuted: "#e4dcc8",
-  line: "#c4bca8",
+  line: "#cfc5ae",
   ink: "#1a1410",
   inkMuted: "#5a5040",
   accent: "#8b3030",
