@@ -177,6 +177,11 @@
           "push_to_talk": "Neemt op zolang je de sneltoets ingedrukt houdt. Dubbeltik voor handsfree opnemen tot de volgende druk",
           "toggle": "Tik op de sneltoets om de opname te starten, tik opnieuw om te stoppen"
         }
+      },
+      "groups": {
+        "shortcuts": "Sneltoetsen",
+        "speech": "Spraak",
+        "app": "App"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Uitvoer",
         "transcription": "Transcriptie",
         "history": "Geschiedenis",
-        "experimental": "Experimenteel"
+        "experimental": "Experimenteel",
+        "sound": "Geluid"
       },
       "experimentalToggle": {
         "label": "Experimentele functies",
@@ -384,7 +390,9 @@
           "simplified": "Vereenvoudigd",
           "traditional": "Traditioneel"
         }
-      }
+      },
+      "title": "Geavanceerd",
+      "description": "Instellingen die de meeste mensen nooit hoeven te wijzigen."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Provider",
-          "description": "Selecteer een OpenAI- of Anthropic-compatibele provider."
+          "description": "Selecteer een OpenAI- of Anthropic-compatibele provider.",
+          "moreProviders": "Meer providers…"
         },
         "apiFormat": {
           "title": "API-indeling",
@@ -672,6 +681,29 @@
       "delete": "Verwijderen",
       "empty": "Nog geen snippets.",
       "error": "Snippet kon niet worden opgeslagen: {{error}}"
+    },
+    "speechModel": {
+      "title": "Spraakmodel",
+      "description": "Draait op je Mac, dus je stem verlaat hem nooit. Je kunt altijd wisselen.",
+      "recommended": "Aanbevolen",
+      "downloading": "Downloaden {{percent}}%",
+      "current": "In gebruik: {{model}}",
+      "moreModels": "Meer modellen",
+      "choices": {
+        "fast": {
+          "label": "Snel",
+          "description": "Zet 8 seconden spraak in ongeveer een derde seconde om in tekst. {{languages}} Europese talen, {{size}}."
+        },
+        "live": {
+          "label": "Live voorbeeld",
+          "description": "Toont je woorden terwijl je spreekt. {{languages}} talen, {{size}}."
+        },
+        "accurate": {
+          "label": "Meest nauwkeurig",
+          "description": "Langzamer, beste nauwkeurigheid. {{languages}} talen, {{size}}.",
+          "memoryNote": "Het best op Macs met 16 GB geheugen of meer."
+        }
+      }
     }
   },
   "footer": {

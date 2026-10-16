@@ -8,7 +8,10 @@ import {
   Languages,
   RefreshCw,
   Search,
+  SearchX,
 } from "lucide-react";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { PageHeader } from "@/components/ui/PageHeader";
 import type { ModelCardStatus } from "@/components/onboarding";
 import { ModelCard } from "@/components/onboarding";
 import { useModelStore } from "@/stores/modelStore";
@@ -236,12 +239,10 @@ export const ModelsSettings: React.FC = () => {
   return (
     <div className="max-w-3xl w-full mx-auto space-y-4">
       <div className="mb-4">
-        <h1 className="font-display italic text-3xl text-text mb-2">
-          {t("settings.models.title")}
-        </h1>
-        <p className="text-sm text-text/60">
-          {t("settings.models.description")}
-        </p>
+        <PageHeader
+          title={t("settings.models.title")}
+          description={t("settings.models.description")}
+        />
       </div>
 
       <RetiredModelsNotice />
@@ -443,9 +444,10 @@ export const ModelsSettings: React.FC = () => {
           </div>
         )}
         {filteredModels.length === 0 && (
-          <div className="text-center py-8 text-text/50">
-            {t("settings.models.noModelsMatch")}
-          </div>
+          <EmptyState
+            icon={SearchX}
+            message={t("settings.models.noModelsMatch")}
+          />
         )}
       </div>
     </div>

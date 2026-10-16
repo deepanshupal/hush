@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { RefreshCcw } from "lucide-react";
 import { commands, type PostProcessApiFormat } from "@/bindings";
@@ -13,6 +13,7 @@ import {
 import { Button } from "../../ui/Button";
 import { ResetButton } from "../../ui/ResetButton";
 import { Input } from "../../ui/Input";
+import { PageHeader } from "../../ui/PageHeader";
 
 import { ProviderSelect } from "../PostProcessingSettingsApi/ProviderSelect";
 import { BaseUrlField } from "../PostProcessingSettingsApi/BaseUrlField";
@@ -24,9 +25,39 @@ import { useSettings } from "../../../hooks/useSettings";
 import { PostProcessingToggle } from "../PostProcessingToggle";
 import { AppStylesSettings, CleanupLevelSetting } from "./AppStylesSettings";
 
+/** Providers few people use; listed only after "More providers". */
+const MORE_PROVIDER_IDS = new Set(["zai", "cerebras", "bedrock_mantle"]);
+const MORE_PROVIDERS_VALUE = "__more_providers__";
+
 const PostProcessingSettingsApiComponent: React.FC = () => {
   const { t } = useTranslation();
   const state = usePostProcessProviderState();
+  const [showAllProviders, setShowAllProviders] = useState(false);
+
+  const providerOptions = useMemo(() => {
+    const showAll =
+      showAllProviders || MORE_PROVIDER_IDS.has(state.selectedProviderId);
+    if (showAll) return state.providerOptions;
+    const common = state.providerOptions.filter(
+      (option) => !MORE_PROVIDER_IDS.has(option.value),
+    );
+    if (common.length === state.providerOptions.length) return common;
+    return [
+      ...common,
+      {
+        value: MORE_PROVIDERS_VALUE,
+        label: t("settings.postProcessing.api.provider.moreProviders"),
+      },
+    ];
+  }, [showAllProviders, state.providerOptions, state.selectedProviderId, t]);
+
+  const handleProviderChange = (value: string) => {
+    if (value === MORE_PROVIDERS_VALUE) {
+      setShowAllProviders(true);
+      return;
+    }
+    state.handleProviderSelect(value);
+  };
 
   return (
     <>
@@ -39,9 +70,9 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
       >
         <div className="flex items-center gap-2">
           <ProviderSelect
-            options={state.providerOptions}
+            options={providerOptions}
             value={state.selectedProviderId}
-            onChange={state.handleProviderSelect}
+            onChange={handleProviderChange}
           />
         </div>
       </SettingContainer>
@@ -469,17 +500,13 @@ export const PostProcessingSettings: React.FC = () => {
 
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
-      <SettingsGroup
+      <PageHeader
         title={t("settings.postProcessing.cleanup.title")}
         description={t("settings.postProcessing.cleanup.privacy")}
-      >
+      />
+      <SettingsGroup>
         <PostProcessingToggle descriptionMode="tooltip" grouped={true} />
         <CleanupLevelSetting />
-        <ShortcutInput
-          shortcutId="transcribe_with_post_process"
-          descriptionMode="tooltip"
-          grouped={true}
-        />
       </SettingsGroup>
 
       <SettingsGroup title={t("settings.postProcessing.api.title")}>
@@ -493,7 +520,12 @@ export const PostProcessingSettings: React.FC = () => {
         <AppStylesSettings />
       </SettingsGroup>
 
-      <SettingsGroup title={t("settings.postProcessing.prompts.title")}>
+      <SettingsGroup title={t("settings.advanced.title")} collapsible>
+        <ShortcutInput
+          shortcutId="transcribe_with_post_process"
+          descriptionMode="tooltip"
+          grouped={true}
+        />
         <PostProcessingSettingsPrompts />
       </SettingsGroup>
     </div>

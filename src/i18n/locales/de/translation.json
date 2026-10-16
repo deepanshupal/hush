@@ -204,6 +204,11 @@
           "push_to_talk": "Nimmt auf, solange die Tastenkombination gedrückt bleibt. Doppelt tippen für freihändige Aufnahme bis zum nächsten Druck",
           "toggle": "Tastenkombination antippen, um die Aufnahme zu starten, erneut antippen zum Stoppen"
         }
+      },
+      "groups": {
+        "shortcuts": "Tastenkürzel",
+        "speech": "Sprache",
+        "app": "App"
       }
     },
     "sound": {
@@ -241,7 +246,8 @@
         "output": "Ausgabe",
         "transcription": "Transkription",
         "history": "Verlauf",
-        "experimental": "Experimentell"
+        "experimental": "Experimentell",
+        "sound": "Ton"
       },
       "experimentalToggle": {
         "label": "Experimentelle Funktionen",
@@ -384,7 +390,9 @@
           "simplified": "Vereinfacht",
           "traditional": "Traditionell"
         }
-      }
+      },
+      "title": "Erweitert",
+      "description": "Einstellungen, die die meisten nie ändern müssen."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Anbieter",
-          "description": "Wähle einen OpenAI- oder Anthropic-kompatiblen Anbieter."
+          "description": "Wähle einen OpenAI- oder Anthropic-kompatiblen Anbieter.",
+          "moreProviders": "Weitere Anbieter…"
         },
         "apiFormat": {
           "title": "API-Format",
@@ -672,6 +681,29 @@
       "delete": "Löschen",
       "empty": "Noch keine Textbausteine.",
       "error": "Baustein konnte nicht gespeichert werden: {{error}}"
+    },
+    "speechModel": {
+      "title": "Sprachmodell",
+      "description": "Läuft auf deinem Mac, deine Stimme verlässt ihn also nie. Du kannst jederzeit wechseln.",
+      "recommended": "Empfohlen",
+      "downloading": "Wird geladen {{percent}} %",
+      "current": "Aktiv: {{model}}",
+      "moreModels": "Weitere Modelle",
+      "choices": {
+        "fast": {
+          "label": "Schnell",
+          "description": "Macht aus 8 Sekunden Sprache in etwa einer Drittelsekunde Text. {{languages}} europäische Sprachen, {{size}}."
+        },
+        "live": {
+          "label": "Live-Vorschau",
+          "description": "Zeigt deine Worte, während du sprichst. {{languages}} Sprachen, {{size}}."
+        },
+        "accurate": {
+          "label": "Am genauesten",
+          "description": "Langsamer, beste Genauigkeit. {{languages}} Sprachen, {{size}}.",
+          "memoryNote": "Am besten auf Macs mit 16 GB Arbeitsspeicher oder mehr."
+        }
+      }
     }
   },
   "footer": {

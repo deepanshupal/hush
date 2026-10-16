@@ -177,6 +177,11 @@
           "push_to_talk": "Spelar in så länge du håller genvägen nedtryckt. Dubbeltryck för handsfree tills nästa tryck",
           "toggle": "Tryck på genvägen för att starta inspelningen, tryck igen för att stoppa"
         }
+      },
+      "groups": {
+        "shortcuts": "Kortkommandon",
+        "speech": "Tal",
+        "app": "App"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Utmatning",
         "transcription": "Transkription",
         "history": "Historik",
-        "experimental": "Experimentellt"
+        "experimental": "Experimentellt",
+        "sound": "Ljud"
       },
       "experimentalToggle": {
         "label": "Experimentella funktioner",
@@ -384,7 +390,9 @@
           "simplified": "Förenklad",
           "traditional": "Traditionell"
         }
-      }
+      },
+      "title": "Avancerat",
+      "description": "Inställningar som de flesta aldrig behöver ändra."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Leverantör",
-          "description": "Välj en OpenAI- eller Anthropic-kompatibel leverantör."
+          "description": "Välj en OpenAI- eller Anthropic-kompatibel leverantör.",
+          "moreProviders": "Fler leverantörer…"
         },
         "apiFormat": {
           "title": "API-format",
@@ -672,6 +681,29 @@
       "delete": "Radera",
       "empty": "Inga mallar än.",
       "error": "Kunde inte spara mallen: {{error}}"
+    },
+    "speechModel": {
+      "title": "Talmodell",
+      "description": "Körs på din Mac, så din röst lämnar den aldrig. Du kan byta när som helst.",
+      "recommended": "Rekommenderas",
+      "downloading": "Laddar ned {{percent}} %",
+      "current": "Används: {{model}}",
+      "moreModels": "Fler modeller",
+      "choices": {
+        "fast": {
+          "label": "Snabb",
+          "description": "Gör om 8 sekunder tal till text på ungefär en tredjedels sekund. {{languages}} europeiska språk, {{size}}."
+        },
+        "live": {
+          "label": "Liveförhandsvisning",
+          "description": "Visar dina ord medan du pratar. {{languages}} språk, {{size}}."
+        },
+        "accurate": {
+          "label": "Mest exakt",
+          "description": "Långsammare, bäst precision. {{languages}} språk, {{size}}.",
+          "memoryNote": "Bäst på Mac med 16 GB minne eller mer."
+        }
+      }
     }
   },
   "footer": {

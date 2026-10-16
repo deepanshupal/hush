@@ -204,6 +204,11 @@
           "push_to_talk": "Nagrywa, dopóki trzymasz skrót. Stuknij dwukrotnie, aby nagrywać bez rąk do następnego naciśnięcia",
           "toggle": "Dotknij skrótu, aby rozpocząć nagrywanie, dotknij ponownie, aby zatrzymać"
         }
+      },
+      "groups": {
+        "shortcuts": "Skróty",
+        "speech": "Mowa",
+        "app": "Aplikacja"
       }
     },
     "sound": {
@@ -241,7 +246,8 @@
         "output": "Wyjście",
         "transcription": "Transkrypcja",
         "history": "Historia",
-        "experimental": "Eksperymentalne"
+        "experimental": "Eksperymentalne",
+        "sound": "Dźwięk"
       },
       "experimentalToggle": {
         "label": "Funkcje Eksperymentalne",
@@ -384,7 +390,9 @@
           "simplified": "Uproszczone",
           "traditional": "Tradycyjne"
         }
-      }
+      },
+      "title": "Zaawansowane",
+      "description": "Ustawienia, których większość osób nigdy nie musi zmieniać."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Dostawca",
-          "description": "Wybierz dostawcę zgodnego z OpenAI lub Anthropic."
+          "description": "Wybierz dostawcę zgodnego z OpenAI lub Anthropic.",
+          "moreProviders": "Więcej dostawców…"
         },
         "apiFormat": {
           "title": "Format API",
@@ -672,6 +681,29 @@
       "delete": "Usuń",
       "empty": "Brak fragmentów.",
       "error": "Nie udało się zapisać fragmentu: {{error}}"
+    },
+    "speechModel": {
+      "title": "Model mowy",
+      "description": "Działa na Twoim Macu, więc Twój głos nigdy go nie opuszcza. Możesz zmienić w każdej chwili.",
+      "recommended": "Zalecany",
+      "downloading": "Pobieranie {{percent}}%",
+      "current": "W użyciu: {{model}}",
+      "moreModels": "Więcej modeli",
+      "choices": {
+        "fast": {
+          "label": "Szybki",
+          "description": "Zamienia 8 sekund mowy na tekst w około jedną trzecią sekundy. {{languages}} języków europejskich, {{size}}."
+        },
+        "live": {
+          "label": "Podgląd na żywo",
+          "description": "Pokazuje Twoje słowa w trakcie mówienia. Języki: {{languages}}, {{size}}."
+        },
+        "accurate": {
+          "label": "Najdokładniejszy",
+          "description": "Wolniejszy, najwyższa dokładność. Języki: {{languages}}, {{size}}.",
+          "memoryNote": "Najlepiej na Macach z 16 GB pamięci lub więcej."
+        }
+      }
     }
   },
   "footer": {

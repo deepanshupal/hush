@@ -177,6 +177,11 @@
           "push_to_talk": "按住快捷鍵期間錄音。點兩下進入免持錄音，直到下次按下",
           "toggle": "輕按快捷鍵開始錄音，再次輕按停止"
         }
+      },
+      "groups": {
+        "shortcuts": "快捷鍵",
+        "speech": "語音",
+        "app": "應用程式"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "輸出",
         "transcription": "轉錄",
         "history": "歷史",
-        "experimental": "實驗性"
+        "experimental": "實驗性",
+        "sound": "聲音"
       },
       "experimentalToggle": {
         "label": "實驗性功能",
@@ -384,7 +390,9 @@
           "simplified": "簡體",
           "traditional": "繁體"
         }
-      }
+      },
+      "title": "進階",
+      "description": "大多數人永遠不需要更改的設定。"
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "供應商",
-          "description": "選擇一個相容 OpenAI 或 Anthropic 的供應商"
+          "description": "選擇一個相容 OpenAI 或 Anthropic 的供應商",
+          "moreProviders": "更多提供者…"
         },
         "apiFormat": {
           "title": "API 格式",
@@ -672,6 +681,29 @@
       "delete": "刪除",
       "empty": "還沒有片段。",
       "error": "無法儲存片段：{{error}}"
+    },
+    "speechModel": {
+      "title": "語音模型",
+      "description": "在你的 Mac 上執行，你的聲音不會離開裝置。可以隨時切換。",
+      "recommended": "推薦",
+      "downloading": "正在下載 {{percent}}%",
+      "current": "使用中：{{model}}",
+      "moreModels": "更多模型",
+      "choices": {
+        "fast": {
+          "label": "快速",
+          "description": "約三分之一秒即可把 8 秒語音轉成文字。支援 {{languages}} 種歐洲語言，{{size}}。"
+        },
+        "live": {
+          "label": "即時預覽",
+          "description": "邊說邊顯示文字。支援 {{languages}} 種語言，{{size}}。"
+        },
+        "accurate": {
+          "label": "最準確",
+          "description": "較慢，準確度最高。支援 {{languages}} 種語言，{{size}}。",
+          "memoryNote": "最適合 16 GB 以上記憶體的 Mac。"
+        }
+      }
     }
   },
   "footer": {

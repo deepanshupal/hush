@@ -177,6 +177,11 @@
           "push_to_talk": "जब तक आप शॉर्टकट दबाए रखते हैं, रिकॉर्डिंग होती है। अगली बार दबाने तक हैंड्स-फ़्री के लिए डबल-टैप करें",
           "toggle": "रिकॉर्डिंग शुरू करने के लिए शॉर्टकट टैप करें, रोकने के लिए फिर से टैप करें"
         }
+      },
+      "groups": {
+        "shortcuts": "शॉर्टकट",
+        "speech": "वाणी",
+        "app": "ऐप"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "आउटपुट",
         "transcription": "ट्रांसक्रिप्शन",
         "history": "इतिहास",
-        "experimental": "प्रायोगिक"
+        "experimental": "प्रायोगिक",
+        "sound": "ध्वनि"
       },
       "experimentalToggle": {
         "label": "प्रायोगिक सुविधाएं",
@@ -384,7 +390,9 @@
           "simplified": "सरलीकृत",
           "traditional": "पारंपरिक"
         }
-      }
+      },
+      "title": "उन्नत",
+      "description": "ऐसी सेटिंग्स जिन्हें ज़्यादातर लोगों को कभी बदलने की ज़रूरत नहीं होती।"
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "प्रोवाइडर",
-          "description": "कोई OpenAI-संगत या Anthropic-संगत प्रोवाइडर चुनें."
+          "description": "कोई OpenAI-संगत या Anthropic-संगत प्रोवाइडर चुनें.",
+          "moreProviders": "और प्रदाता…"
         },
         "apiFormat": {
           "title": "API फ़ॉर्मेट",
@@ -672,6 +681,29 @@
       "delete": "हटाएँ",
       "empty": "अभी कोई स्निपेट नहीं है।",
       "error": "स्निपेट सहेजा नहीं जा सका: {{error}}"
+    },
+    "speechModel": {
+      "title": "वाणी मॉडल",
+      "description": "आपके Mac पर चलता है, इसलिए आपकी आवाज़ कभी बाहर नहीं जाती। आप कभी भी बदल सकते हैं।",
+      "recommended": "अनुशंसित",
+      "downloading": "डाउनलोड हो रहा है {{percent}}%",
+      "current": "उपयोग में: {{model}}",
+      "moreModels": "और मॉडल",
+      "choices": {
+        "fast": {
+          "label": "तेज़",
+          "description": "8 सेकंड की बोली को लगभग एक-तिहाई सेकंड में टेक्स्ट में बदलता है। {{languages}} यूरोपीय भाषाएँ, {{size}}।"
+        },
+        "live": {
+          "label": "लाइव पूर्वावलोकन",
+          "description": "आपके बोलते समय आपके शब्द दिखाता है। {{languages}} भाषाएँ, {{size}}।"
+        },
+        "accurate": {
+          "label": "सबसे सटीक",
+          "description": "धीमा, सबसे अच्छी सटीकता। {{languages}} भाषाएँ, {{size}}।",
+          "memoryNote": "16 GB या उससे अधिक मेमोरी वाले Mac पर सबसे अच्छा।"
+        }
+      }
     }
   },
   "footer": {

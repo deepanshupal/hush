@@ -177,6 +177,11 @@
           "push_to_talk": "Grava enquanto você mantém o atalho pressionado. Toque duas vezes para gravar sem as mãos até o próximo toque",
           "toggle": "Toque no atalho para começar a gravar, toque novamente para parar"
         }
+      },
+      "groups": {
+        "shortcuts": "Atalhos",
+        "speech": "Fala",
+        "app": "App"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Saída",
         "transcription": "Transcrição",
         "history": "Histórico",
-        "experimental": "Experimental"
+        "experimental": "Experimental",
+        "sound": "Som"
       },
       "experimentalToggle": {
         "label": "Recursos Experimentais",
@@ -384,7 +390,9 @@
           "simplified": "Simplificado",
           "traditional": "Tradicional"
         }
-      }
+      },
+      "title": "Avançado",
+      "description": "Configurações que a maioria das pessoas nunca precisa mudar."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Provedor",
-          "description": "Selecione um provedor compatível com OpenAI ou Anthropic."
+          "description": "Selecione um provedor compatível com OpenAI ou Anthropic.",
+          "moreProviders": "Mais provedores…"
         },
         "apiFormat": {
           "title": "Formato da API",
@@ -672,6 +681,29 @@
       "delete": "Excluir",
       "empty": "Ainda não há trechos.",
       "error": "Não foi possível salvar o trecho: {{error}}"
+    },
+    "speechModel": {
+      "title": "Modelo de fala",
+      "description": "Roda no seu Mac, então sua voz nunca sai dele. Você pode trocar quando quiser.",
+      "recommended": "Recomendado",
+      "downloading": "Baixando {{percent}}%",
+      "current": "Em uso: {{model}}",
+      "moreModels": "Mais modelos",
+      "choices": {
+        "fast": {
+          "label": "Rápido",
+          "description": "Transforma 8 segundos de fala em texto em cerca de um terço de segundo. {{languages}} idiomas europeus, {{size}}."
+        },
+        "live": {
+          "label": "Prévia ao vivo",
+          "description": "Mostra suas palavras enquanto você fala. {{languages}} idiomas, {{size}}."
+        },
+        "accurate": {
+          "label": "Mais preciso",
+          "description": "Mais lento, melhor precisão. {{languages}} idiomas, {{size}}.",
+          "memoryNote": "Ideal em Macs com 16 GB de memória ou mais."
+        }
+      }
     }
   },
   "footer": {

@@ -177,6 +177,11 @@
           "push_to_talk": "מקליט כל עוד קיצור הדרך לחוץ. הקש פעמיים להקלטה ללא ידיים עד הלחיצה הבאה",
           "toggle": "הקישו על קיצור הדרך כדי להתחיל להקליט, והקישו שוב כדי לעצור"
         }
+      },
+      "groups": {
+        "shortcuts": "קיצורי מקשים",
+        "speech": "דיבור",
+        "app": "אפליקציה"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "פלט",
         "transcription": "תמלול",
         "history": "היסטוריה",
-        "experimental": "ניסיוני"
+        "experimental": "ניסיוני",
+        "sound": "צליל"
       },
       "experimentalToggle": {
         "label": "תכונות ניסיוניות",
@@ -384,7 +390,9 @@
           "simplified": "מפושט",
           "traditional": "מסורתי"
         }
-      }
+      },
+      "title": "מתקדם",
+      "description": "הגדרות שרוב האנשים אף פעם לא צריכים לשנות."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "ספק",
-          "description": "בחר ספק שתואם ל-OpenAI או ל-Anthropic."
+          "description": "בחר ספק שתואם ל-OpenAI או ל-Anthropic.",
+          "moreProviders": "ספקים נוספים…"
         },
         "apiFormat": {
           "title": "פורמט API",
@@ -672,6 +681,29 @@
       "delete": "מחק",
       "empty": "אין עדיין קטעים.",
       "error": "לא ניתן לשמור את הקטע: {{error}}"
+    },
+    "speechModel": {
+      "title": "מודל דיבור",
+      "description": "פועל על ה-Mac שלך, כך שהקול שלך לעולם לא יוצא ממנו. אפשר להחליף בכל עת.",
+      "recommended": "מומלץ",
+      "downloading": "מוריד {{percent}}%",
+      "current": "בשימוש: {{model}}",
+      "moreModels": "מודלים נוספים",
+      "choices": {
+        "fast": {
+          "label": "מהיר",
+          "description": "הופך 8 שניות של דיבור לטקסט בכשליש שנייה. {{languages}} שפות אירופיות, {{size}}."
+        },
+        "live": {
+          "label": "תצוגה חיה",
+          "description": "מציג את המילים שלך בזמן שאתה מדבר. {{languages}} שפות, {{size}}."
+        },
+        "accurate": {
+          "label": "המדויק ביותר",
+          "description": "איטי יותר, הדיוק הטוב ביותר. {{languages}} שפות, {{size}}.",
+          "memoryNote": "מתאים במיוחד למחשבי Mac עם 16 GB זיכרון או יותר."
+        }
+      }
     }
   },
   "footer": {

@@ -177,6 +177,11 @@
           "push_to_talk": "Records while you hold the shortcut. Double-tap for hands-free until the next press",
           "toggle": "Tap the shortcut to start recording, tap again to stop"
         }
+      },
+      "groups": {
+        "shortcuts": "Shortcuts",
+        "speech": "Speech",
+        "app": "App"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Output",
         "transcription": "Transcription",
         "history": "History",
-        "experimental": "Experimental"
+        "experimental": "Experimental",
+        "sound": "Sound"
       },
       "experimentalToggle": {
         "label": "Experimental Features",
@@ -384,7 +390,9 @@
           "simplified": "Simplified",
           "traditional": "Traditional"
         }
-      }
+      },
+      "title": "Advanced",
+      "description": "Settings most people never need to change."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Provider",
-          "description": "Select an OpenAI-compatible or Anthropic-compatible provider."
+          "description": "Select an OpenAI-compatible or Anthropic-compatible provider.",
+          "moreProviders": "More providers…"
         },
         "apiFormat": {
           "title": "API Format",
@@ -672,6 +681,29 @@
       "delete": "Delete",
       "empty": "No snippets yet.",
       "error": "Couldn’t save the snippet: {{error}}"
+    },
+    "speechModel": {
+      "title": "Speech model",
+      "description": "Runs on your Mac, so your voice never leaves it. You can switch any time.",
+      "recommended": "Recommended",
+      "downloading": "Downloading {{percent}}%",
+      "current": "In use: {{model}}",
+      "moreModels": "More models",
+      "choices": {
+        "fast": {
+          "label": "Fast",
+          "description": "Turns 8 seconds of speech into text in about a third of a second. {{languages}} European languages, {{size}}."
+        },
+        "live": {
+          "label": "Live preview",
+          "description": "Shows your words as you speak. {{languages}} languages, {{size}}."
+        },
+        "accurate": {
+          "label": "Most accurate",
+          "description": "Slower, best accuracy. {{languages}} languages, {{size}}.",
+          "memoryNote": "Best on Macs with 16 GB of memory or more."
+        }
+      }
     }
   },
   "footer": {

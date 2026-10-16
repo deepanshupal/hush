@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, TextQuote, Trash2 } from "lucide-react";
 import { commands, type Snippet } from "@/bindings";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { Input } from "../../ui/Input";
 import { Textarea } from "../../ui/Textarea";
 import { Button } from "../../ui/Button";
+import { EmptyState } from "../../ui/EmptyState";
+import { PageHeader } from "../../ui/PageHeader";
 
 interface DraftProps {
   trigger: string;
@@ -114,10 +116,11 @@ export const SnippetsSettings: React.FC = () => {
 
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
-      <SettingsGroup
+      <PageHeader
         title={t("settings.snippets.title")}
         description={t("settings.snippets.description")}
-      >
+      />
+      <SettingsGroup>
         <div className="p-4 space-y-3">
           <SnippetFields
             trigger={trigger}
@@ -139,9 +142,7 @@ export const SnippetsSettings: React.FC = () => {
 
       <SettingsGroup>
         {snippets.length === 0 ? (
-          <p className="p-4 text-sm text-text-muted">
-            {t("settings.snippets.empty")}
-          </p>
+          <EmptyState icon={TextQuote} message={t("settings.snippets.empty")} />
         ) : (
           snippets.map((snippet) =>
             editingId === snippet.id ? (

@@ -177,6 +177,11 @@
           "push_to_talk": "Optager, mens du holder genvejen nede. Dobbelttryk for håndfri optagelse indtil næste tryk",
           "toggle": "Tryk på genvejen for at starte optagelsen, tryk igen for at stoppe"
         }
+      },
+      "groups": {
+        "shortcuts": "Genveje",
+        "speech": "Tale",
+        "app": "App"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Output",
         "transcription": "Transskription",
         "history": "Historik",
-        "experimental": "Eksperimentel"
+        "experimental": "Eksperimentel",
+        "sound": "Lyd"
       },
       "experimentalToggle": {
         "label": "Eksperimentelle funktioner",
@@ -384,7 +390,9 @@
           "simplified": "Forenklet",
           "traditional": "Traditionel"
         }
-      }
+      },
+      "title": "Avanceret",
+      "description": "Indstillinger, som de fleste aldrig behøver at ændre."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Udbyder",
-          "description": "Vælg en OpenAI- eller Anthropic-kompatibel udbyder."
+          "description": "Vælg en OpenAI- eller Anthropic-kompatibel udbyder.",
+          "moreProviders": "Flere udbydere…"
         },
         "apiFormat": {
           "title": "API-format",
@@ -672,6 +681,29 @@
       "delete": "Slet",
       "empty": "Ingen snippets endnu.",
       "error": "Kunne ikke gemme snippet: {{error}}"
+    },
+    "speechModel": {
+      "title": "Talemodel",
+      "description": "Kører på din Mac, så din stemme aldrig forlader den. Du kan skifte når som helst.",
+      "recommended": "Anbefalet",
+      "downloading": "Henter {{percent}} %",
+      "current": "I brug: {{model}}",
+      "moreModels": "Flere modeller",
+      "choices": {
+        "fast": {
+          "label": "Hurtig",
+          "description": "Gør 8 sekunders tale til tekst på cirka en tredjedel sekund. {{languages}} europæiske sprog, {{size}}."
+        },
+        "live": {
+          "label": "Live-forhåndsvisning",
+          "description": "Viser dine ord, mens du taler. {{languages}} sprog, {{size}}."
+        },
+        "accurate": {
+          "label": "Mest præcis",
+          "description": "Langsommere, bedste præcision. {{languages}} sprog, {{size}}.",
+          "memoryNote": "Bedst på Mac med 16 GB hukommelse eller mere."
+        }
+      }
     }
   },
   "footer": {

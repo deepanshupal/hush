@@ -204,6 +204,11 @@
           "push_to_talk": "Graba mientras mantienes pulsado el atajo. Toca dos veces para grabar sin manos hasta la siguiente pulsación",
           "toggle": "Toca el atajo para empezar a grabar, tócalo de nuevo para detener"
         }
+      },
+      "groups": {
+        "shortcuts": "Atajos",
+        "speech": "Voz",
+        "app": "App"
       }
     },
     "sound": {
@@ -241,7 +246,8 @@
         "output": "Salida",
         "transcription": "Transcripción",
         "history": "Historial",
-        "experimental": "Experimental"
+        "experimental": "Experimental",
+        "sound": "Sonido"
       },
       "experimentalToggle": {
         "label": "Funciones experimentales",
@@ -384,7 +390,9 @@
           "simplified": "Simplificado",
           "traditional": "Tradicional"
         }
-      }
+      },
+      "title": "Avanzado",
+      "description": "Ajustes que la mayoría de la gente nunca necesita cambiar."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Proveedor",
-          "description": "Selecciona un proveedor compatible con OpenAI o Anthropic."
+          "description": "Selecciona un proveedor compatible con OpenAI o Anthropic.",
+          "moreProviders": "Más proveedores…"
         },
         "apiFormat": {
           "title": "Formato de API",
@@ -672,6 +681,29 @@
       "delete": "Eliminar",
       "empty": "Aún no hay fragmentos.",
       "error": "No se pudo guardar el fragmento: {{error}}"
+    },
+    "speechModel": {
+      "title": "Modelo de voz",
+      "description": "Se ejecuta en tu Mac, así que tu voz nunca sale de él. Puedes cambiarlo cuando quieras.",
+      "recommended": "Recomendado",
+      "downloading": "Descargando {{percent}} %",
+      "current": "En uso: {{model}}",
+      "moreModels": "Más modelos",
+      "choices": {
+        "fast": {
+          "label": "Rápido",
+          "description": "Convierte 8 segundos de voz en texto en aproximadamente un tercio de segundo. {{languages}} idiomas europeos, {{size}}."
+        },
+        "live": {
+          "label": "Vista previa en vivo",
+          "description": "Muestra tus palabras mientras hablas. {{languages}} idiomas, {{size}}."
+        },
+        "accurate": {
+          "label": "El más preciso",
+          "description": "Más lento, con la mejor precisión. {{languages}} idiomas, {{size}}.",
+          "memoryNote": "Ideal en Mac con 16 GB de memoria o más."
+        }
+      }
     }
   },
   "footer": {

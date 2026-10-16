@@ -177,6 +177,11 @@
           "push_to_talk": "Enregistreu mentre manteniu premuda la drecera. Toqueu dues vegades per enregistrar sense mans fins a la següent pulsació",
           "toggle": "Premeu la drecera per iniciar l'enregistrament i torneu-la a prémer per aturar-lo"
         }
+      },
+      "groups": {
+        "shortcuts": "Dreceres",
+        "speech": "Veu",
+        "app": "Aplicació"
       }
     },
     "models": {
@@ -241,7 +246,8 @@
         "output": "Sortida",
         "transcription": "Transcripció",
         "history": "Historial",
-        "experimental": "Experimental"
+        "experimental": "Experimental",
+        "sound": "So"
       },
       "experimentalToggle": {
         "label": "Funcions experimentals",
@@ -384,7 +390,9 @@
           "simplified": "Simplificat",
           "traditional": "Tradicional"
         }
-      }
+      },
+      "title": "Avançat",
+      "description": "Opcions que la majoria de gent no necessita canviar mai."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Proveïdor",
-          "description": "Seleccioneu un proveïdor compatible amb OpenAI o Anthropic."
+          "description": "Seleccioneu un proveïdor compatible amb OpenAI o Anthropic.",
+          "moreProviders": "Més proveïdors…"
         },
         "apiFormat": {
           "title": "Format de l'API",
@@ -672,6 +681,29 @@
       "delete": "Elimina",
       "empty": "Encara no hi ha fragments.",
       "error": "No s’ha pogut desar el fragment: {{error}}"
+    },
+    "speechModel": {
+      "title": "Model de veu",
+      "description": "S'executa al vostre Mac, així que la vostra veu no en surt mai. Podeu canviar-lo quan vulgueu.",
+      "recommended": "Recomanat",
+      "downloading": "S'està baixant {{percent}}%",
+      "current": "En ús: {{model}}",
+      "moreModels": "Més models",
+      "choices": {
+        "fast": {
+          "label": "Ràpid",
+          "description": "Converteix 8 segons de veu en text en aproximadament un terç de segon. {{languages}} llengües europees, {{size}}."
+        },
+        "live": {
+          "label": "Previsualització en directe",
+          "description": "Mostra les vostres paraules mentre parleu. {{languages}} llengües, {{size}}."
+        },
+        "accurate": {
+          "label": "El més precís",
+          "description": "Més lent, amb la millor precisió. {{languages}} llengües, {{size}}.",
+          "memoryNote": "Millor en Macs amb 16 GB de memòria o més."
+        }
+      }
     }
   },
   "footer": {

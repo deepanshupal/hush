@@ -204,6 +204,11 @@
           "push_to_talk": "Ghi âm trong lúc bạn giữ phím tắt. Nhấn đúp để ghi rảnh tay đến lần nhấn tiếp theo",
           "toggle": "Nhấn phím tắt để bắt đầu ghi âm, nhấn lại để dừng"
         }
+      },
+      "groups": {
+        "shortcuts": "Phím tắt",
+        "speech": "Giọng nói",
+        "app": "Ứng dụng"
       }
     },
     "sound": {
@@ -241,7 +246,8 @@
         "output": "Đầu ra",
         "transcription": "Chuyển đổi",
         "history": "Lịch sử",
-        "experimental": "Thử nghiệm"
+        "experimental": "Thử nghiệm",
+        "sound": "Âm thanh"
       },
       "experimentalToggle": {
         "label": "Tính năng thử nghiệm",
@@ -384,7 +390,9 @@
           "simplified": "Giản thể",
           "traditional": "Phồn thể"
         }
-      }
+      },
+      "title": "Nâng cao",
+      "description": "Những cài đặt mà hầu hết mọi người không bao giờ cần thay đổi."
     },
     "postProcessing": {
       "hotkey": {
@@ -394,7 +402,8 @@
         "title": "API",
         "provider": {
           "title": "Nhà cung cấp",
-          "description": "Chọn một nhà cung cấp tương thích OpenAI hoặc Anthropic."
+          "description": "Chọn một nhà cung cấp tương thích OpenAI hoặc Anthropic.",
+          "moreProviders": "Thêm nhà cung cấp…"
         },
         "apiFormat": {
           "title": "Định dạng API",
@@ -672,6 +681,29 @@
       "delete": "Xóa",
       "empty": "Chưa có đoạn mẫu nào.",
       "error": "Không lưu được đoạn mẫu: {{error}}"
+    },
+    "speechModel": {
+      "title": "Mô hình giọng nói",
+      "description": "Chạy trên máy Mac của bạn nên giọng nói không bao giờ rời khỏi máy. Bạn có thể đổi bất cứ lúc nào.",
+      "recommended": "Đề xuất",
+      "downloading": "Đang tải {{percent}}%",
+      "current": "Đang dùng: {{model}}",
+      "moreModels": "Thêm mô hình",
+      "choices": {
+        "fast": {
+          "label": "Nhanh",
+          "description": "Chuyển 8 giây giọng nói thành văn bản trong khoảng một phần ba giây. {{languages}} ngôn ngữ châu Âu, {{size}}."
+        },
+        "live": {
+          "label": "Xem trước trực tiếp",
+          "description": "Hiện lời bạn nói ngay khi bạn nói. {{languages}} ngôn ngữ, {{size}}."
+        },
+        "accurate": {
+          "label": "Chính xác nhất",
+          "description": "Chậm hơn, chính xác nhất. {{languages}} ngôn ngữ, {{size}}.",
+          "memoryNote": "Tốt nhất trên máy Mac có từ 16 GB bộ nhớ trở lên."
+        }
+      }
     }
   },
   "footer": {
