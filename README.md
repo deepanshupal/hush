@@ -63,7 +63,7 @@ ever go over the network:
    Hugging Face (or, for two older Whisper models, from the Hush downloads
    mirror on GitHub). Your audio is never uploaded.
 2. **AI clean-up text, only if you turn it on.** When AI clean-up is enabled,
-   the *text* of each dictation (never the audio), your custom words, and the
+   the _text_ of each dictation (never the audio), your custom words, and the
    name of the app you're dictating into are sent to the provider you
    configured, using your API key. With AI clean-up off (the default), nothing
    you say leaves your Mac. Choose Apple Intelligence or a local endpoint to keep

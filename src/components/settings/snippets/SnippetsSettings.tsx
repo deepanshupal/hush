@@ -71,7 +71,9 @@ export const SnippetsSettings: React.FC = () => {
   }, [load]);
 
   const run = async (
-    action: () => Promise<{ status: "ok" } | { status: "error"; error: string }>,
+    action: () => Promise<
+      { status: "ok" } | { status: "error"; error: string }
+    >,
   ) => {
     setBusy(true);
     try {
@@ -194,9 +196,7 @@ export const SnippetsSettings: React.FC = () => {
                 <Button
                   variant="danger-ghost"
                   size="sm"
-                  onClick={() =>
-                    run(() => commands.deleteSnippet(snippet.id))
-                  }
+                  onClick={() => run(() => commands.deleteSnippet(snippet.id))}
                   disabled={busy}
                   aria-label={t("settings.snippets.delete")}
                   title={t("settings.snippets.delete")}

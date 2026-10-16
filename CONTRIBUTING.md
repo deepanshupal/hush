@@ -8,10 +8,10 @@ feedback and new ideas.
 
 - **Report a bug.** [Open an issue](https://github.com/DeepanshuPal/hush/issues)
   with your Hush and macOS versions, what you did, and what happened. Logs are in
-  *Settings → About → Log directory* (`hush.log`); check them for anything
+  _Settings → About → Log directory_ (`hush.log`); check them for anything
   private before attaching.
 - **Suggest an idea.** Open an issue describing the problem you want solved.
-  Explaining *why* helps more than a finished design.
+  Explaining _why_ helps more than a finished design.
 - **Translate.** See [CONTRIBUTING_TRANSLATIONS.md](CONTRIBUTING_TRANSLATIONS.md).
 - **Send a pull request.** Small, focused PRs are easiest to review. For larger
   changes, open an issue first so we can agree on the approach.
@@ -48,7 +48,7 @@ cd src-tauri && cargo clippy && cargo test --lib
   `utils::redact_text`), never log settings or API keys, and don't add network
   calls the user didn't ask for.
 - Use American English in UI text and docs.
-- Commit messages: say *why* the change is needed, not just what changed.
+- Commit messages: say _why_ the change is needed, not just what changed.
 
 ## Code of conduct
 
