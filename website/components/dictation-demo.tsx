@@ -1,17 +1,21 @@
 "use client"
 
 import { useEffect, useState, useSyncExternalStore } from "react"
+import { DemoDock, type DockApp } from "@/components/demo-dock"
 import { cn } from "@/lib/utils"
 
 /**
  * Animated hero demo: Fn is held, the Hush pill shows the live transcript
  * (fillers, self-corrections and all), Fn is released and the cleaned text
- * lands in the app. Cycles through three apps and styles. With reduced
- * motion it shows the finished first scene and doesn't animate.
+ * lands in the app. Cycles through three apps and styles, and the dock along
+ * the bottom switches apps with it. With reduced motion it shows the finished
+ * first scene and doesn't animate.
  */
 
 type Scene = {
   app: string
+  /** Which dock icon is "running" for this scene. */
+  dock: DockApp
   title: string
   style: string
   /** What the person actually said, word by word, as the live preview shows it. */
@@ -26,6 +30,7 @@ type Scene = {
 const SCENES: Scene[] = [
   {
     app: "Chat",
+    dock: "chat",
     title: "#launch",
     style: "Message",
     spoken: "um can we move the review to wednesday no wait thursday the build isn't ready yet",
@@ -35,6 +40,7 @@ const SCENES: Scene[] = [
   },
   {
     app: "Mail",
+    dock: "mail",
     title: "Re: Q4 deck",
     style: "Email",
     spoken: "hi priya thanks for sending the deck uh I'll go through it tonight and send notes by ten tomorrow",
@@ -45,6 +51,7 @@ const SCENES: Scene[] = [
   },
   {
     app: "AI chat",
+    dock: "ai",
     title: "New prompt",
     style: "Code",
     spoken: "refactor the use auth hook so it caches the session token and add a test for when it expires",
@@ -136,10 +143,10 @@ function Demo({ animate }: { animate: boolean }) {
         {/* Dotted texture, matching the page background. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.14] [background-image:radial-gradient(var(--color-accent-ink)_1px,transparent_1px)] [background-size:18px_18px]"
+          className="pointer-events-none absolute inset-0 opacity-[0.14] [background-image:radial-gradient(var(--color-accent-ink)_0.0625rem,transparent_0.0625rem)] [background-size:1.125rem_1.125rem]"
         />
 
-        <div className="relative flex flex-col items-center gap-5 px-4 pb-6 pt-8 sm:px-10 sm:pb-8 sm:pt-10">
+        <div className="relative flex flex-col items-center gap-5 px-4 pb-3 pt-8 sm:px-10 sm:pb-4 sm:pt-10">
           {/* App window */}
           <div className="w-full max-w-[34rem] overflow-hidden rounded-panel border border-line bg-surface-raised text-left shadow-card">
             <div className="flex items-center gap-2 border-b border-line bg-surface px-3.5 py-2.5">
@@ -181,7 +188,7 @@ function Demo({ animate }: { animate: boolean }) {
             <span
               aria-hidden
               className={cn(
-                "flex size-11 shrink-0 items-center justify-center rounded-[10px] border border-line bg-surface-raised font-medium text-ink shadow-button-secondary transition-transform duration-150",
+                "flex size-11 shrink-0 items-center justify-center rounded-[0.625rem] border border-line bg-surface-raised font-medium text-ink shadow-button-secondary transition-transform duration-150",
                 keyDown && "translate-y-0.5 bg-surface-muted shadow-none",
               )}
             >
@@ -206,6 +213,9 @@ function Demo({ animate }: { animate: boolean }) {
                       : "Hold fn and talk"}
               </span>
             </div>
+          </div>
+          <div className="mt-1 w-full sm:mt-2">
+            <DemoDock active={scene.dock} bounceKey={animate ? sceneIndex : -1} />
           </div>
           <figcaption className="sr-only">
             You say: “{scene.spoken}”. Hush pastes: “{scene.result}”.
@@ -245,11 +255,11 @@ function SceneBody({
 
 function Waveform({ active, idle }: { active: boolean; idle: boolean }) {
   return (
-    <span aria-hidden className="flex h-4 shrink-0 items-center gap-[3px]">
+    <span aria-hidden className="flex h-4 shrink-0 items-center gap-[0.1875rem]">
       {[0.5, 0.9, 0.6, 1, 0.7].map((h, i) => (
         <span
           key={i}
-          className={cn("w-[3px] rounded-full", idle ? "bg-line" : "bg-accent-soft", active && "animate-wave")}
+          className={cn("w-[0.1875rem] rounded-full", idle ? "bg-line" : "bg-accent-soft", active && "animate-wave")}
           style={{ height: `${h * 100}%`, animationDelay: `${i * 110}ms` }}
         />
       ))}

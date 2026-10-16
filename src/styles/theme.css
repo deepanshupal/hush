@@ -24,7 +24,7 @@
   --hush-light-surface-raised: #f8f5ee;
   --hush-light-border: #cfc5ae;
   --hush-light-text: #1a1410;
-  --hush-light-text-muted: #75664f;
+  --hush-light-text-muted: #5a5040; /* 6.7:1 on surface, 5.8:1 on bg (AA) */
   --hush-light-accent: #8b3030;
   --hush-light-accent-contrast: #fdf8f1;
   --hush-light-danger: #b42318;

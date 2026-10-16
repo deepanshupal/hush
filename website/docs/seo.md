@@ -15,6 +15,7 @@ Limits: title ≤ 60 characters, description ≤ 155. Each page targets its own 
 | `/why` | private, on-device dictation | dictation without the cloud | Why Hush · Free, private, open-source dictation |
 | `/open-source` | open-source dictation app Mac | open-source Wispr Flow alternative | Open-source dictation app for Mac · Hush on GitHub |
 | `/changelog` | Hush release notes | Hush latest version | Hush changelog · Release notes and new versions |
+| `/roadmap` | Hush roadmap | Hush upcoming features | Hush roadmap · What's next for the free Mac dictation app |
 | `/privacy` | private dictation app | dictation without telemetry | Privacy policy · Hush, private dictation for Mac |
 | `/terms` | (navigational) | | Terms · Hush |
 
