@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader, Section } from "@/components/section"
 import { Button } from "@/components/ui/button"
@@ -10,18 +12,21 @@ import { formatBytes, formatDate } from "@/lib/utils"
 // Release notes come from GitHub Releases and refresh every hour.
 export const revalidate = 3600
 
-export const metadata: Metadata = pageMetadata({
-  title: "Changelog",
-  description:
-    "Every Hush release and what changed, straight from GitHub Releases.",
-  path: "/changelog",
-})
+export const metadata: Metadata = pageMetadata("changelog")
+
+/** Release notes sit under each release's h2, so shift their headings down two levels. */
+function demoteHeadings(html: string) {
+  return html.replace(/<(\/?)h([1-6])\b/gi, (_, slash: string, level: string) => {
+    return `<${slash}h${Math.min(6, Number(level) + 2)}`
+  })
+}
 
 export default async function ChangelogPage() {
   const releases = await getReleases()
 
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("changelog")} />
       <PageHeader
         eyebrow="What's new"
         title="Changelog"
@@ -66,7 +71,7 @@ export default async function ChangelogPage() {
                 <div
                   className="prose"
                   // Rendered and sanitized by GitHub's API (body_html).
-                  dangerouslySetInnerHTML={{ __html: release.bodyHtml }}
+                  dangerouslySetInnerHTML={{ __html: demoteHeadings(release.bodyHtml) }}
                 />
               ) : (
                 <p className="text-small text-ink-muted">No release notes for this version.</p>

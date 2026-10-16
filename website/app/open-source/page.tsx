@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import { GitHubIcon } from "@/components/icons/ui-icons"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader } from "@/components/section"
@@ -12,16 +14,12 @@ import {
   SOURCE_REPO,
 } from "@/lib/site"
 
-export const metadata: Metadata = pageMetadata({
-  title: "Open source",
-  description:
-    "Hush is MIT-licensed open source. Read the code, build it from source, report issues and contribute.",
-  path: "/open-source",
-})
+export const metadata: Metadata = pageMetadata("openSource")
 
 export default function OpenSourcePage() {
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("openSource")} />
       <PageHeader
         eyebrow="MIT license"
         title="Hush is open source"

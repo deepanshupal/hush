@@ -1,19 +1,17 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader } from "@/components/section"
 import { GITHUB_ISSUES_URL, GITHUB_LICENSE_URL } from "@/lib/site"
 
-export const metadata: Metadata = pageMetadata({
-  title: "Terms",
-  description:
-    "Hush is free, open-source software under the MIT license, provided as is.",
-  path: "/terms",
-})
+export const metadata: Metadata = pageMetadata("terms")
 
 export default function TermsPage() {
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("terms")} />
       <PageHeader eyebrow="Legal" title="Terms" lead="Short, because Hush is free software." />
       <article className="prose mx-auto max-w-[38rem] px-6 pb-16 sm:px-0">
         <h2>License</h2>

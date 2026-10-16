@@ -1,21 +1,19 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import Link from "next/link"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader } from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { AUTHOR_NAME, GITHUB_URL } from "@/lib/site"
 
-export const metadata: Metadata = pageMetadata({
-  title: "Why Hush",
-  description:
-    "Why Hush is free, private and open source: your voice is personal, and dictation should run on your own Mac.",
-  path: "/why",
-})
+export const metadata: Metadata = pageMetadata("why")
 
 export default function WhyPage() {
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("why")} />
       <PageHeader eyebrow="Manifesto" title="Free. Private. Open." />
       <article className="prose mx-auto max-w-[38rem] px-6 pb-16 sm:px-0">
         <p>

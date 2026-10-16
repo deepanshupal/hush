@@ -1,19 +1,18 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader } from "@/components/section"
 import { GITHUB_ISSUES_URL, GITHUB_URL } from "@/lib/site"
 
-export const metadata: Metadata = pageMetadata({
-  title: "Privacy policy",
-  description:
-    "How Hush handles your data: speech is recognized on your Mac, there is no telemetry, and text only leaves your Mac if you turn on AI clean-up.",
-  path: "/privacy",
-})
+export const metadata: Metadata = pageMetadata("privacy")
 
 export default function PrivacyPage() {
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("privacy")} />
       <PageHeader
         eyebrow="Legal"
         title="Privacy policy"
@@ -89,7 +88,13 @@ export default function PrivacyPage() {
         <h2>Check for yourself</h2>
         <p>
           Hush is open source, so you can verify all of the above in the{" "}
-          <a href={GITHUB_URL}>source code</a>. Questions? <a href={GITHUB_ISSUES_URL}>Open an issue on GitHub</a>.
+          <a href={GITHUB_URL}>source code</a>. Common questions are answered in the{" "}
+          <Link href="/faq">FAQ</Link>; anything else, <a href={GITHUB_ISSUES_URL}>open an issue on GitHub</a>.
+        </p>
+        <p>
+          Comparing private dictation apps? See{" "}
+          <Link href="/compare">how Hush compares with Wispr Flow and Superwhisper</Link>, or{" "}
+          <Link href="/download">download Hush for Mac</Link>.
         </p>
 
         <p className="text-small text-ink-subtle">Last updated: October 2026</p>

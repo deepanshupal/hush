@@ -8,26 +8,20 @@ import { PageHeader, Section, SectionHeading } from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { CHECKED, apps, getSources } from "@/lib/comparison-data"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd } from "@/lib/structured-data"
 import { GITHUB_NEW_ISSUE_URL, GITHUB_URL } from "@/lib/site"
 
 const TITLE = "Hush vs Wispr Flow, Superwhisper and more"
 
-export const metadata: Metadata = {
-  ...pageMetadata({
-    title: TITLE,
-    description:
-      "Compare Hush, the free and open-source Mac dictation app, with Wispr Flow, Superwhisper, VoiceInk, OpenWhispr, Spokenly, Willow and Apple Dictation: price, privacy, AI clean-up and platforms.",
-    path: "/compare",
-  }),
-  // The page title already names Hush, so skip the "· Hush" suffix.
-  title: { absolute: TITLE },
-}
+export const metadata: Metadata = pageMetadata("compare")
 
 export default function ComparePage() {
   const sources = getSources()
 
   return (
     <MainContainer>
+      <JsonLd data={breadcrumbJsonLd("compare")} />
       <PageHeader
         eyebrow="Compare"
         title={TITLE}
@@ -129,6 +123,17 @@ export default function ComparePage() {
           </Button>
         </div>
         <p className="text-caption text-ink-subtle">Apple Silicon Macs · Free and open source</p>
+        <p className="max-w-md text-small text-ink-muted">
+          Still have questions? Read the{" "}
+          <Link href="/faq" className="link">
+            Hush FAQ
+          </Link>{" "}
+          or see{" "}
+          <Link href="/privacy" className="link">
+            exactly what stays on your Mac
+          </Link>
+          .
+        </p>
       </Section>
     </MainContainer>
   )

@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd, softwareApplicationJsonLd } from "@/lib/structured-data"
 import Link from "next/link"
 import { AppleIcon } from "@/components/icons/apple-icon"
 import { GitHubIcon } from "@/components/icons/ui-icons"
@@ -12,12 +14,7 @@ import { formatBytes, formatDate } from "@/lib/utils"
 
 export const revalidate = 3600
 
-export const metadata: Metadata = pageMetadata({
-  title: "Download for Mac",
-  description:
-    "Download Hush, free and open-source dictation for Mac. Apple Silicon. No account, no sign-up, no payment.",
-  path: "/download",
-})
+export const metadata: Metadata = pageMetadata("download")
 
 const steps: { title: string; body: React.ReactNode }[] = [
   {
@@ -77,6 +74,7 @@ export default async function DownloadPage() {
 
   return (
     <MainContainer>
+      <JsonLd data={[softwareApplicationJsonLd(download), breadcrumbJsonLd("download")]} />
       <PageHeader
         eyebrow="Free forever · MIT license"
         title="Download Hush"
@@ -157,6 +155,21 @@ export default async function DownloadPage() {
             SHA-256 of {download.fileName}: <code className="text-ink-muted">{download.sha256}</code>
           </p>
         )}
+        <p className="mt-6 text-small text-ink-muted">
+          Still deciding? See{" "}
+          <Link href="/compare" className="link">
+            how Hush compares with Wispr Flow and Superwhisper
+          </Link>
+          , read the{" "}
+          <Link href="/faq" className="link">
+            FAQ
+          </Link>
+          , or check{" "}
+          <Link href="/privacy" className="link">
+            what Hush does with your data
+          </Link>
+          .
+        </p>
       </Section>
     </MainContainer>
   )

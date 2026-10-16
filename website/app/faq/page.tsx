@@ -1,35 +1,20 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { pageMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
+import { breadcrumbJsonLd, faqJsonLd } from "@/lib/structured-data"
 import { FaqList } from "@/components/faq"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader, Section } from "@/components/section"
 import { faqs } from "@/lib/faq"
 import { GITHUB_ISSUES_URL } from "@/lib/site"
 
-export const metadata: Metadata = pageMetadata({
-  title: "FAQ",
-  description:
-    "Answers about Hush: price, supported Macs, offline use, permissions, languages, AI clean-up, privacy and uninstalling.",
-  path: "/faq",
-})
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.question,
-    acceptedAnswer: { "@type": "Answer", text: f.text },
-  })),
-}
+export const metadata: Metadata = pageMetadata("faq")
 
 export default function FaqPage() {
   return (
     <MainContainer>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <JsonLd data={[faqJsonLd(faqs), breadcrumbJsonLd("faq")]} />
       <PageHeader
         eyebrow="Help"
         title="Frequently asked questions"
@@ -38,6 +23,21 @@ export default function FaqPage() {
       <Section>
         <FaqList items={faqs} />
         <p className="mt-6 text-small text-ink-muted">
+          Ready to try it?{" "}
+          <Link href="/download" className="link">
+            Download Hush for Mac
+          </Link>
+          . Weighing your options? See{" "}
+          <Link href="/compare" className="link">
+            how Hush compares with Wispr Flow and Superwhisper
+          </Link>{" "}
+          or read the full{" "}
+          <Link href="/privacy" className="link">
+            privacy policy
+          </Link>
+          .
+        </p>
+        <p className="mt-2 text-small text-ink-muted">
           Something else?{" "}
           <a href={GITHUB_ISSUES_URL} className="link">
             Ask on GitHub

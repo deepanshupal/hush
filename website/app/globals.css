@@ -8,14 +8,6 @@
  * All text colors meet WCAG AA (>= 4.5:1) on surface and surface-muted.
  */
 
-@font-face {
-  font-family: "Canela";
-  src: url("/fonts/Canela-Light-Trial.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   /* Reset Tailwind's default palette so only brand tokens exist. */
   --color-*: initial;
@@ -45,7 +37,7 @@
 
   /* Fonts */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Canela", Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-canela), Georgia, "Times New Roman", serif; /* loaded in app/layout.tsx */
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Type scale (used everywhere through h1/h2/h3 base styles and text-* utilities) */

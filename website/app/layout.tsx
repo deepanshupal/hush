@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
-import { AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site"
+import localFont from "next/font/local"
+import { JsonLd } from "@/components/json-ld"
+import { PAGES } from "@/lib/pages"
+import { AUTHOR_NAME, AUTHOR_URL, BRAND, SITE_NAME, SITE_URL } from "@/lib/site"
+import { siteJsonLd } from "@/lib/structured-data"
 import "./globals.css"
 
 const inter = Inter({
@@ -9,83 +13,81 @@ const inter = Inter({
   display: "swap",
 })
 
+// The serif used for every heading, including the hero h1. next/font preloads it
+// and sizes the Georgia fallback to match, so the swap doesn't shift the layout.
+const canela = localFont({
+  src: "../assets/fonts/Canela-Light-Trial.otf",
+  weight: "300",
+  style: "normal",
+  variable: "--font-canela",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: "Times New Roman",
+})
+
+const home = PAGES.home
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} · ${SITE_TAGLINE}`,
+    default: home.title,
     template: `%s · ${SITE_NAME}`,
   },
-  description: SITE_DESCRIPTION,
+  description: home.description,
   applicationName: SITE_NAME,
-  authors: [{ name: AUTHOR_NAME }],
+  authors: [{ name: AUTHOR_NAME, url: AUTHOR_URL }],
   creator: AUTHOR_NAME,
   publisher: SITE_NAME,
+  category: "technology",
   keywords: [
-    "dictation",
-    "speech to text",
-    "voice typing",
-    "Mac",
-    "macOS",
-    "open source",
-    "free",
-    "Wispr Flow alternative",
+    ...home.keywords,
     "Superwhisper alternative",
-    "on-device speech recognition",
     "Parakeet",
     "Whisper",
-    "push to talk",
-    "private dictation",
+    "macOS",
+    "Apple Silicon",
   ],
-  alternates: { canonical: "/" },
+  // Canonical URLs are set per page (lib/metadata.ts) so the 404 page has none.
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
     locale: "en_US",
-    url: "/",
-    title: `${SITE_NAME} · ${SITE_TAGLINE}`,
-    description: SITE_DESCRIPTION,
+    title: home.title,
+    description: home.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} · ${SITE_TAGLINE}`,
-    description: SITE_DESCRIPTION,
+    title: home.title,
+    description: home.description,
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.png", type: "image/png" },
-    ],
-    apple: "/favicon.png",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+  formatDetection: { telephone: false, email: false, address: false },
+  appleWebApp: { title: SITE_NAME, statusBarStyle: "default" },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#d4ccb8",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: BRAND.page },
+    { media: "(prefers-color-scheme: dark)", color: BRAND.ink },
+  ],
   colorScheme: "light",
-}
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: SITE_NAME,
-  applicationCategory: "ProductivityApplication",
-  operatingSystem: "macOS (Apple Silicon)",
-  description: SITE_DESCRIPTION,
-  url: SITE_URL,
-  license: "https://opensource.org/licenses/MIT",
-  isAccessibleForFree: true,
-  author: { "@type": "Person", name: AUTHOR_NAME },
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${canela.variable}`}>
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={siteJsonLd()} />
         {children}
       </body>
     </html>
