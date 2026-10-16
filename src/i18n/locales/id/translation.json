@@ -203,6 +203,16 @@
     },
     "sound": {
       "title": "Suara",
+      "mediaWhileRecording": {
+        "title": "Saat mendikte",
+        "description": "Apa yang terjadi pada musik dan video saat Anda mendikte",
+        "options": {
+          "pause": "Jeda media",
+          "lowerVolume": "Kecilkan volume",
+          "mute": "Bisukan semua suara",
+          "off": "Jangan lakukan apa pun"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Pilih perangkat mikrofon yang Anda inginkan",
@@ -565,10 +575,6 @@
       "postProcessingToggle": {
         "label": "Perapian AI",
         "description": "Rapikan dikte dengan penyedia AI pilihan Anda"
-      },
-      "muteWhileRecording": {
-        "label": "Bisukan Saat Merekam",
-        "description": "Bisukan audio sistem selama perekaman"
       },
       "appendTrailingSpace": {
         "label": "Tambahkan Spasi di Akhir",

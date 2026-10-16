@@ -203,6 +203,16 @@
     },
     "sound": {
       "title": "Sonido",
+      "mediaWhileRecording": {
+        "title": "Al dictar",
+        "description": "Qué hacer con la música y los vídeos mientras dictas",
+        "options": {
+          "pause": "Pausar multimedia",
+          "lowerVolume": "Bajar el volumen",
+          "mute": "Silenciar todo",
+          "off": "No hacer nada"
+        }
+      },
       "microphone": {
         "title": "Micrófono",
         "description": "Selecciona tu dispositivo de micrófono preferido",
@@ -551,10 +561,6 @@
       "postProcessingToggle": {
         "label": "Limpieza con IA",
         "description": "Limpia el dictado con el proveedor de IA que elijas"
-      },
-      "muteWhileRecording": {
-        "label": "Silenciar durante la grabación",
-        "description": "Silenciar el audio del sistema durante la grabación"
       },
       "appendTrailingSpace": {
         "label": "Agregar espacio final",

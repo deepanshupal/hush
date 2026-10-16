@@ -203,6 +203,16 @@
     },
     "sound": {
       "title": "שמע",
+      "mediaWhileRecording": {
+        "title": "בזמן הכתבה",
+        "description": "מה לעשות עם מוזיקה וסרטונים בזמן הכתבה",
+        "options": {
+          "pause": "השהיית מדיה",
+          "lowerVolume": "הנמכת עוצמת הקול",
+          "mute": "השתקת כל הצלילים",
+          "off": "לא לעשות כלום"
+        }
+      },
       "microphone": {
         "title": "מיקרופון",
         "description": "בחר את המיקרופון המועדף עליך",
@@ -551,10 +561,6 @@
       "postProcessingToggle": {
         "label": "ניקוי AI",
         "description": "נקה הכתבה עם ספק AI לבחירתך"
-      },
-      "muteWhileRecording": {
-        "label": "השתק בזמן הקלטה",
-        "description": "השתק את שמע המערכת בזמן הקלטה"
       },
       "appendTrailingSpace": {
         "label": "הוסף רווח בסוף",
