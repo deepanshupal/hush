@@ -12,6 +12,7 @@ export type PageKey =
   | "why"
   | "openSource"
   | "changelog"
+  | "roadmap"
   | "privacy"
   | "terms"
 
@@ -168,6 +169,22 @@ export const PAGES: Record<PageKey, PageSeo> = {
       alt: "Hush changelog: what's new in each release.",
     },
     sitemap: { priority: 0.6, changeFrequency: "weekly", lastModified: "release" },
+  },
+  roadmap: {
+    path: "/roadmap",
+    title: "Hush roadmap · What's next for the free Mac dictation app",
+    description:
+      "What's shipping in Hush 1.1, what's next and what's planned later for the free, open-source dictation app for Mac. Suggest a feature on GitHub.",
+    name: "Roadmap",
+    keywords: ["Hush roadmap", "Hush upcoming features", "Mac dictation app roadmap"],
+    og: {
+      eyebrow: "Roadmap",
+      headline: "What's next",
+      accent: "for Hush",
+      sub: "Shipping in 1.1 · Next · Later",
+      alt: "The Hush roadmap: what's shipping in 1.1, what's next and what's planned later.",
+    },
+    sitemap: { priority: 0.6, changeFrequency: "monthly", lastModified: "build" },
   },
   privacy: {
     path: "/privacy",

@@ -5,9 +5,9 @@ name: Website
 on:
   push:
     branches: [main]
-    paths: ["website/**", ".github/workflows/website.yml"]
+    paths: ["website/**", "src/styles/theme.css", "scripts/check-design-tokens.mjs", ".github/workflows/website.yml"]
   pull_request:
-    paths: ["website/**", ".github/workflows/website.yml"]
+    paths: ["website/**", "src/styles/theme.css", "scripts/check-design-tokens.mjs", ".github/workflows/website.yml"]
   workflow_dispatch:
 
 concurrency:
@@ -29,6 +29,10 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: website/package-lock.json
+
+      - name: Check design tokens match the app
+        working-directory: .
+        run: node scripts/check-design-tokens.mjs
 
       - name: Install dependencies
         run: npm ci
