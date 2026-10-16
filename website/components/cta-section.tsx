@@ -1,49 +1,27 @@
-"use client"
-
 import { AppleIcon } from "@/components/icons/apple-icon"
+import { Section } from "@/components/section"
+import { Button } from "@/components/ui/button"
+import type { Download } from "@/lib/github"
 
-const DOWNLOAD_URL = "https://github.com/DeepanshuPal/hush-downloads/releases/download/v0.8.0/Hush_0.8.0_aarch64.dmg"
-
-export function CTASection() {
+export function CTASection({ download }: { download: Download }) {
   return (
-    <div
-      className="flex flex-col items-center justify-center gap-6 px-6 md:px-8 py-20 rounded-b-2xl"
-      style={{ background: "#F0EBE0", borderTop: "1px solid #C4BCA8" }}
-    >
-      <h2
-        style={{ animationDelay: "0.1s", fontWeight: 300 }}
-        className="text-3xl md:text-4xl text-balance text-center leading-tight tracking-tight opacity-0 animate-blur-fade-slide-in font-serif"
-      >
-        <span style={{ color: "#1A1410" }}>You talk faster</span>{" "}
-        <span style={{ color: "#8B3030" }}>than you type.</span>
+    <Section className="flex flex-col items-center gap-5 bg-surface-raised py-20 text-center">
+      <h2>
+        You talk faster <span className="text-accent">than you type.</span>
       </h2>
-      <p
-        style={{ animationDelay: "0.2s", color: "#5A5040" }}
-        className="text-center max-w-[440px] text-sm leading-relaxed opacity-0 animate-blur-fade-slide-in"
-      >
-        Way faster. Hush makes that actually useful.
+      <p className="max-w-md text-body text-ink-muted">
+        Way faster. Hush makes that useful, for free, without sending your voice anywhere.
       </p>
-      <div
-        style={{ animationDelay: "0.3s" }}
-        className="flex flex-col gap-3 items-center opacity-0 animate-blur-fade-slide-in"
-      >
-        <a href={DOWNLOAD_URL}>
-          <button
-            className="btn-primary inline-flex items-center cursor-pointer justify-center whitespace-nowrap outline-none rounded-[22px] gap-2"
-            style={{
-              padding: "10px 22px",
-              fontWeight: 600,
-              fontSize: "14px",
-            }}
-          >
-            <AppleIcon className="size-4" />
-            Download Hush
-          </button>
-        </a>
-        <span style={{ color: "#8B7860" }} className="text-sm">
-          macOS 14+ · Apple Silicon
-        </span>
+      <div className="flex flex-col items-center gap-3 sm:flex-row">
+        <Button href={download.url} size="lg">
+          <AppleIcon />
+          Download for Mac
+        </Button>
+        <Button href="/download#install" variant="ghost" size="lg">
+          Install guide
+        </Button>
       </div>
-    </div>
+      <p className="text-caption text-ink-subtle">Apple Silicon Macs · Free and open source</p>
+    </Section>
   )
 }
