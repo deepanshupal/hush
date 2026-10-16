@@ -1524,7 +1524,7 @@ mod tests {
 
     /// Faults are read by each worker at spawn, so set them before loading.
     fn set_fault(fault: Option<&str>, gpu_only: bool) {
-        let marker = std::env::temp_dir().join("handy-worker-fault-once");
+        let marker = std::env::temp_dir().join("hush-worker-fault-once");
         let _ = std::fs::remove_file(&marker);
         std::env::remove_var("HANDY_WORKER_FAULT_ONCE");
         std::env::remove_var("HANDY_WORKER_FAULT_GPU_ONLY");
@@ -1954,7 +1954,7 @@ mod tests {
         };
         wait_in_flight(&engine, "transcription");
         // Cancel only once the worker is actually hung, not on its way there.
-        let marker = std::env::temp_dir().join("handy-worker-fault-once");
+        let marker = std::env::temp_dir().join("hush-worker-fault-once");
         while !marker.exists() {
             thread::sleep(Duration::from_millis(1));
         }
