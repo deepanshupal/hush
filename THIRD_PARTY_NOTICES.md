@@ -1,9 +1,9 @@
 # Third-party notices
 
-Hush's own source code is released under the MIT licence (see [LICENSE](LICENSE)).
+Hush's own source code is released under the MIT license (see [LICENSE](LICENSE)).
 Hush also bundles, or downloads at your request, the third-party assets listed
-below. Each remains under its own licence. Rust crates and npm packages are
-listed with their licences in `src-tauri/Cargo.lock` / `bun.lock` and in each
+below. Each remains under its own license. Rust crates and npm packages are
+listed with their licenses in `src-tauri/Cargo.lock` / `bun.lock` and in each
 package's own metadata.
 
 ## Bundled with the app
@@ -23,7 +23,7 @@ The SIL Open Font License 1.1 text is available at <https://openfontlicense.org>
 
 Models are fetched from Hugging Face (`huggingface.co`) and, for two legacy
 Whisper files, from the Hush downloads mirror on GitHub. They are not part of
-the app bundle and are used under their authors' licences:
+the app bundle and are used under their authors' licenses:
 
 | Models | Author | Licence | Notes |
 | --- | --- | --- | --- |
@@ -35,7 +35,7 @@ the app bundle and are used under their authors' licences:
 | Breeze ASR 25 | MediaTek Research | Apache-2.0 | |
 | Moonshine (tiny/base/streaming, multilingual variants) | Useful Sensors | MIT (per model card) | Some language variants use the Moonshine Community License; check the card. |
 | GigaAM v3 | SaluteDevices / ai-sage | MIT | |
-| SenseVoice Small, Fun-ASR | FunAudioLLM (Alibaba) | Model licence on the card ("other") | |
+| SenseVoice Small, Fun-ASR | FunAudioLLM (Alibaba) | Model license on the card ("other") | |
 | Qwen3-ASR | Alibaba Qwen | Apache-2.0 | |
 | Voxtral | Mistral AI | Apache-2.0 | |
 | Granite Speech | IBM | Apache-2.0 | |
@@ -43,6 +43,6 @@ the app bundle and are used under their authors' licences:
 | MedASR | Google | Health AI Developer Foundations terms | |
 | MOSS Transcribe Diarize | OpenMOSS | Apache-2.0 | |
 
-The GGUF conversions are hosted in the public `handy-computer` organisation on
+The GGUF conversions are hosted in the public `handy-computer` organization on
 Hugging Face. Each repository's model card states the original source and
-licence; that card is authoritative if it differs from this summary.
+license; that card is authoritative if it differs from this summary.
