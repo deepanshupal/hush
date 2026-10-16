@@ -8,7 +8,8 @@ use crate::audio_toolkit::{
 };
 use crate::helpers::clamshell;
 use crate::managers::transcription::StreamRouter;
-use crate::settings::{get_settings, write_settings, AppSettings, VadBackend};
+use crate::media_control;
+use crate::settings::{get_settings, write_settings, AppSettings, MediaWhileRecording, VadBackend};
 use crate::utils;
 use handy_recorder::{Channels, EndReason, ErrorKind, Recorder, RecorderConfig, StartError};
 use log::{debug, error, info, trace, warn};
@@ -728,12 +729,15 @@ impl AudioRecordingManager {
 
     /* ---------- microphone life-cycle -------------------------------------- */
 
-    /// Applies mute if mute_while_recording is enabled and stream is open.
-    /// Snapshots the system's prior mute state first so `remove_mute` can
-    /// restore it instead of unconditionally unmuting.
+    /// Quiets other audio for the recording per `media_while_recording`:
+    /// pauses the now-playing app or lowers the volume (see `media_control`),
+    /// or mutes system output if the stream is open. Mute snapshots the
+    /// system's prior mute state first so `remove_mute` can restore it
+    /// instead of unconditionally unmuting.
     pub fn apply_mute(&self) {
         let settings = get_settings(&self.app_handle);
-        if !settings.mute_while_recording {
+        if settings.media_while_recording != MediaWhileRecording::Mute {
+            media_control::begin(settings.media_while_recording);
             return;
         }
 
@@ -756,7 +760,9 @@ impl AudioRecordingManager {
 
     /// Removes mute if it was applied, restoring the system's prior mute state
     /// (a system already muted before recording stays muted).
+    /// Also resumes paused media / restores a lowered volume.
     pub fn remove_mute(&self) {
+        media_control::end();
         let mut mute_guard = self.mute_state.lock().unwrap();
         if mute_guard.did_mute {
             restore_mute(mute_guard.prev_muted);
@@ -895,6 +901,7 @@ impl AudioRecordingManager {
             }
             mute_guard.did_mute = false;
         }
+        media_control::end();
 
         let microphone = self.recorder.lock().unwrap().take();
         if let Some(microphone) = microphone {
@@ -1263,6 +1270,10 @@ impl AudioRecordingManager {
             RecordingState::Recording { .. } => {
                 self.set_state(&mut state, RecordingState::Idle);
                 drop(state);
+
+                // Give other audio back right away. Always-on microphones stay
+                // open, so closing the stream below would not do it for them.
+                self.remove_mute();
 
                 if let Some(microphone) = self.recorder.lock().unwrap().as_ref() {
                     let _ = self.collect_recording(microphone); // Discard the result

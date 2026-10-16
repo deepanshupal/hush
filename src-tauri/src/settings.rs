@@ -352,6 +352,21 @@ pub enum CleanupLevel {
     Medium,
 }
 
+/// What happens to other audio (music, videos) while the user dictates.
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum MediaWhileRecording {
+    /// Pause the now-playing app if it is playing; resume it afterwards.
+    #[default]
+    Pause,
+    /// Turn the system output volume down; restore it afterwards.
+    LowerVolume,
+    /// Mute system output; restore it afterwards.
+    Mute,
+    /// Leave other audio alone.
+    Off,
+}
+
 /// Writing style applied by AI clean-up, chosen per app.
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
@@ -519,8 +534,10 @@ pub struct AppSettings {
     /// Per-app style overrides, matched by bundle id (or name).
     #[serde(default)]
     pub app_styles: Vec<AppStyleRule>,
+    /// Replaces the old `mute_while_recording` bool, migrated in
+    /// `apply_settings_migrations`.
     #[serde(default)]
-    pub mute_while_recording: bool,
+    pub media_while_recording: MediaWhileRecording,
     #[serde(default)]
     pub append_trailing_space: bool,
     #[serde(default = "default_app_language")]
@@ -1078,7 +1095,7 @@ pub fn get_default_settings() -> AppSettings {
         cleanup_level: CleanupLevel::default(),
         default_app_style: AppStyle::default(),
         app_styles: Vec::new(),
-        mute_while_recording: false,
+        media_while_recording: MediaWhileRecording::default(),
         append_trailing_space: false,
         app_language: default_app_language(),
         theme: default_theme(),
@@ -1365,6 +1382,20 @@ fn apply_settings_migrations(
         updated = true;
     }
 
+    // One-time media migration: the old "mute while recording" toggle became
+    // one choice of `media_while_recording`. Users who had muting on keep it;
+    // everyone else gets the new default (pause).
+    if settings_value.get("media_while_recording").is_none() {
+        let was_muting = settings_value
+            .get("mute_while_recording")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false);
+        if was_muting {
+            settings.media_while_recording = MediaWhileRecording::Mute;
+        }
+        updated = true;
+    }
+
     let stored_schema_version = settings_value
         .get("settings_schema_version")
         .and_then(|v| v.as_u64())
@@ -1639,6 +1670,38 @@ mod tests {
         // matching legacy mode rather than the new hold-or-toggle default.
         assert_eq!(settings.shortcut_activation, ShortcutActivation::Toggle);
         assert_eq!(settings.transcribe_gpu_device, None);
+    }
+
+    /// The old mute toggle maps onto the media choice: muting users keep
+    /// muting, everyone else gets the pause default. Fresh installs pause.
+    #[test]
+    fn mute_while_recording_migrates_to_media_choice() {
+        assert_eq!(
+            get_default_settings().media_while_recording,
+            MediaWhileRecording::Pause
+        );
+
+        for (muted, expected) in [
+            (true, MediaWhileRecording::Mute),
+            (false, MediaWhileRecording::Pause),
+        ] {
+            let mut stored = default_settings_json();
+            let map = stored.as_object_mut().unwrap();
+            map.remove("media_while_recording");
+            map.insert("mute_while_recording".into(), serde_json::json!(muted));
+            let mut settings: AppSettings = serde_json::from_value(stored.clone()).unwrap();
+            assert!(apply_settings_migrations(&mut settings, &stored));
+            assert_eq!(settings.media_while_recording, expected);
+        }
+
+        // Once chosen, the new key wins over a stale old one.
+        let mut stored = default_settings_json();
+        let map = stored.as_object_mut().unwrap();
+        map.insert("media_while_recording".into(), serde_json::json!("off"));
+        map.insert("mute_while_recording".into(), serde_json::json!(true));
+        let mut settings: AppSettings = serde_json::from_value(stored.clone()).unwrap();
+        apply_settings_migrations(&mut settings, &stored);
+        assert_eq!(settings.media_while_recording, MediaWhileRecording::Off);
     }
 
     /// Hush 0.8 kept a separate Groq "AI Polish" and a name-keyed tone map.
