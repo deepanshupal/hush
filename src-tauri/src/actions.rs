@@ -5,10 +5,13 @@ use crate::audio_toolkit::VadPolicy;
 use crate::managers::audio::{recording_error_type, AudioRecordingManager};
 use crate::managers::history::HistoryManager;
 use crate::managers::model::ModelManager;
+use crate::managers::snippets::SnippetsManager;
 use crate::managers::transcription::policy::{live_decode, LiveDecode, ModelTraits};
 use crate::managers::transcription::StreamWorkKind;
 use crate::managers::transcription::TranscriptionManager;
-use crate::settings::{get_settings, AppSettings, OverlayStyle, APPLE_INTELLIGENCE_PROVIDER_ID};
+use crate::settings::{
+    get_settings, AppSettings, AppStyle, CleanupLevel, OverlayStyle, APPLE_INTELLIGENCE_PROVIDER_ID,
+};
 use crate::shortcut;
 use crate::tray::{set_tray_state, TrayIconState};
 use crate::utils::{
@@ -349,6 +352,35 @@ pub(crate) struct ProcessedTranscription {
     pub final_text: String,
     pub post_processed_text: Option<String>,
     pub post_process_prompt: Option<String>,
+    /// Whether AI clean-up was requested for this dictation (recorded in
+    /// history so a retry repeats it).
+    pub ai_requested: bool,
+}
+
+/// Whether AI clean-up should run: the dedicated clean-up shortcut always
+/// asks for it; ordinary dictation does unless the level is `None`. Both
+/// need AI clean-up switched on.
+pub(crate) fn wants_ai_cleanup(settings: &AppSettings, explicit: bool) -> bool {
+    settings.post_process_enabled && (explicit || settings.cleanup_level != CleanupLevel::None)
+}
+
+fn cleanup_timeout(settings: &AppSettings) -> Duration {
+    match settings.post_process_provider_id.as_str() {
+        "custom" | APPLE_INTELLIGENCE_PROVIDER_ID => CLEANUP_TIMEOUT_LOCAL,
+        _ => CLEANUP_TIMEOUT_REMOTE,
+    }
+}
+
+/// Expand a voice snippet if the whole dictation is one of its triggers.
+fn expand_snippet(app: &AppHandle, transcription: &str) -> Option<String> {
+    let snippets = app.try_state::<Arc<SnippetsManager>>()?;
+    match snippets.find_expansion(transcription) {
+        Ok(found) => found,
+        Err(e) => {
+            warn!("Snippet lookup failed: {}", e);
+            None
+        }
+    }
 }
 
 pub(crate) async fn process_transcription_output(
@@ -357,32 +389,108 @@ pub(crate) async fn process_transcription_output(
     post_process: bool,
 ) -> ProcessedTranscription {
     let settings = get_settings(app);
-    let mut final_text = transcription.to_string();
-    let mut post_processed_text: Option<String> = None;
-    let mut post_process_prompt: Option<String> = None;
+    let ai_requested = wants_ai_cleanup(&settings, post_process);
 
-    if post_process {
-        if let Some(processed_text) = post_process_transcription(&settings, &final_text).await {
-            post_processed_text = Some(processed_text.clone());
-            final_text = processed_text;
+    // Voice snippets win over everything else: the expansion is pasted verbatim.
+    if let Some(expansion) = expand_snippet(app, transcription) {
+        debug!("Voice snippet matched; pasting its expansion");
+        return ProcessedTranscription {
+            final_text: expansion.clone(),
+            post_processed_text: Some(expansion),
+            post_process_prompt: None,
+            ai_requested: false,
+        };
+    }
 
+    let mut processed =
+        clean_up_with_ai(&settings, transcription, post_process, ai_requested).await;
+
+    // Snippet triggers spoken inside a longer dictation (longest wins).
+    if let Some(snippets) = app.try_state::<Arc<SnippetsManager>>() {
+        let expanded = snippets.expand_inline(&processed.final_text);
+        if expanded != processed.final_text {
+            debug!("Expanded voice snippets inside the dictation");
+            processed.post_processed_text = Some(expanded.clone());
+            processed.final_text = expanded;
+        }
+    }
+
+    processed
+}
+
+/// The AI clean-up step on its own: decides whether to run, picks the app's
+/// style, and falls back to the raw transcript on skip, failure or timeout.
+async fn clean_up_with_ai(
+    settings: &AppSettings,
+    transcription: &str,
+    post_process: bool,
+    ai_requested: bool,
+) -> ProcessedTranscription {
+    let mut processed = ProcessedTranscription {
+        final_text: transcription.to_string(),
+        post_processed_text: None,
+        post_process_prompt: None,
+        ai_requested,
+    };
+    if !ai_requested {
+        return processed;
+    }
+    if word_count(transcription) < MIN_WORDS_FOR_CLEANUP {
+        debug!("AI clean-up skipped: dictation is shorter than {MIN_WORDS_FOR_CLEANUP} words");
+        return processed;
+    }
+
+    let frontmost = app_context::frontmost_app();
+    let mut style = settings.style_for_app(
+        frontmost.as_ref().and_then(|a| a.bundle_id.as_deref()),
+        frontmost.as_ref().map(|a| a.name.as_str()),
+    );
+    if style == AppStyle::Raw {
+        if !post_process {
+            debug!("AI clean-up skipped: the frontmost app's style is Raw");
+            return processed;
+        }
+        // The dedicated clean-up shortcut is an explicit request: honour it.
+        style = AppStyle::Default;
+    }
+    let level = match settings.cleanup_level {
+        CleanupLevel::None => CleanupLevel::Light,
+        level => level,
+    };
+    let ctx = CleanupContext {
+        app: frontmost,
+        style,
+        level,
+    };
+
+    let timeout = cleanup_timeout(settings);
+    match tokio::time::timeout(
+        timeout,
+        post_process_transcription(settings, transcription, &ctx),
+    )
+    .await
+    {
+        Ok(Some(processed_text)) => {
+            processed.post_processed_text = Some(processed_text.clone());
+            processed.final_text = processed_text;
             if let Some(prompt_id) = &settings.post_process_selected_prompt_id {
                 if let Some(prompt) = settings
                     .post_process_prompts
                     .iter()
                     .find(|prompt| &prompt.id == prompt_id)
                 {
-                    post_process_prompt = Some(prompt.prompt.clone());
+                    processed.post_process_prompt = Some(prompt.prompt.clone());
                 }
             }
         }
+        Ok(None) => {}
+        Err(_) => warn!(
+            "AI clean-up timed out after {:?}; pasting the raw transcript",
+            timeout
+        ),
     }
 
-    ProcessedTranscription {
-        final_text,
-        post_processed_text,
-        post_process_prompt,
-    }
+    processed
 }
 
 impl ShortcutAction for TranscribeAction {

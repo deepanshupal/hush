@@ -31,6 +31,16 @@ static MIGRATIONS: &[M] = &[
     M::up("ALTER TABLE transcription_history ADD COLUMN post_processed_text TEXT;"),
     M::up("ALTER TABLE transcription_history ADD COLUMN post_process_prompt TEXT;"),
     M::up("ALTER TABLE transcription_history ADD COLUMN post_process_requested BOOLEAN NOT NULL DEFAULT 0;"),
+    // Hush voice snippets (trigger phrase -> expansion). `IF NOT EXISTS`:
+    // Hush 0.8 already created this table (see `repair_hush_0_8_schema`).
+    M::up(
+        "CREATE TABLE IF NOT EXISTS snippets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trigger_text TEXT NOT NULL UNIQUE COLLATE NOCASE,
+            expansion_text TEXT NOT NULL,
+            created_at INTEGER NOT NULL
+        );",
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize, Type)]
@@ -71,6 +81,27 @@ pub struct HistoryManager {
     db_path: PathBuf,
 }
 
+/// Hush 0.8 appended its `snippets` table as migration #4, the slot upstream
+/// later used for `post_process_requested`. Such databases report
+/// user_version 4, so that column's migration would be skipped. Add the
+/// missing column directly; the snippets migration (#5) is `IF NOT EXISTS`.
+fn repair_hush_0_8_schema(conn: &Connection) -> Result<()> {
+    let version: i32 = conn.pragma_query_value(None, "user_version", |row| row.get(0))?;
+    if version < 4 {
+        return Ok(());
+    }
+    let has_column: bool = conn
+        .prepare("SELECT 1 FROM pragma_table_info('transcription_history') WHERE name = 'post_process_requested'")?
+        .exists([])?;
+    if !has_column {
+        info!("Repairing Hush 0.8 history schema: adding post_process_requested");
+        conn.execute_batch(
+            "ALTER TABLE transcription_history ADD COLUMN post_process_requested BOOLEAN NOT NULL DEFAULT 0;",
+        )?;
+    }
+    Ok(())
+}
+
 impl HistoryManager {
     pub fn new(app_handle: &AppHandle) -> Result<Self> {
         // Create recordings directory in app data dir
@@ -104,6 +135,8 @@ impl HistoryManager {
         // Handle migration from tauri-plugin-sql to rusqlite_migration
         // tauri-plugin-sql used _sqlx_migrations table, rusqlite_migration uses user_version pragma
         self.migrate_from_tauri_plugin_sql(&conn)?;
+
+        repair_hush_0_8_schema(&conn)?;
 
         // Create migrations object and run to latest version
         let migrations = Migrations::new(MIGRATIONS.to_vec());
@@ -653,6 +686,51 @@ impl HistoryManager {
 mod tests {
     use super::*;
     use rusqlite::{params, Connection};
+
+    #[test]
+    fn hush_0_8_database_is_repaired_and_migrated() {
+        // Hush 0.8's schema: upstream migrations 0-2, then its own snippets
+        // table as #3, leaving user_version at 4 without post_process_requested.
+        let mut conn = Connection::open_in_memory().expect("open in-memory db");
+        conn.execute_batch(
+            "CREATE TABLE transcription_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                file_name TEXT NOT NULL,
+                timestamp INTEGER NOT NULL,
+                saved BOOLEAN NOT NULL DEFAULT 0,
+                title TEXT NOT NULL,
+                transcription_text TEXT NOT NULL
+            );
+            ALTER TABLE transcription_history ADD COLUMN post_processed_text TEXT;
+            ALTER TABLE transcription_history ADD COLUMN post_process_prompt TEXT;
+            CREATE TABLE snippets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                trigger_text TEXT NOT NULL UNIQUE COLLATE NOCASE,
+                expansion_text TEXT NOT NULL,
+                created_at INTEGER NOT NULL
+            );
+            INSERT INTO snippets (trigger_text, expansion_text, created_at)
+                VALUES ('my email', 'me@example.com', 1);
+            PRAGMA user_version = 4;",
+        )
+        .expect("create hush 0.8 schema");
+
+        repair_hush_0_8_schema(&conn).expect("repair");
+        Migrations::new(MIGRATIONS.to_vec())
+            .to_latest(&mut conn)
+            .expect("migrate");
+
+        let has_column: bool = conn
+            .prepare("SELECT 1 FROM pragma_table_info('transcription_history') WHERE name = 'post_process_requested'")
+            .unwrap()
+            .exists([])
+            .unwrap();
+        assert!(has_column);
+        let kept: String = conn
+            .query_row("SELECT expansion_text FROM snippets", [], |r| r.get(0))
+            .unwrap();
+        assert_eq!(kept, "me@example.com");
+    }
 
     fn setup_conn() -> Connection {
         let conn = Connection::open_in_memory().expect("open in-memory db");
