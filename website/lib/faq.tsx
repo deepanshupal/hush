@@ -47,10 +47,10 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Why does macOS warn me when I first open Hush?",
-    text: "Hush builds are not notarized by Apple yet, so macOS asks you to confirm the first time you open the app. Go to System Settings, Privacy & Security, and click Open Anyway (on macOS 14 and earlier you can also Control-click Hush and choose Open). The source code is public, so you can also build it yourself.",
+    text: "Hush builds aren't notarized by Apple, which requires a paid Apple account, so macOS asks you to confirm the first time you open the app. Go to System Settings, Privacy & Security, and click Open Anyway (on macOS 14 and earlier you can also Control-click Hush and choose Open). The source code is public, so you can also build it yourself.",
     answer: (
       <>
-        Hush builds are not notarized by Apple yet, so macOS asks you to confirm the first time you
+        Hush builds aren&apos;t notarized by Apple, which requires a paid Apple account, so macOS asks you to confirm the first time you
         open the app. Go to System Settings → Privacy &amp; Security and click{" "}
         <strong>Open Anyway</strong> (on macOS 14 and earlier you can also Control-click Hush and
         choose <strong>Open</strong>). See the{" "}

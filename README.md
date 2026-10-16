@@ -129,12 +129,12 @@ Hush is built with [Tauri](https://tauri.app) (Rust + React/TypeScript) and
 
 ## Repository layout
 
-| Folder | What it is |
-|---|---|
-| `src/` | The app's interface (React, TypeScript, Tailwind) |
-| `src-tauri/` | The app's core (Rust, Tauri): audio, speech recognition, AI clean-up, paste |
-| `website/` | [hush.software](https://www.hush.software) (Next.js). See [`website/README.md`](website/README.md) |
-| `docs/` | Images and notes used by this README |
+| Folder       | What it is                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| `src/`       | The app's interface (React, TypeScript, Tailwind)                                                  |
+| `src-tauri/` | The app's core (Rust, Tauri): audio, speech recognition, AI clean-up, paste                        |
+| `website/`   | [hush.software](https://www.hush.software) (Next.js). See [`website/README.md`](website/README.md) |
+| `docs/`      | Images and notes used by this README                                                               |
 
 The app and the website share the same design language: cream surfaces, a burgundy accent and a serif display face.
 
