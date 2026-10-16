@@ -1,6 +1,6 @@
 [package]
 name = "hush"
-version = "1.0.0"
+version = "1.1.0"
 description = "Hush: free, private push-to-talk dictation"
 authors = ["Deepanshu Pal", "CJ Pais"]
 edition = "2021"
