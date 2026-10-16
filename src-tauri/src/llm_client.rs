@@ -136,9 +136,10 @@ struct ChatMessageResponse {
     content: Option<String>,
 }
 
-/// Output budget for Anthropic Messages requests, where `max_tokens` is
-/// required. Ample for a cleaned-up dictation.
-const ANTHROPIC_MAX_TOKENS: u32 = 4096;
+/// Upper bound on the output budget for Anthropic Messages requests, where
+/// `max_tokens` is required. Callers pass a budget scaled to the dictation's
+/// length; this caps it.
+const ANTHROPIC_MAX_TOKENS: u32 = 8192;
 
 #[derive(Debug, Serialize)]
 struct AnthropicMessagesRequest {
@@ -216,13 +217,33 @@ fn build_headers(provider: &PostProcessProvider, api_key: &str) -> Result<Header
     Ok(headers)
 }
 
-/// Create an HTTP client with provider-specific headers
-fn create_client(provider: &PostProcessProvider, api_key: &str) -> Result<reqwest::Client, String> {
-    let headers = build_headers(provider, api_key)?;
-    reqwest::Client::builder()
-        .default_headers(headers)
+/// One HTTP client for every clean-up and model-list request, so TLS sessions
+/// and keep-alive connections to the provider are reused between dictations
+/// instead of paying a fresh handshake each time. Provider headers (auth) are
+/// attached per request.
+fn shared_client() -> Result<&'static reqwest::Client, String> {
+    static CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
+    if let Some(client) = CLIENT.get() {
+        return Ok(client);
+    }
+    let client = reqwest::Client::builder()
+        .pool_idle_timeout(std::time::Duration::from_secs(90))
+        .tcp_keepalive(std::time::Duration::from_secs(30))
+        .connect_timeout(std::time::Duration::from_secs(5))
         .build()
-        .map_err(|e| report_reqwest_error("Failed to build HTTP client", &e))
+        .map_err(|e| report_reqwest_error("Failed to build HTTP client", &e))?;
+    Ok(CLIENT.get_or_init(|| client))
+}
+
+/// A POST/GET builder on the shared client carrying the provider's headers.
+fn request(
+    method: reqwest::Method,
+    url: &str,
+    provider: &PostProcessProvider,
+    api_key: &str,
+) -> Result<reqwest::RequestBuilder, String> {
+    let headers = build_headers(provider, api_key)?;
+    Ok(shared_client()?.request(method, url).headers(headers))
 }
 
 /// Format a bounded error source chain.
@@ -347,9 +368,10 @@ pub async fn send_chat_completion(
     model: &str,
     prompt: String,
     disable_reasoning: bool,
+    max_tokens: u32,
 ) -> Result<Option<String>, String> {
     if provider.api_format == PostProcessApiFormat::Anthropic {
-        return send_anthropic_message(provider, api_key, model, prompt).await;
+        return send_anthropic_message(provider, api_key, model, prompt, max_tokens).await;
     }
 
     send_chat_completion_with_schema(
@@ -390,8 +412,6 @@ pub async fn send_chat_completion_with_schema(
         "Sending chat completion request to: {}",
         sanitized_url_for_log(&url)
     );
-
-    let client = create_client(provider, &api_key)?;
 
     // Build messages vector
     let mut messages = Vec::new();
@@ -435,8 +455,7 @@ pub async fn send_chat_completion_with_schema(
         reasoning,
     };
 
-    let mut response = client
-        .post(&url)
+    let mut response = request(reqwest::Method::POST, &url, provider, &api_key)?
         .json(&request_body)
         .send()
         .await
@@ -464,8 +483,7 @@ pub async fn send_chat_completion_with_schema(
         );
 
         request_body.reasoning = ReasoningParams::default();
-        response = client
-            .post(&url)
+        response = request(reqwest::Method::POST, &url, provider, &api_key)?
             .json(&request_body)
             .send()
             .await
@@ -527,6 +545,7 @@ async fn send_anthropic_message(
     api_key: String,
     model: &str,
     prompt: String,
+    max_tokens: u32,
 ) -> Result<Option<String>, String> {
     let url = format!("{}/messages", provider.base_url.trim_end_matches('/'));
 
@@ -537,15 +556,14 @@ async fn send_anthropic_message(
 
     let request_body = AnthropicMessagesRequest {
         model: model.to_string(),
-        max_tokens: ANTHROPIC_MAX_TOKENS,
+        max_tokens: max_tokens.min(ANTHROPIC_MAX_TOKENS),
         messages: vec![ChatMessage {
             role: "user".to_string(),
             content: prompt,
         }],
     };
 
-    let response = create_client(provider, &api_key)?
-        .post(&url)
+    let response = request(reqwest::Method::POST, &url, provider, &api_key)?
         .json(&request_body)
         .send()
         .await
@@ -597,10 +615,7 @@ pub async fn fetch_models(
 
     debug!("Fetching models from: {}", sanitized_url_for_log(&url));
 
-    let client = create_client(provider, &api_key)?;
-
-    let response = client
-        .get(&url)
+    let response = request(reqwest::Method::GET, &url, provider, &api_key)?
         .send()
         .await
         .map_err(|e| report_reqwest_error("Failed to fetch models", &e))?;
@@ -924,6 +939,7 @@ mod tests {
             "claude-haiku",
             "raw text".to_string(),
             true,
+            1024,
         )
         .await;
         assert_eq!(result, Ok(Some("Cleaned text".to_string())));
@@ -942,6 +958,7 @@ mod tests {
             "test-model",
             "raw text".to_string(),
             false,
+            1024,
         )
         .await;
         assert!(result.unwrap_err().contains("truncated"));
@@ -960,6 +977,7 @@ mod tests {
             "claude-haiku",
             "raw text".to_string(),
             true,
+            1024,
         )
         .await;
         assert!(result.unwrap_err().contains("truncated"));
