@@ -294,7 +294,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </button>
 
       <div className="flex-1 flex items-center gap-2">
-        <span className="text-xs text-text/60 min-w-[30px] tabular-nums">
+        <span className="text-xs text-text-muted min-w-[30px] tabular-nums">
           {formatTime(currentTime)}
         </span>
 
@@ -313,7 +313,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           }}
         />
 
-        <span className="text-xs text-text/60 min-w-[30px] tabular-nums">
+        <span className="text-xs text-text-muted min-w-[30px] tabular-nums">
           {formatTime(duration)}
         </span>
       </div>

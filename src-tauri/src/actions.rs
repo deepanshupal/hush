@@ -1098,6 +1098,17 @@ impl ShortcutAction for CancelAction {
     }
 }
 
+// Paste Last Transcript Action
+struct PasteLastAction;
+
+impl ShortcutAction for PasteLastAction {
+    fn start(&self, app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        crate::tray::paste_last_transcript(app, Duration::ZERO);
+    }
+
+    fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {}
+}
+
 // Test Action
 struct TestAction;
 
@@ -1137,6 +1148,10 @@ pub static ACTION_MAP: Lazy<HashMap<String, Arc<dyn ShortcutAction>>> = Lazy::ne
     map.insert(
         "cancel".to_string(),
         Arc::new(CancelAction) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "paste_last".to_string(),
+        Arc::new(PasteLastAction) as Arc<dyn ShortcutAction>,
     );
     map.insert(
         "test".to_string(),

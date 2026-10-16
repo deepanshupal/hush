@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshCcw, X } from "lucide-react";
+import { AppWindow, RefreshCcw, X } from "lucide-react";
 import {
   commands,
   type AppInfo,
@@ -12,6 +12,7 @@ import { SettingContainer } from "../../ui/SettingContainer";
 import { Input } from "../../ui/Input";
 import { Button } from "../../ui/Button";
 import { Alert } from "../../ui/Alert";
+import { EmptyState } from "../../ui/EmptyState";
 import { useSettings } from "../../../hooks/useSettings";
 
 const STYLES: AppStyle[] = ["default", "message", "email", "code", "raw"];
@@ -135,9 +136,10 @@ export const AppStylesSettings: React.FC = () => {
       </SettingContainer>
 
       {rules.length === 0 ? (
-        <p className="px-4 py-3 text-sm text-text-muted">
-          {t("settings.postProcessing.styles.empty")}
-        </p>
+        <EmptyState
+          icon={AppWindow}
+          message={t("settings.postProcessing.styles.empty")}
+        />
       ) : (
         rules.map((rule) => (
           <div key={rule.app_id} className="flex items-center gap-3 px-4 py-2">

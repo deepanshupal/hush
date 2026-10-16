@@ -1,46 +1,31 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { SettingsGroup } from "../../ui/SettingsGroup";
 import { LanguageSelector } from "../LanguageSelector";
 import { TranslateToEnglish } from "../TranslateToEnglish";
 import { useModelStore } from "../../../stores/modelStore";
 import type { ModelInfo } from "@/bindings";
 
-export const ModelSettingsCard: React.FC = () => {
-  const { t } = useTranslation();
+const useCurrentModelInfo = (): ModelInfo | undefined => {
   const { currentModel, models } = useModelStore();
+  return models.find((m: ModelInfo) => m.id === currentModel);
+};
 
-  const currentModelInfo = models.find((m: ModelInfo) => m.id === currentModel);
-
-  const showLanguageSelector =
-    currentModelInfo?.supports_language_selection ?? false;
-  const supportsTranslation = currentModelInfo?.supports_translation ?? false;
-  const hasAnySettings = showLanguageSelector || supportsTranslation;
-
-  // Don't render anything if no model is selected or no settings available
-  if (!currentModel || !currentModelInfo || !hasAnySettings) {
-    return null;
-  }
-
+/** Speech language picker, shown when the active model has a choice. */
+export const ModelLanguageSetting: React.FC = () => {
+  const info = useCurrentModelInfo();
+  if (!info?.supports_language_selection) return null;
   return (
-    <SettingsGroup
-      title={t("settings.modelSettings.title", {
-        model: currentModelInfo.name,
-      })}
-    >
-      {showLanguageSelector && (
-        <LanguageSelector
-          descriptionMode="tooltip"
-          grouped={true}
-          supportedLanguages={currentModelInfo.supported_languages}
-          supportsLanguageDetection={
-            currentModelInfo.supports_language_detection
-          }
-        />
-      )}
-      {supportsTranslation && (
-        <TranslateToEnglish descriptionMode="tooltip" grouped={true} />
-      )}
-    </SettingsGroup>
+    <LanguageSelector
+      descriptionMode="tooltip"
+      grouped={true}
+      supportedLanguages={info.supported_languages}
+      supportsLanguageDetection={info.supports_language_detection}
+    />
   );
+};
+
+/** Translate-to-English toggle, shown when the active model supports it. */
+export const ModelTranslateSetting: React.FC = () => {
+  const info = useCurrentModelInfo();
+  if (!info?.supports_translation) return null;
+  return <TranslateToEnglish descriptionMode="tooltip" grouped={true} />;
 };

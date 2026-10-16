@@ -260,7 +260,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
   if (!snapshot) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-text/50" />
+        <Loader2 className="w-8 h-8 animate-spin text-text-muted" />
       </div>
     );
   }
@@ -277,7 +277,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
         <h2 className="font-display italic text-3xl text-text mb-1.5">
           {t("onboarding.migration.title")}
         </h2>
-        <p className="text-sm text-text/70">
+        <p className="text-sm text-text-muted">
           {t("onboarding.migration.description")}
         </p>
       </div>
@@ -324,7 +324,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
           )
         ) : downloading || !targetFailed ? (
           <p
-            className="flex items-center gap-2 h-10 text-sm text-text/70"
+            className="flex items-center gap-2 h-10 text-sm text-text-muted"
             aria-live="polite"
           >
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -336,7 +336,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
               </span>
             )}
             {timeLeft && (
-              <span className="tabular-nums text-text/50">
+              <span className="tabular-nums text-text-muted">
                 {t("onboarding.migration.timeRemaining", { time: timeLeft })}
               </span>
             )}
@@ -346,7 +346,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
               </span>
             )}
             {speed > 0 && (
-              <span className="tabular-nums text-text/50">
+              <span className="tabular-nums text-text-muted">
                 {t("modelSelector.downloadSpeed", {
                   speed: speed.toFixed(1),
                 })}
@@ -357,7 +357,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
           <Button
             variant="ghost"
             size="md"
-            className="h-10 text-text/70 hover:text-text"
+            className="h-10 text-text-muted hover:text-text"
             onClick={onChooseAnother}
           >
             {t("onboarding.migration.chooseAnother")}
@@ -446,7 +446,7 @@ const MigrationRow: React.FC<MigrationRowProps> = ({
         <span
           role="img"
           aria-label={t("modelSelector.modelReady")}
-          className="grid place-items-center w-[22px] h-[22px] rounded-full bg-emerald-500/20 text-emerald-500"
+          className="grid place-items-center w-[22px] h-[22px] rounded-full bg-success/15 text-success"
         >
           <Check className="w-3 h-3" strokeWidth={3} />
         </span>
@@ -455,7 +455,7 @@ const MigrationRow: React.FC<MigrationRowProps> = ({
     if (typeof state === "number") {
       return (
         <>
-          <span className="tabular-nums text-text/50">
+          <span className="tabular-nums text-text-muted">
             {Math.round(state)}%
           </span>
           <ProgressRing progress={state} />
@@ -463,7 +463,7 @@ const MigrationRow: React.FC<MigrationRowProps> = ({
       );
     }
     return (
-      <span className="text-text/50">
+      <span className="text-text-muted">
         {formatModelSize(Number(replacement.size_mb))}
       </span>
     );
@@ -508,7 +508,7 @@ const MigrationRow: React.FC<MigrationRowProps> = ({
           <span className="truncate">
             {t("onboarding.migration.replaces", { name: oldName })}
           </span>
-          <span className="shrink-0 rounded border border-mid-gray/35 px-1.5 text-[11px] font-medium text-text/55">
+          <span className="shrink-0 rounded border border-mid-gray/35 px-1.5 text-[11px] font-medium text-text-muted">
             {t("onboarding.migration.oldFormat")}
           </span>
         </div>

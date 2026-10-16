@@ -28,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({
     "primary-soft":
       "text-accent bg-accent/12 border-transparent hover:bg-accent/20 focus-visible:ring-2 focus-visible:ring-accent/40",
     secondary:
-      "text-text bg-surface-raised border-border shadow-card hover:border-accent/60 hover:bg-surface",
+      "text-text bg-surface-raised border-border shadow-card hover:border-accent/60 hover:bg-surface focus-visible:ring-2 focus-visible:ring-accent/40",
     // Secondary's neutral resting look, but hover/focus use the semantic
     // --color-warning token (theme.css) instead of the pink accent — for
     // buttons sitting on warning surfaces like SecureInputWarning
@@ -37,9 +37,9 @@ export const Button: React.FC<ButtonProps> = ({
     danger:
       "text-accent-contrast bg-danger border-danger hover:bg-danger/90 focus-visible:ring-2 focus-visible:ring-danger/40",
     "danger-ghost":
-      "text-danger border-transparent hover:bg-danger/10 focus-visible:bg-danger/15",
+      "text-danger border-transparent hover:bg-danger/10 focus-visible:bg-danger/15 focus-visible:ring-2 focus-visible:ring-danger/40",
     ghost:
-      "text-current border-transparent hover:bg-text/5 focus-visible:bg-text/10",
+      "text-current border-transparent hover:bg-text/5 focus-visible:bg-text/10 focus-visible:ring-2 focus-visible:ring-accent/40",
   };
 
   const sizeClasses = {

@@ -6,7 +6,8 @@
     "model": "モデル",
     "quit": "終了",
     "cancel": "キャンセル",
-    "secureInputWarning": "⚠ Secure Input でショートカットがブロック中"
+    "secureInputWarning": "⚠ Secure Input でショートカットがブロック中",
+    "pasteLastTranscript": "最新の文字起こしを貼り付け"
   },
   "sidebar": {
     "general": "一般",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "後処理のショートカット",
             "description": "文字起こしに常に AI 後処理を適用するキーボードショートカット。 (任意)"
+          },
+          "paste_last": {
+            "name": "最新の文字起こしを貼り付け",
+            "description": "最新の文字起こしを、使用中のアプリにもう一度貼り付けます。"
           }
         },
         "errors": {
@@ -195,10 +200,15 @@
           "toggle": "切り替え"
         },
         "descriptions": {
-          "hold_or_toggle": "長押しで録音、タップで切り替え",
-          "push_to_talk": "ショートカットを押している間だけ録音します",
+          "hold_or_toggle": "押し続けて録音、またはタップ（ダブルタップ）で次に押すまでハンズフリー録音",
+          "push_to_talk": "ショートカットを押している間だけ録音します。ダブルタップで次に押すまでハンズフリー録音",
           "toggle": "ショートカットをタップすると録音を開始し、もう一度タップすると停止します"
         }
+      },
+      "groups": {
+        "shortcuts": "ショートカット",
+        "speech": "音声",
+        "app": "アプリ"
       }
     },
     "sound": {
@@ -246,7 +256,8 @@
         "output": "出力",
         "transcription": "文字起こし",
         "history": "履歴",
-        "experimental": "実験的"
+        "experimental": "実験的",
+        "sound": "サウンド"
       },
       "experimentalToggle": {
         "label": "実験的な機能",
@@ -389,7 +400,9 @@
           "simplified": "簡体字",
           "traditional": "繁体字"
         }
-      }
+      },
+      "title": "詳細設定",
+      "description": "ほとんどの人が変更する必要のない設定です。"
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "プロバイダー",
-          "description": "OpenAI 互換または Anthropic 互換のプロバイダーを選択。"
+          "description": "OpenAI 互換または Anthropic 互換のプロバイダーを選択。",
+          "moreProviders": "その他のプロバイダー…"
         },
         "apiFormat": {
           "title": "API 形式",
@@ -673,6 +687,29 @@
       "delete": "削除",
       "empty": "スニペットはまだありません。",
       "error": "スニペットを保存できませんでした: {{error}}"
+    },
+    "speechModel": {
+      "title": "音声モデル",
+      "description": "Mac 上で動作するため、音声が外部に送られることはありません。いつでも切り替えられます。",
+      "recommended": "おすすめ",
+      "downloading": "ダウンロード中 {{percent}}%",
+      "current": "使用中: {{model}}",
+      "moreModels": "その他のモデル",
+      "choices": {
+        "fast": {
+          "label": "高速",
+          "description": "8秒の音声を約0.3秒で文字にします。ヨーロッパの{{languages}}言語、{{size}}。"
+        },
+        "live": {
+          "label": "ライブプレビュー",
+          "description": "話しながら言葉が表示されます。{{languages}}言語、{{size}}。"
+        },
+        "accurate": {
+          "label": "最高精度",
+          "description": "低速ですが最高の精度。{{languages}}言語、{{size}}。",
+          "memoryNote": "メモリ16GB以上のMacにおすすめです。"
+        }
+      }
     }
   },
   "footer": {

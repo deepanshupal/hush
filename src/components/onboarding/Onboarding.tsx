@@ -168,7 +168,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
           size="md"
           onClick={onBack}
           disabled={isBusy}
-          className="fixed top-4 start-4 flex items-center gap-1 text-text/70 hover:text-text"
+          className="fixed top-4 start-4 flex items-center gap-1 text-text-muted hover:text-text"
         >
           <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
           {t("common.back")}
@@ -176,7 +176,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
       )}
       <div className="flex flex-col items-center gap-2 shrink-0">
         <HushTextLogo width={200} />
-        <p className="text-text/70 max-w-md font-medium mx-auto">
+        <p className="text-text-muted max-w-md font-medium mx-auto">
           {t("onboarding.subtitle")}
         </p>
       </div>
@@ -186,7 +186,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
           {existingModels.length > 0 && (
             <div className="space-y-3">
               <div className="text-left">
-                <h2 className="text-sm font-medium text-text/60">
+                <h2 className="text-sm font-medium text-text-muted">
                   {t("onboarding.existingModelsTitle")}
                 </h2>
               </div>
@@ -206,7 +206,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
           {downloadable.length > 0 && (
             <div className="space-y-3">
               <div className="text-left">
-                <h2 className="text-sm font-medium text-text/60">
+                <h2 className="text-sm font-medium text-text-muted">
                   {t("onboarding.downloadModelsTitle")}
                 </h2>
               </div>
@@ -246,7 +246,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowAll((v) => !v)}
-                  className="flex items-center justify-center gap-1.5 mx-auto py-1 text-sm font-medium text-text/60 hover:text-text transition-colors"
+                  className="flex items-center justify-center gap-1.5 mx-auto py-1 text-sm font-medium text-text-muted hover:text-text transition-colors"
                 >
                   {showAll
                     ? t("onboarding.showFewerModels")

@@ -57,7 +57,7 @@ const RetiredModelsNotice: React.FC = () => {
         <p className="text-sm font-medium leading-5">
           {t("settings.models.retiredNotice.title")}
         </p>
-        <p className="text-sm leading-5 text-text/70">
+        <p className="text-sm leading-5 text-text-muted">
           {t("settings.models.retiredNotice.description", { size })}
         </p>
       </div>

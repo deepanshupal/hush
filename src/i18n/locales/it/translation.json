@@ -6,7 +6,8 @@
     "model": "Modello",
     "quit": "Esci",
     "cancel": "Annulla",
-    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input"
+    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input",
+    "pasteLastTranscript": "Incolla l'ultima trascrizione"
   },
   "sidebar": {
     "general": "Generale",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Tasto di post-elaborazione",
             "description": "Facoltativo: Un tasto di scelta rapida dedicato che applica sempre la post-elaborazione IA alla trascrizione."
+          },
+          "paste_last": {
+            "name": "Incolla l'ultima trascrizione",
+            "description": "Incolla di nuovo la tua trascrizione più recente nell'app che stai usando."
           }
         },
         "errors": {
@@ -195,10 +200,15 @@
           "toggle": "Alterna"
         },
         "descriptions": {
-          "hold_or_toggle": "Tieni premuto per registrare o tocca per alternare",
-          "push_to_talk": "Registra finché tieni premuta la scorciatoia",
+          "hold_or_toggle": "Tieni premuto per registrare, oppure tocca (o tocca due volte) per registrare a mani libere fino alla pressione successiva",
+          "push_to_talk": "Registra finché tieni premuta la scorciatoia. Tocca due volte per registrare a mani libere fino alla pressione successiva",
           "toggle": "Tocca la scorciatoia per avviare la registrazione, tocca di nuovo per fermarla"
         }
+      },
+      "groups": {
+        "shortcuts": "Scorciatoie",
+        "speech": "Voce",
+        "app": "App"
       }
     },
     "sound": {
@@ -246,7 +256,8 @@
         "output": "Output",
         "transcription": "Trascrizione",
         "history": "Cronologia",
-        "experimental": "Sperimentale"
+        "experimental": "Sperimentale",
+        "sound": "Suono"
       },
       "experimentalToggle": {
         "label": "Funzionalità Sperimentali",
@@ -389,7 +400,9 @@
           "simplified": "Semplificato",
           "traditional": "Tradizionale"
         }
-      }
+      },
+      "title": "Avanzate",
+      "description": "Impostazioni che la maggior parte delle persone non deve mai cambiare."
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "Provider",
-          "description": "Seleziona un provider compatibile con OpenAI o Anthropic."
+          "description": "Seleziona un provider compatibile con OpenAI o Anthropic.",
+          "moreProviders": "Altri provider…"
         },
         "apiFormat": {
           "title": "Formato API",
@@ -673,6 +687,29 @@
       "delete": "Elimina",
       "empty": "Ancora nessuno snippet.",
       "error": "Impossibile salvare lo snippet: {{error}}"
+    },
+    "speechModel": {
+      "title": "Modello vocale",
+      "description": "Funziona sul tuo Mac, quindi la tua voce non lo lascia mai. Puoi cambiarlo quando vuoi.",
+      "recommended": "Consigliato",
+      "downloading": "Download {{percent}}%",
+      "current": "In uso: {{model}}",
+      "moreModels": "Altri modelli",
+      "choices": {
+        "fast": {
+          "label": "Veloce",
+          "description": "Trasforma 8 secondi di parlato in testo in circa un terzo di secondo. {{languages}} lingue europee, {{size}}."
+        },
+        "live": {
+          "label": "Anteprima dal vivo",
+          "description": "Mostra le tue parole mentre parli. {{languages}} lingue, {{size}}."
+        },
+        "accurate": {
+          "label": "Più preciso",
+          "description": "Più lento, massima precisione. {{languages}} lingue, {{size}}.",
+          "memoryNote": "Ideale sui Mac con 16 GB di memoria o più."
+        }
+      }
     }
   },
   "footer": {

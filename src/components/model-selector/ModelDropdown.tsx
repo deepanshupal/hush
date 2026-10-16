@@ -75,7 +75,7 @@ const ModelDropdown: React.FC<ModelDropdownProps> = ({
           ))}
         </div>
       ) : (
-        <div className="px-3 py-2 text-sm text-text/60">
+        <div className="px-3 py-2 text-sm text-text-muted">
           {t("modelSelector.noModelsAvailable")}
         </div>
       )}

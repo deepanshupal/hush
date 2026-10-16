@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Ukončit",
     "cancel": "Zrušit",
-    "secureInputWarning": "⚠ Zkratky blokuje Secure Input"
+    "secureInputWarning": "⚠ Zkratky blokuje Secure Input",
+    "pasteLastTranscript": "Vložit poslední přepis"
   },
   "sidebar": {
     "general": "Obecné",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Klávesa pro následné zpracování",
             "description": "Volitelné: Vyhrazená klávesová zkratka, která vždy použije AI následné zpracování na váš přepis."
+          },
+          "paste_last": {
+            "name": "Vložit poslední přepis",
+            "description": "Znovu vloží váš poslední přepis do aplikace, kterou právě používáte."
           }
         },
         "errors": {
@@ -195,10 +200,15 @@
           "toggle": "Přepínat"
         },
         "descriptions": {
-          "hold_or_toggle": "Podržte pro nahrávání nebo klepněte pro přepnutí",
-          "push_to_talk": "Nahrává, dokud držíte zkratku",
+          "hold_or_toggle": "Podržením nahráváte, klepnutím (nebo dvojitým klepnutím) nahráváte bez rukou až do dalšího stisknutí",
+          "push_to_talk": "Nahrává, dokud držíte zkratku. Dvojitým klepnutím nahráváte bez rukou až do dalšího stisknutí",
           "toggle": "Klepněte na zkratku pro zahájení nahrávání, klepněte znovu pro zastavení"
         }
+      },
+      "groups": {
+        "shortcuts": "Zkratky",
+        "speech": "Řeč",
+        "app": "Aplikace"
       }
     },
     "sound": {
@@ -246,7 +256,8 @@
         "output": "Výstup",
         "transcription": "Přepis",
         "history": "Historie",
-        "experimental": "Experimentální"
+        "experimental": "Experimentální",
+        "sound": "Zvuk"
       },
       "experimentalToggle": {
         "label": "Experimentální funkce",
@@ -389,7 +400,9 @@
           "simplified": "Zjednodušené",
           "traditional": "Tradiční"
         }
-      }
+      },
+      "title": "Pokročilé",
+      "description": "Nastavení, která většina lidí nikdy nepotřebuje měnit."
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "Poskytovatel",
-          "description": "Vyberte poskytovatele kompatibilního s OpenAI nebo Anthropic."
+          "description": "Vyberte poskytovatele kompatibilního s OpenAI nebo Anthropic.",
+          "moreProviders": "Další poskytovatelé…"
         },
         "apiFormat": {
           "title": "Formát API",
@@ -673,6 +687,29 @@
       "delete": "Smazat",
       "empty": "Zatím žádné úryvky.",
       "error": "Úryvek se nepodařilo uložit: {{error}}"
+    },
+    "speechModel": {
+      "title": "Model řeči",
+      "description": "Běží na vašem Macu, takže váš hlas ho nikdy neopustí. Můžete kdykoli přepnout.",
+      "recommended": "Doporučeno",
+      "downloading": "Stahování {{percent}} %",
+      "current": "Používá se: {{model}}",
+      "moreModels": "Další modely",
+      "choices": {
+        "fast": {
+          "label": "Rychlý",
+          "description": "Převede 8 sekund řeči na text zhruba za třetinu sekundy. {{languages}} evropských jazyků, {{size}}."
+        },
+        "live": {
+          "label": "Živý náhled",
+          "description": "Zobrazuje vaše slova, zatímco mluvíte. {{languages}} jazyků, {{size}}."
+        },
+        "accurate": {
+          "label": "Nejpřesnější",
+          "description": "Pomalejší, nejvyšší přesnost. {{languages}} jazyků, {{size}}.",
+          "memoryNote": "Nejlépe na Macích s 16 GB paměti nebo více."
+        }
+      }
     }
   },
   "footer": {

@@ -6,7 +6,8 @@
     "model": "Modèle",
     "quit": "Quitter",
     "cancel": "Annuler",
-    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input"
+    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input",
+    "pasteLastTranscript": "Coller la dernière transcription"
   },
   "sidebar": {
     "general": "Général",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Raccourci de post-traitement",
             "description": "Facultatif : Un raccourci dédié qui applique toujours le post-traitement IA à votre transcription."
+          },
+          "paste_last": {
+            "name": "Coller la dernière transcription",
+            "description": "Colle à nouveau votre dernière transcription dans l'app que vous utilisez."
           }
         },
         "errors": {
@@ -195,10 +200,15 @@
           "toggle": "Basculer"
         },
         "descriptions": {
-          "hold_or_toggle": "Maintenez pour enregistrer ou appuyez brièvement pour basculer",
-          "push_to_talk": "Enregistre tant que le raccourci est maintenu",
+          "hold_or_toggle": "Maintenez pour enregistrer, ou appuyez (ou appuyez deux fois) pour enregistrer mains libres jusqu'au prochain appui",
+          "push_to_talk": "Enregistre tant que le raccourci est maintenu. Appuyez deux fois pour enregistrer mains libres jusqu'au prochain appui",
           "toggle": "Appuyez sur le raccourci pour démarrer l'enregistrement, appuyez à nouveau pour arrêter"
         }
+      },
+      "groups": {
+        "shortcuts": "Raccourcis",
+        "speech": "Voix",
+        "app": "App"
       }
     },
     "sound": {
@@ -246,7 +256,8 @@
         "output": "Sortie",
         "transcription": "Transcription",
         "history": "Historique",
-        "experimental": "Expérimental"
+        "experimental": "Expérimental",
+        "sound": "Son"
       },
       "experimentalToggle": {
         "label": "Fonctionnalités Expérimentales",
@@ -389,7 +400,9 @@
           "simplified": "Simplifié",
           "traditional": "Traditionnel"
         }
-      }
+      },
+      "title": "Avancé",
+      "description": "Des réglages que la plupart des gens n'ont jamais besoin de modifier."
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "Fournisseur",
-          "description": "Sélectionnez un fournisseur compatible OpenAI ou Anthropic."
+          "description": "Sélectionnez un fournisseur compatible OpenAI ou Anthropic.",
+          "moreProviders": "Plus de fournisseurs…"
         },
         "apiFormat": {
           "title": "Format d'API",
@@ -673,6 +687,29 @@
       "delete": "Supprimer",
       "empty": "Aucun raccourci pour l’instant.",
       "error": "Impossible d’enregistrer : {{error}}"
+    },
+    "speechModel": {
+      "title": "Modèle vocal",
+      "description": "Fonctionne sur votre Mac : votre voix ne le quitte jamais. Vous pouvez en changer à tout moment.",
+      "recommended": "Recommandé",
+      "downloading": "Téléchargement {{percent}} %",
+      "current": "Utilisé : {{model}}",
+      "moreModels": "Plus de modèles",
+      "choices": {
+        "fast": {
+          "label": "Rapide",
+          "description": "Transforme 8 secondes de parole en texte en environ un tiers de seconde. {{languages}} langues européennes, {{size}}."
+        },
+        "live": {
+          "label": "Aperçu en direct",
+          "description": "Affiche vos mots pendant que vous parlez. {{languages}} langues, {{size}}."
+        },
+        "accurate": {
+          "label": "Le plus précis",
+          "description": "Plus lent, meilleure précision. {{languages}} langues, {{size}}.",
+          "memoryNote": "Idéal sur les Mac avec 16 Go de mémoire ou plus."
+        }
+      }
     }
   },
   "footer": {

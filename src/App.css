@@ -18,6 +18,7 @@
   --color-danger: var(--hush-danger);
   --color-warning: var(--hush-warning);
   --color-success: var(--hush-success);
+  --color-scrim: var(--hush-scrim);
 
   /* Legacy names used across the component tree, mapped onto the above */
   --color-background: var(--hush-bg);
@@ -41,6 +42,7 @@
   --radius-2xl: 18px;
 
   --shadow-card: var(--hush-shadow);
+  --shadow-popover: var(--hush-shadow-popover);
 }
 
 :root {

@@ -130,6 +130,33 @@ mod macos {
         Ok(keycode)
     }
 
+    #[link(name = "CoreGraphics", kind = "framework")]
+    unsafe extern "C" {
+        fn CGEventSourceFlagsState(state_id: i32) -> u64;
+    }
+
+    // kCGEventSourceStateHIDSystemState: the physical keyboard state.
+    const HID_SYSTEM_STATE: i32 = 1;
+    // Shift, Control, Option and Command (kCGEventFlagMask*).
+    const MODIFIER_FLAGS: u64 = 0x0002_0000 | 0x0004_0000 | 0x0008_0000 | 0x0010_0000;
+
+    pub(super) fn wait_for_modifiers_released(timeout: std::time::Duration) {
+        let deadline = std::time::Instant::now() + timeout;
+        loop {
+            // SAFETY: CGEventSourceFlagsState only reads the current modifier
+            // state of the given event source.
+            let flags = unsafe { CGEventSourceFlagsState(HID_SYSTEM_STATE) };
+            if (flags & MODIFIER_FLAGS) == 0 {
+                return;
+            }
+            if std::time::Instant::now() >= deadline {
+                debug!("Modifier keys still held after {timeout:?}; continuing");
+                return;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        }
+    }
+
     pub(super) fn command_v_key() -> Key {
         match resolve_command_v_keycode() {
             Ok(keycode) => {
@@ -144,6 +171,17 @@ mod macos {
             }
         }
     }
+}
+
+/// Block (up to `timeout`) until no modifier key is physically held, so a
+/// paste triggered from a shortcut such as Ctrl+Cmd+V is not merged with the
+/// modifiers the user is still holding. Only macOS can read that state; other
+/// platforms return immediately.
+pub fn wait_for_modifiers_released(timeout: std::time::Duration) {
+    #[cfg(target_os = "macos")]
+    macos::wait_for_modifiers_released(timeout);
+    #[cfg(not(target_os = "macos"))]
+    let _ = timeout;
 }
 
 /// Wrapper for Enigo to store in Tauri's managed state.

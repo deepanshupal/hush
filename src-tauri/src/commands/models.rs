@@ -5,6 +5,33 @@ use log::error;
 use std::sync::Arc;
 use tauri::{AppHandle, Emitter, Manager, State};
 
+/// Installed RAM in whole gigabytes, or 0 when it cannot be read. Used to
+/// recommend the larger, most accurate model only on Macs that can hold it.
+#[tauri::command]
+#[specta::specta]
+pub fn get_system_memory_gb() -> u32 {
+    #[cfg(target_os = "macos")]
+    {
+        let mut bytes: u64 = 0;
+        let mut len = std::mem::size_of::<u64>();
+        // SAFETY: "hw.memsize" is a u64 sysctl; `bytes` and `len` point to
+        // initialized local storage of exactly that size.
+        let rc = unsafe {
+            libc::sysctlbyname(
+                c"hw.memsize".as_ptr(),
+                (&mut bytes as *mut u64).cast::<libc::c_void>(),
+                &mut len,
+                std::ptr::null_mut(),
+                0,
+            )
+        };
+        if rc == 0 {
+            return (bytes / (1024 * 1024 * 1024)) as u32;
+        }
+    }
+    0
+}
+
 #[tauri::command]
 #[specta::specta]
 pub async fn get_available_models(

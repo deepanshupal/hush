@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Keluar",
     "cancel": "Batal",
-    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input"
+    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input",
+    "pasteLastTranscript": "Tempel Transkripsi Terakhir"
   },
   "sidebar": {
     "general": "Umum",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Pintasan Pascaproses",
             "description": "Opsional: pintasan khusus yang selalu menerapkan pascaproses AI pada transkripsi Anda."
+          },
+          "paste_last": {
+            "name": "Tempel Transkripsi Terakhir",
+            "description": "Menempelkan lagi transkripsi terbaru Anda ke aplikasi yang sedang Anda gunakan."
           }
         },
         "errors": {
@@ -168,10 +173,15 @@
           "toggle": "Tekan"
         },
         "descriptions": {
-          "hold_or_toggle": "Tahan untuk merekam atau tekan untuk mulai/berhenti",
-          "push_to_talk": "Merekam selama Anda menahan pintasan",
+          "hold_or_toggle": "Tahan untuk merekam, atau ketuk (atau ketuk dua kali) untuk bebas genggam hingga tekanan berikutnya",
+          "push_to_talk": "Merekam selama Anda menahan pintasan. Ketuk dua kali untuk bebas genggam hingga tekanan berikutnya",
           "toggle": "Ketuk pintasan untuk mulai merekam, lalu ketuk lagi untuk berhenti"
         }
+      },
+      "groups": {
+        "shortcuts": "Pintasan",
+        "speech": "Ucapan",
+        "app": "Aplikasi"
       }
     },
     "models": {
@@ -246,7 +256,8 @@
         "output": "Keluaran",
         "transcription": "Transkripsi",
         "history": "Riwayat",
-        "experimental": "Eksperimental"
+        "experimental": "Eksperimental",
+        "sound": "Suara"
       },
       "experimentalToggle": {
         "label": "Fitur Eksperimental",
@@ -389,7 +400,9 @@
           "simplified": "Sederhana",
           "traditional": "Tradisional"
         }
-      }
+      },
+      "title": "Lanjutan",
+      "description": "Pengaturan yang hampir tidak pernah perlu diubah."
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "Penyedia",
-          "description": "Pilih penyedia yang kompatibel dengan OpenAI atau Anthropic."
+          "description": "Pilih penyedia yang kompatibel dengan OpenAI atau Anthropic.",
+          "moreProviders": "Penyedia lainnya…"
         },
         "apiFormat": {
           "title": "Format API",
@@ -673,6 +687,29 @@
       "delete": "Hapus",
       "empty": "Belum ada cuplikan.",
       "error": "Gagal menyimpan cuplikan: {{error}}"
+    },
+    "speechModel": {
+      "title": "Model ucapan",
+      "description": "Berjalan di Mac Anda, jadi suara Anda tidak pernah keluar darinya. Anda bisa beralih kapan saja.",
+      "recommended": "Direkomendasikan",
+      "downloading": "Mengunduh {{percent}}%",
+      "current": "Sedang dipakai: {{model}}",
+      "moreModels": "Model lainnya",
+      "choices": {
+        "fast": {
+          "label": "Cepat",
+          "description": "Mengubah 8 detik ucapan menjadi teks dalam sekitar sepertiga detik. {{languages}} bahasa Eropa, {{size}}."
+        },
+        "live": {
+          "label": "Pratinjau langsung",
+          "description": "Menampilkan kata-kata Anda saat Anda berbicara. {{languages}} bahasa, {{size}}."
+        },
+        "accurate": {
+          "label": "Paling akurat",
+          "description": "Lebih lambat, akurasi terbaik. {{languages}} bahasa, {{size}}.",
+          "memoryNote": "Paling baik di Mac dengan memori 16 GB atau lebih."
+        }
+      }
     }
   },
   "footer": {

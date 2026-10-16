@@ -1051,6 +1051,20 @@ pub fn get_default_settings() -> AppSettings {
             current_binding: "escape".to_string(),
         },
     );
+    #[cfg(target_os = "macos")]
+    let default_paste_last_shortcut = "ctrl+command+v";
+    #[cfg(not(target_os = "macos"))]
+    let default_paste_last_shortcut = "ctrl+alt+shift+v";
+    bindings.insert(
+        "paste_last".to_string(),
+        ShortcutBinding {
+            id: "paste_last".to_string(),
+            name: "Paste Last Transcript".to_string(),
+            description: "Pastes your most recent transcript again.".to_string(),
+            default_binding: default_paste_last_shortcut.to_string(),
+            current_binding: default_paste_last_shortcut.to_string(),
+        },
+    );
 
     AppSettings {
         settings_schema_version: default_settings_schema_version(),

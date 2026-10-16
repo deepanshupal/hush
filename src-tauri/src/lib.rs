@@ -330,6 +330,11 @@ fn initialize_core_logic(app_handle: &AppHandle) {
             "copy_last_transcript" => {
                 tray::copy_last_transcript(app);
             }
+            "paste_last_transcript" => {
+                // Give the menu time to close and focus to return to the app
+                // the user was in before pasting into it.
+                tray::paste_last_transcript(app, std::time::Duration::from_millis(250));
+            }
             "unload_model" => {
                 let transcription_manager = app.state::<Arc<TranscriptionManager>>();
                 if !transcription_manager.is_model_loaded() {
@@ -722,6 +727,7 @@ fn specta_builder() -> Builder<tauri::Wry> {
             commands::check_apple_intelligence_available,
             commands::initialize_enigo,
             commands::initialize_shortcuts,
+            commands::models::get_system_memory_gb,
             commands::models::get_available_models,
             commands::models::get_model_info,
             commands::models::download_model,

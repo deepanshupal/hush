@@ -47,6 +47,18 @@ export const SECTIONS_CONFIG = {
     component: GeneralSettings,
     enabled: () => true,
   },
+  postprocessing: {
+    labelKey: "sidebar.postProcessing",
+    icon: Sparkles,
+    component: PostProcessingSettings,
+    enabled: () => true,
+  },
+  snippets: {
+    labelKey: "sidebar.snippets",
+    icon: TextQuote,
+    component: SnippetsSettings,
+    enabled: () => true,
+  },
   history: {
     labelKey: "sidebar.history",
     icon: History,
@@ -65,16 +77,10 @@ export const SECTIONS_CONFIG = {
     component: AdvancedSettings,
     enabled: () => true,
   },
-  postprocessing: {
-    labelKey: "sidebar.postProcessing",
-    icon: Sparkles,
-    component: PostProcessingSettings,
-    enabled: () => true,
-  },
-  snippets: {
-    labelKey: "sidebar.snippets",
-    icon: TextQuote,
-    component: SnippetsSettings,
+  about: {
+    labelKey: "sidebar.about",
+    icon: Info,
+    component: AboutSettings,
     enabled: () => true,
   },
   debug: {
@@ -82,12 +88,6 @@ export const SECTIONS_CONFIG = {
     icon: FlaskConical,
     component: DebugSettings,
     enabled: (settings) => settings?.debug_mode ?? false,
-  },
-  about: {
-    labelKey: "sidebar.about",
-    icon: Info,
-    component: AboutSettings,
-    enabled: () => true,
   },
 } as const satisfies Record<string, SectionConfig>;
 
@@ -116,9 +116,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           const isActive = activeSection === section.id;
 
           return (
-            <div
+            <button
+              type="button"
               key={section.id}
-              className={`flex gap-2 items-center px-2 py-1.5 w-full rounded-md cursor-pointer transition-colors ${
+              aria-current={isActive ? "page" : undefined}
+              className={`flex gap-2 items-center px-2 py-1.5 w-full rounded-md cursor-pointer transition-colors text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
                 isActive
                   ? "bg-accent/12 text-accent font-semibold"
                   : "text-text/85 hover:bg-text/6 hover:text-text"
@@ -126,10 +128,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => onSectionChange(section.id)}
             >
               <Icon width={20} height={20} className="shrink-0" />
-              <p className="text-sm truncate" title={t(section.labelKey)}>
+              <span className="text-sm truncate" title={t(section.labelKey)}>
                 {t(section.labelKey)}
-              </p>
-            </div>
+              </span>
+            </button>
           );
         })}
       </div>

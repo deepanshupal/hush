@@ -101,7 +101,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         zIndex: 9999,
         opacity: coords ? 1 : 0,
       }}
-      className="px-3 py-2 bg-surface-raised border border-border rounded-lg shadow-lg whitespace-normal transition-opacity duration-150"
+      className="px-3 py-2 bg-surface-raised border border-border rounded-lg shadow-popover whitespace-normal transition-opacity duration-150"
     >
       {children}
       <div

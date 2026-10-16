@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Çıkış",
     "cancel": "İptal",
-    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor"
+    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor",
+    "pasteLastTranscript": "Son Transkripti Yapıştır"
   },
   "sidebar": {
     "general": "Genel",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Son İşlem Kısayolu",
             "description": "İsteğe bağlı: Transkripsiyonunuza her zaman yapay zekâ ile son işlem uygulayan özel bir kısayol tuşu."
+          },
+          "paste_last": {
+            "name": "Son Transkripti Yapıştır",
+            "description": "En son transkriptinizi kullandığınız uygulamaya yeniden yapıştırır."
           }
         },
         "errors": {
@@ -195,10 +200,15 @@
           "toggle": "Aç/Kapat"
         },
         "descriptions": {
-          "hold_or_toggle": "Kaydetmek için basılı tutun veya açıp kapatmak için dokunun",
-          "push_to_talk": "Kısayolu basılı tuttuğunuz sürece kaydeder",
+          "hold_or_toggle": "Kaydetmek için basılı tutun ya da bir sonraki basışa kadar eller serbest kayıt için dokunun (veya çift dokunun)",
+          "push_to_talk": "Kısayolu basılı tuttuğunuz sürece kaydeder. Bir sonraki basışa kadar eller serbest kayıt için çift dokunun",
           "toggle": "Kaydı başlatmak için kısayola dokunun, durdurmak için tekrar dokunun"
         }
+      },
+      "groups": {
+        "shortcuts": "Kısayollar",
+        "speech": "Konuşma",
+        "app": "Uygulama"
       }
     },
     "sound": {
@@ -246,7 +256,8 @@
         "output": "Çıktı",
         "transcription": "Transkripsiyon",
         "history": "Geçmiş",
-        "experimental": "Deneysel"
+        "experimental": "Deneysel",
+        "sound": "Ses"
       },
       "experimentalToggle": {
         "label": "Deneysel Özellikler",
@@ -389,7 +400,9 @@
           "simplified": "Basitleştirilmiş",
           "traditional": "Geleneksel"
         }
-      }
+      },
+      "title": "Gelişmiş",
+      "description": "Çoğu kişinin hiç değiştirmesi gerekmeyen ayarlar."
     },
     "postProcessing": {
       "hotkey": {
@@ -399,7 +412,8 @@
         "title": "API",
         "provider": {
           "title": "Sağlayıcı",
-          "description": "OpenAI veya Anthropic uyumlu bir sağlayıcı seçin."
+          "description": "OpenAI veya Anthropic uyumlu bir sağlayıcı seçin.",
+          "moreProviders": "Daha fazla sağlayıcı…"
         },
         "apiFormat": {
           "title": "API Biçimi",
@@ -673,6 +687,29 @@
       "delete": "Sil",
       "empty": "Henüz parçacık yok.",
       "error": "Parçacık kaydedilemedi: {{error}}"
+    },
+    "speechModel": {
+      "title": "Konuşma modeli",
+      "description": "Mac'inizde çalışır, böylece sesiniz asla dışarı çıkmaz. İstediğiniz zaman değiştirebilirsiniz.",
+      "recommended": "Önerilen",
+      "downloading": "İndiriliyor %{{percent}}",
+      "current": "Kullanımda: {{model}}",
+      "moreModels": "Daha fazla model",
+      "choices": {
+        "fast": {
+          "label": "Hızlı",
+          "description": "8 saniyelik konuşmayı yaklaşık üçte bir saniyede metne çevirir. {{languages}} Avrupa dili, {{size}}."
+        },
+        "live": {
+          "label": "Canlı önizleme",
+          "description": "Siz konuşurken sözcüklerinizi gösterir. {{languages}} dil, {{size}}."
+        },
+        "accurate": {
+          "label": "En doğru",
+          "description": "Daha yavaş, en iyi doğruluk. {{languages}} dil, {{size}}.",
+          "memoryNote": "En iyi 16 GB veya daha fazla belleğe sahip Mac'lerde çalışır."
+        }
+      }
     }
   },
   "footer": {

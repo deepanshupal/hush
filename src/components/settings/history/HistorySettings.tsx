@@ -1,7 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { readFile } from "@tauri-apps/plugin-fs";
-import { Check, Copy, FolderOpen, RotateCcw, Star, Trash2 } from "lucide-react";
+import {
+  Check,
+  Copy,
+  FolderOpen,
+  History,
+  RotateCcw,
+  Star,
+  Trash2,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -14,6 +22,8 @@ import { useOsType } from "@/hooks/useOsType";
 import { formatDateTime } from "@/utils/dateFormat";
 import { AudioPlayer, AudioPlayerGroup } from "../../ui/AudioPlayer";
 import { Button } from "../../ui/Button";
+import { EmptyState } from "../../ui/EmptyState";
+import { PageHeader } from "../../ui/PageHeader";
 import { copyToClipboard } from "./clipboard";
 
 const IconButton: React.FC<{
@@ -29,7 +39,7 @@ const IconButton: React.FC<{
     className={`p-1.5 rounded-md flex items-center justify-center transition-colors cursor-pointer disabled:cursor-not-allowed disabled:text-text/20 ${
       active
         ? "text-logo-primary hover:text-logo-primary/80"
-        : "text-text/50 hover:text-logo-primary"
+        : "text-text-muted hover:text-logo-primary"
     }`}
     title={title}
   >
@@ -239,15 +249,13 @@ export const HistorySettings: React.FC = () => {
 
   if (loading) {
     content = (
-      <div className="px-4 py-3 text-center text-text/60">
+      <div className="px-4 py-8 text-center text-sm text-text-muted">
         {t("settings.history.loading")}
       </div>
     );
   } else if (entries.length === 0) {
     content = (
-      <div className="px-4 py-3 text-center text-text/60">
-        {t("settings.history.empty")}
-      </div>
+      <EmptyState icon={History} message={t("settings.history.empty")} />
     );
   } else {
     content = (
@@ -275,21 +283,17 @@ export const HistorySettings: React.FC = () => {
 
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
-      <div className="space-y-2">
-        <div className="px-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-[11px] font-semibold text-text-muted uppercase tracking-[0.07em]">
-              {t("settings.history.title")}
-            </h2>
-          </div>
+      <PageHeader
+        title={t("settings.history.title")}
+        actions={
           <OpenRecordingsButton
             onClick={openRecordingsFolder}
             label={t("settings.history.openFolder")}
           />
-        </div>
-        <div className="bg-background border border-border rounded-lg overflow-visible">
-          {content}
-        </div>
+        }
+      />
+      <div className="bg-surface border border-border rounded-xl shadow-card overflow-visible">
+        {content}
       </div>
     </div>
   );

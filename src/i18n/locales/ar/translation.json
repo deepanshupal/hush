@@ -6,7 +6,8 @@
     "model": "النموذج",
     "quit": "إنهاء",
     "cancel": "إلغاء",
-    "secureInputWarning": "⚠ الاختصارات محجوبة بواسطة Secure Input"
+    "secureInputWarning": "⚠ الاختصارات محجوبة بواسطة Secure Input",
+    "pasteLastTranscript": "لصق آخر نص تم تفريغه"
   },
   "sidebar": {
     "general": "عام",
@@ -141,6 +142,10 @@
           "transcribe_with_post_process": {
             "name": "مفتاح المعالجة اللاحقة",
             "description": "اختياري: مفتاح اختصار مخصص يطبق دائماً المعالجة اللاحقة بالذكاء الاصطناعي على التفريغ الصوتي."
+          },
+          "paste_last": {
+            "name": "لصق آخر نص تم تفريغه",
+            "description": "يلصق أحدث نص تم تفريغه مرة أخرى في التطبيق الذي تستخدمه."
           }
         },
         "errors": {
@@ -165,10 +170,15 @@
           "toggle": "تبديل"
         },
         "descriptions": {
-          "hold_or_toggle": "اضغط مطوّلًا للتسجيل أو انقر للتبديل",
-          "push_to_talk": "يسجّل أثناء الضغط على الاختصار",
+          "hold_or_toggle": "اضغط مطولًا للتسجيل، أو انقر (أو انقر مرتين) للتسجيل دون استخدام اليدين حتى الضغطة التالية",
+          "push_to_talk": "يسجّل أثناء الضغط على الاختصار. انقر مرتين للتسجيل دون استخدام اليدين حتى الضغطة التالية",
           "toggle": "انقر على الاختصار لبدء التسجيل، وانقر مرة أخرى للإيقاف"
         }
+      },
+      "groups": {
+        "shortcuts": "الاختصارات",
+        "speech": "الكلام",
+        "app": "التطبيق"
       }
     },
     "sound": {
@@ -216,7 +226,8 @@
         "output": "الإخراج",
         "transcription": "التفريغ الصوتي",
         "history": "السجل",
-        "experimental": "تجريبي"
+        "experimental": "تجريبي",
+        "sound": "الصوت"
       },
       "experimentalToggle": {
         "label": "الميزات التجريبية",
@@ -359,7 +370,9 @@
           "simplified": "مبسطة",
           "traditional": "تقليدية"
         }
-      }
+      },
+      "title": "متقدم",
+      "description": "إعدادات لا يحتاج معظم الناس إلى تغييرها أبدًا."
     },
     "postProcessing": {
       "hotkey": {
@@ -369,7 +382,8 @@
         "title": "API",
         "provider": {
           "title": "المزود",
-          "description": "اختر مزوداً متوافقاً مع OpenAI أو Anthropic."
+          "description": "اختر مزوداً متوافقاً مع OpenAI أو Anthropic.",
+          "moreProviders": "المزيد من المزوّدين…"
         },
         "apiFormat": {
           "title": "تنسيق API",
@@ -673,6 +687,29 @@
       "delete": "حذف",
       "empty": "لا توجد مقتطفات بعد.",
       "error": "تعذّر حفظ المقتطف: {{error}}"
+    },
+    "speechModel": {
+      "title": "نموذج الكلام",
+      "description": "يعمل على جهاز Mac لديك، فلا يغادره صوتك أبدًا. يمكنك التبديل في أي وقت.",
+      "recommended": "موصى به",
+      "downloading": "جارٍ التنزيل {{percent}}%",
+      "current": "المستخدم حاليًا: {{model}}",
+      "moreModels": "المزيد من النماذج",
+      "choices": {
+        "fast": {
+          "label": "سريع",
+          "description": "يحوّل 8 ثوانٍ من الكلام إلى نص في نحو ثلث ثانية. {{languages}} لغة أوروبية، {{size}}."
+        },
+        "live": {
+          "label": "معاينة مباشرة",
+          "description": "يعرض كلماتك أثناء حديثك. {{languages}} لغة، {{size}}."
+        },
+        "accurate": {
+          "label": "الأدق",
+          "description": "أبطأ، بأفضل دقة. {{languages}} لغات، {{size}}.",
+          "memoryNote": "الأفضل على أجهزة Mac التي تحتوي على 16 غيغابايت من الذاكرة أو أكثر."
+        }
+      }
     }
   },
   "footer": {
