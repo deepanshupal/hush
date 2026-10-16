@@ -25,12 +25,11 @@ const steps: { title: string; body: React.ReactNode }[] = [
     title: "Open Hush for the first time",
     body: (
       <>
-        Hush is open source but not yet notarized by Apple, so macOS asks you to confirm once. In
-        Applications, <strong>right-click</strong> (or Control-click) Hush and choose{" "}
-        <strong>Open</strong>, then <strong>Open</strong> again. If macOS only offers{" "}
-        <em>Done</em> or <em>Move to Trash</em>, close the dialog, go to{" "}
-        <strong>System Settings → Privacy &amp; Security</strong>, scroll down and click{" "}
-        <strong>Open Anyway</strong>. You only need to do this once.
+        Hush is open source but not yet notarized by Apple, so macOS stops it the first time. Click{" "}
+        <em>Done</em>, then open <strong>System Settings → Privacy &amp; Security</strong>, scroll
+        down and click <strong>Open Anyway</strong> next to the note about Hush. This works on every
+        version of macOS, and you only need to do it once. (On macOS 14 and earlier you can also
+        Control-click Hush and choose <strong>Open</strong>.)
       </>
     ),
   },
