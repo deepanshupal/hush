@@ -527,7 +527,8 @@ struct RetiredOnnxModel {
     /// or for GigaAM before #1088, a single `.onnx` file.
     disk_names: &'static [&'static str],
     size_mb: u64,
-    /// Hugging Face repo of the catalog model that replaces it.
+    /// Hugging Face repo of the catalog model that replaces it. Must be in
+    /// the bundled catalog, or the update screen has nothing to offer.
     replacement_repo: &'static str,
 }
 
@@ -537,7 +538,7 @@ const RETIRED_ONNX_MODELS: &[RetiredOnnxModel] = &[
         name: "Parakeet V2",
         disk_names: &["parakeet-tdt-0.6b-v2-int8"],
         size_mb: 451,
-        replacement_repo: "handy-computer/parakeet-tdt-0.6b-v2-gguf",
+        replacement_repo: "handy-computer/parakeet-unified-en-0.6b-gguf",
     },
     RetiredOnnxModel {
         id: "parakeet-tdt-0.6b-v3",
@@ -551,14 +552,14 @@ const RETIRED_ONNX_MODELS: &[RetiredOnnxModel] = &[
         name: "Moonshine Base",
         disk_names: &["moonshine-base"],
         size_mb: 55,
-        replacement_repo: "handy-computer/moonshine-base-gguf",
+        replacement_repo: "handy-computer/moonshine-streaming-small-gguf",
     },
     RetiredOnnxModel {
         id: "moonshine-tiny-streaming-en",
         name: "Moonshine V2 Tiny",
         disk_names: &["moonshine-tiny-streaming-en"],
         size_mb: 31,
-        replacement_repo: "handy-computer/moonshine-streaming-tiny-gguf",
+        replacement_repo: "handy-computer/moonshine-streaming-small-gguf",
     },
     RetiredOnnxModel {
         id: "moonshine-small-streaming-en",
@@ -572,7 +573,7 @@ const RETIRED_ONNX_MODELS: &[RetiredOnnxModel] = &[
         name: "Moonshine V2 Medium",
         disk_names: &["moonshine-medium-streaming-en"],
         size_mb: 192,
-        replacement_repo: "handy-computer/moonshine-streaming-medium-gguf",
+        replacement_repo: "handy-computer/parakeet-unified-en-0.6b-gguf",
     },
     RetiredOnnxModel {
         id: "sense-voice-int8",
@@ -593,7 +594,7 @@ const RETIRED_ONNX_MODELS: &[RetiredOnnxModel] = &[
         name: "Canary 180M Flash",
         disk_names: &["canary-180m-flash"],
         size_mb: 146,
-        replacement_repo: "handy-computer/canary-180m-flash-gguf",
+        replacement_repo: "handy-computer/canary-1b-v2-gguf",
     },
     RetiredOnnxModel {
         id: "canary-1b-v2",
@@ -1152,6 +1153,19 @@ impl ModelManager {
             .is_some_and(|model| model.is_downloaded)
     }
 
+    /// Where a selected catalog model went after leaving the catalog. Its id is
+    /// `"{repo_id}/{filename}"`; a copy in the HF cache keeps that id (the cache
+    /// scan rebuilds it), but a copy in the models dir (mirror fallback or a
+    /// manual install) is rediscovered as a custom model keyed by file stem.
+    /// Returns that custom model's id so the selection follows the file.
+    fn relocated_selection(models: &HashMap<String, ModelInfo>, model_id: &str) -> Option<String> {
+        let (_, filename) = model_id.rsplit_once('/')?;
+        models
+            .values()
+            .find(|m| m.is_custom && m.is_downloaded && m.filename == filename)
+            .map(|m| m.id.clone())
+    }
+
     /// Remove a single file from the shared HF cache: the snapshot pointer for
     /// the resolved revision and, when the pointer is a symlink, the blob it
     /// points to. Everything else in the repo (other quants, refs) is left
@@ -1194,7 +1208,21 @@ impl ModelManager {
                 .iter()
                 .any(|model| model.id == settings.selected_model && self.is_retired_on_disk(model));
 
-            if !is_available && !is_retired {
+            let relocated = if is_available || is_retired {
+                None
+            } else {
+                let models = self.available_models.lock().unwrap();
+                Self::relocated_selection(&models, &settings.selected_model)
+            };
+
+            if let Some(new_id) = relocated {
+                info!(
+                    "Selected model '{}' is no longer in the catalog; using its local copy '{}'",
+                    settings.selected_model, new_id
+                );
+                settings.selected_model = new_id;
+                write_settings(&self.app_handle, settings.clone());
+            } else if !is_available && !is_retired {
                 info!(
                     "Selected model '{}' is not available on disk; clearing selection",
                     settings.selected_model
@@ -2625,6 +2653,76 @@ mod tests {
             push_gguf_str(&mut out, l);
         }
         fs::write(path, out).unwrap();
+    }
+
+    #[test]
+    fn retired_model_replacements_are_in_the_catalog() {
+        for retired in RETIRED_ONNX_MODELS {
+            assert!(
+                crate::catalog::CATALOG.iter().any(|d| matches!(
+                    &d.source,
+                    ModelSource::HuggingFace { repo_id, .. } if repo_id == retired.replacement_repo
+                )),
+                "{}: replacement {} is not in the catalog",
+                retired.id,
+                retired.replacement_repo
+            );
+        }
+    }
+
+    /// A model removed from the catalog but already downloaded into the models
+    /// dir stays selected, under the id it is rediscovered with.
+    #[test]
+    fn selection_follows_a_removed_catalog_model_in_models_dir() {
+        let tmp = TempDir::new().unwrap();
+        write_synthetic_gguf(&tmp.path().join("whisper-medium-Q8_0.gguf"), "whisper", &["en"]);
+        let mut models = HashMap::new();
+        ModelManager::discover_custom_transcribe_models(tmp.path(), &mut models).unwrap();
+
+        let old_id = "handy-computer/whisper-medium-gguf/whisper-medium-Q8_0.gguf";
+        assert!(!ModelManager::selected_model_is_available(&models, old_id));
+        assert_eq!(
+            ModelManager::relocated_selection(&models, old_id).as_deref(),
+            Some("whisper-medium-Q8_0")
+        );
+        assert_eq!(
+            ModelManager::relocated_selection(
+                &models,
+                "handy-computer/whisper-tiny-gguf/whisper-tiny-Q8_0.gguf"
+            ),
+            None
+        );
+    }
+
+    /// A removed catalog model in the HF cache keeps its `"{repo}/{file}"` id,
+    /// so an existing selection of it stays valid.
+    #[test]
+    fn removed_catalog_model_in_hf_cache_keeps_its_id() {
+        let tmp = TempDir::new().unwrap();
+        let repo_id = "handy-computer/whisper-medium-gguf";
+        let sha = "0123456789abcdef0123456789abcdef01234567";
+        let repo = tmp.path().join("models--handy-computer--whisper-medium-gguf");
+        fs::create_dir_all(repo.join("snapshots").join(sha)).unwrap();
+        fs::create_dir_all(repo.join("refs")).unwrap();
+        // Pinned catalog downloads write `refs/<sha>`, not `refs/main`.
+        fs::write(repo.join("refs").join(sha), sha).unwrap();
+        write_synthetic_gguf(
+            &repo.join("snapshots").join(sha).join("whisper-medium-Q8_0.gguf"),
+            "whisper",
+            &["en"],
+        );
+        assert!(
+            crate::catalog::file_in_catalog("whisper-medium-Q8_0.gguf", Some(repo_id)).is_none(),
+            "fixture must use a model that is not in the catalog"
+        );
+
+        let mut models = HashMap::new();
+        ModelManager::discover_hf_cache_models_in(tmp.path(), &mut models);
+
+        let id = format!("{repo_id}/whisper-medium-Q8_0.gguf");
+        let m = models.get(&id).expect("removed catalog model should be discovered");
+        assert!(m.is_downloaded);
+        assert!(ModelManager::selected_model_is_available(&models, &id));
     }
 
     #[test]
