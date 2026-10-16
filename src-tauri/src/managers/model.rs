@@ -20,11 +20,11 @@ mod download;
 
 use download::{HttpDownloadOutcome, DOWNLOAD_STALL_TIMEOUT};
 
-/// Where a model comes from and how Handy obtains it — the routing discriminant
+/// Where a model comes from and how Hush obtains it — the routing discriminant
 /// for downloading and on-disk resolution.
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub enum ModelSource {
-    /// Direct HTTP download from a URL (current blob.handy.computer hosting).
+    /// Direct HTTP download from a URL (legacy Whisper .bin files).
     Url {
         url: String,
         /// Expected SHA-256 for integrity verification; `None` skips it.
@@ -383,7 +383,7 @@ fn local_caps(probe: &CapabilityProbe) -> LocalCaps {
     }
 }
 
-/// Bridges hf-hub's async download progress to Handy's `model-download-progress`
+/// Bridges hf-hub's async download progress to Hush's `model-download-progress`
 /// event. hf-hub clones the reporter, so shared state lives behind an `Arc`.
 #[derive(Clone)]
 struct HfDownloadProgress {
@@ -666,7 +666,7 @@ impl ModelManager {
                 description: "Fast and fairly accurate.".to_string(),
                 filename: "ggml-small.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-small.bin".to_string(),
+                    url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin".to_string(),
                     sha256: Some(
                         "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b"
                             .to_string(),
@@ -697,7 +697,7 @@ impl ModelManager {
                 description: "Good accuracy, medium speed".to_string(),
                 filename: "whisper-medium-q4_1.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://blob.handy.computer/whisper-medium-q4_1.bin".to_string(),
+                    url: "https://github.com/DeepanshuPal/hush-downloads/releases/download/models-v1/whisper-medium-q4_1.bin".to_string(),
                     sha256: Some(
                         "79283fc1f9fe12ca3248543fbd54b73292164d8df5a16e095e2bceeaaabddf57"
                             .to_string(),
@@ -727,7 +727,7 @@ impl ModelManager {
                 description: "Balanced accuracy and speed.".to_string(),
                 filename: "ggml-large-v3-turbo.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-turbo.bin".to_string(),
+                    url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin".to_string(),
                     sha256: Some(
                         "1fc70f774d38eb169993ac391eea357ef47c88757ef72ee5943879b7e8e2bc69"
                             .to_string(),
@@ -757,7 +757,7 @@ impl ModelManager {
                 description: "Good accuracy, but slow.".to_string(),
                 filename: "ggml-large-v3-q5_0.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-q5_0.bin".to_string(),
+                    url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-q5_0.bin".to_string(),
                     sha256: Some(
                         "d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1"
                             .to_string(),
@@ -788,7 +788,7 @@ impl ModelManager {
                     .to_string(),
                 filename: "breeze-asr-q5_k.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://blob.handy.computer/breeze-asr-q5_k.bin".to_string(),
+                    url: "https://github.com/DeepanshuPal/hush-downloads/releases/download/models-v1/breeze-asr-q5_k.bin".to_string(),
                     sha256: Some(
                         "8efbf0ce8a3f50fe332b7617da787fb81354b358c288b008d3bdef8359df64c6"
                             .to_string(),
@@ -898,7 +898,7 @@ impl ModelManager {
     }
 
     /// Re-run the local discovery scans (custom models dir + shared HF cache) so
-    /// models dropped in or downloaded outside Handy show up without a restart.
+    /// models dropped in or downloaded outside Hush show up without a restart.
     /// The merge is additive: only new ids are inserted, so existing entries keep
     /// their values — including runtime-probed capabilities from
     /// [`Self::set_runtime_capabilities`]. It then runs [`Self::update_download_status`],
@@ -1350,7 +1350,7 @@ impl ModelManager {
 
             // Probe GGUF headers for advertised capabilities so a dropped-in
             // model surfaces streaming / translation / languages just like a
-            // Handy-downloaded one. Legacy `.bin` files have no GGUF header, so
+            // Hush-downloaded one. Legacy `.bin` files have no GGUF header, so
             // they stay "unknown" until transcribe-cpp reconciles them at load.
             let probe = if is_gguf {
                 GgufHeaderProber.probe_file(&path)
@@ -1394,7 +1394,7 @@ impl ModelManager {
     }
 
     /// Discover transcribe-cpp-compatible GGUF models already present in the
-    /// shared Hugging Face cache, so models downloaded by Handy (or any other
+    /// shared Hugging Face cache, so models downloaded by Hush (or any other
     /// tool) appear in "Your Models" without re-downloading. Only architectures
     /// transcribe-cpp recognises are surfaced; arbitrary (e.g. LLM) GGUFs that
     /// share the cache are ignored.
@@ -2012,7 +2012,7 @@ impl ModelManager {
                     deleted = true;
                 }
             }
-            // Files already missing (e.g. removed outside Handy) is not a failure —
+            // Files already missing (e.g. removed outside Hush) is not a failure —
             // deleting is idempotent, so this still needs to fall through and clear
             // the stale "Downloaded" entry rather than erroring out and leaving it stuck.
             if !deleted {
@@ -2057,7 +2057,7 @@ impl ModelManager {
             deleted_something = true;
         }
 
-        // Files already missing (e.g. removed outside Handy) is not a failure —
+        // Files already missing (e.g. removed outside Hush) is not a failure —
         // deleting is idempotent, so this still needs to fall through and clear
         // the stale "Downloaded" entry rather than erroring out and leaving it stuck.
         if !deleted_something {

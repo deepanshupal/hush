@@ -3,7 +3,7 @@
 # dependencies = ["huggingface_hub", "fsspec"]
 # ///
 """
-Handy model catalog generator.
+Hush model catalog generator.
 
 Merges three sources into one catalog.json:
   1. HF card `transcribe_cpp` block  -> capabilities + benchmarks (canonical)
@@ -25,7 +25,8 @@ CATALOG_VERSION = 2
 # (the same three values that form the HF resolve URL, so a mirror is a plain
 # static file host). Mirrors are untrusted: every download is verified against
 # the per-file `sha256` below, so listing one only affects availability.
-MIRRORS = ["https://blob.handy.computer"]
+# No third-party mirror: downloads come straight from Hugging Face.
+MIRRORS: list[str] = []
 
 # ───────────────────────── scoring (one constant each) ──────────────────────
 SPEED_SCALE = 8.0    # speed = 100·(1 − e^(−rtf/8))     grows toward 100
@@ -56,7 +57,7 @@ CURATION = {
     "Fun-ASR-MLT-Nano-2512":           {"rank": 10, "desc": "A tiny multilingual model"},
     # description-only (unranked, not recommended) — carried over from the legacy .bin entry
     "Breeze-ASR-25":                   {"desc": "Optimized for Taiwanese Mandarin. Code-switching support."},
-    # Sortformer emits speaker segments only; Handy's catalog is for models
+    # Sortformer emits speaker segments only; the catalog is for models
     # that produce transcription text.
     "diar_streaming_sortformer_4spk-v2.1": {"hidden": True},
 }

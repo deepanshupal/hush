@@ -3,7 +3,7 @@
 //! `catalog.json` is generated at build time by `scripts/gen_catalog.py` from the
 //! `handy-computer` Hugging Face org (card `transcribe_cpp` capabilities +
 //! benchmarks, a GGUF header probe for name/params, and local curation for the
-//! recommended set). It is compiled into the binary so Handy ships a complete
+//! recommended set). It is compiled into the binary so Hush ships a complete
 //! model list with zero network access.
 //!
 //! Each entry is normalised into a [`ModelDescriptor`] — the same source-agnostic
@@ -247,23 +247,23 @@ mod tests {
     }
 
     #[test]
-    fn every_catalog_model_has_mirror_fallbacks_with_hashes() {
-        // The mirror fallback is the safety net for HF outages and blocked
-        // networks; a catalog entry without one (missing revision, missing
-        // sha256, empty mirrors) silently loses that net.
-        for d in CATALOG.iter() {
-            let mirrors = mirror_fallbacks(&d.id);
-            assert!(!mirrors.is_empty(), "{}: no mirror fallbacks", d.id);
-            for m in &mirrors {
-                assert!(
-                    m.sha256.len() == 64,
-                    "{}: mirror entry lacks a sha256",
-                    d.id
-                );
-                assert!(m.size_bytes > 0, "{}: mirror entry lacks a size", d.id);
-                assert!(m.url.starts_with("https://"), "{}: bad url {}", d.id, m.url);
+    fn every_catalog_file_is_pinned_and_hashed() {
+        // Downloads come straight from Hugging Face at the pinned revision and
+        // are verified against the catalog sha256, so every entry needs both.
+        for m in ROOT.models.iter() {
+            assert!(m.revision.is_some(), "{}: no pinned revision", m.id);
+            for f in &m.files {
+                let sha = f.sha256.as_deref().unwrap_or_default();
+                assert!(sha.len() == 64, "{}: {} lacks a sha256", m.id, f.filename);
+                assert!(f.size_bytes > 0, "{}: {} lacks a size", m.id, f.filename);
             }
         }
+    }
+
+    #[test]
+    fn no_third_party_mirror_is_configured() {
+        // Hush does not route model downloads through anyone else's server.
+        assert!(ROOT.mirrors.is_empty());
     }
 
     #[test]
