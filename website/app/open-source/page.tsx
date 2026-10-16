@@ -23,7 +23,7 @@ export default function OpenSourcePage() {
   return (
     <MainContainer>
       <PageHeader
-        eyebrow="MIT licence"
+        eyebrow="MIT license"
         title="Hush is open source"
         lead="Read it, build it, change it, share it. Contributions of every size are welcome."
       >
@@ -74,10 +74,10 @@ cd hush`}</code>
           paste API keys or private transcripts.
         </p>
 
-        <h2 id="licence">Licence</h2>
+        <h2 id="license">License</h2>
         <p>
-          Hush is released under the <a href={GITHUB_LICENSE_URL}>MIT licence</a>. Speech models
-          are made by their respective authors and keep their own licences.
+          Hush is released under the <a href={GITHUB_LICENSE_URL}>MIT license</a>. Speech models
+          are made by their respective authors and keep their own licenses.
         </p>
       </article>
     </MainContainer>

@@ -2,7 +2,6 @@ import Link from "next/link"
 import {
   AUTHOR_NAME,
   AUTHOR_URL,
-  CONTACT_EMAIL,
   GITHUB_ISSUES_URL,
   GITHUB_LICENSE_URL,
   GITHUB_URL,
@@ -24,7 +23,7 @@ const columns = [
       { label: "Source code", href: GITHUB_URL },
       { label: "Contribute", href: "/open-source" },
       { label: "Report an issue", href: GITHUB_ISSUES_URL },
-      { label: "MIT licence", href: GITHUB_LICENSE_URL },
+      { label: "MIT license", href: GITHUB_LICENSE_URL },
     ],
   },
   {
@@ -32,7 +31,6 @@ const columns = [
     links: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
-      { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
     ],
   },
 ]
@@ -67,7 +65,7 @@ export function Footer() {
         ))}
       </div>
       <p className="mt-10 text-caption text-ink-muted">
-        Hush is free and open source under the MIT licence. Made by{" "}
+        Hush is free and open source under the MIT license. Made by{" "}
         <a href={AUTHOR_URL} className="underline underline-offset-2 hover:text-accent">
           {AUTHOR_NAME}
         </a>

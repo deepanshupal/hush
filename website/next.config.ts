@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // The paid licence is gone: Hush is free and open source.
+      // The paid license is gone: Hush is free and open source.
       { source: "/license", destination: "/faq", permanent: true },
       { source: "/license/:path*", destination: "/faq", permanent: true },
       { source: "/payment", destination: "/download", permanent: true },

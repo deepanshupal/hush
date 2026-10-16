@@ -28,7 +28,7 @@ const steps: { title: string; body: React.ReactNode }[] = [
     title: "Open Hush for the first time",
     body: (
       <>
-        Hush is open source but not yet notarised by Apple, so macOS asks you to confirm once. In
+        Hush is open source but not yet notarized by Apple, so macOS asks you to confirm once. In
         Applications, <strong>right-click</strong> (or Control-click) Hush and choose{" "}
         <strong>Open</strong>, then <strong>Open</strong> again. If macOS only offers{" "}
         <em>Done</em> or <em>Move to Trash</em>, close the dialog, go to{" "}
@@ -78,7 +78,7 @@ export default async function DownloadPage() {
   return (
     <MainContainer>
       <PageHeader
-        eyebrow="Free forever · MIT licence"
+        eyebrow="Free forever · MIT license"
         title="Download Hush"
         lead="Dictation for Mac that runs on your Mac. No account, no sign-up, no payment. Just download and start talking."
       >
@@ -117,7 +117,7 @@ export default async function DownloadPage() {
           <h3>Why the extra step on first launch?</h3>
           <p className="mt-1 text-small text-ink-muted">
             Apple only skips the warning for apps signed with a paid Apple Developer certificate and
-            notarised by Apple. Hush builds are signed locally (&ldquo;ad-hoc&rdquo;) instead. The
+            notarized by Apple. Hush builds are signed locally (&ldquo;ad-hoc&rdquo;) instead. The
             app is the same either way, and its source code is public, so you can check exactly
             what it does or{" "}
             <Link href="/open-source#build" className="link">

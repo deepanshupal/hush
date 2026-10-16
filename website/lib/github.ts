@@ -22,7 +22,7 @@ export interface Release {
   name: string
   url: string
   publishedAt: string
-  /** Release notes rendered (and sanitised) by GitHub. */
+  /** Release notes rendered (and sanitized) by GitHub. */
   bodyHtml: string
   dmg: ReleaseAsset
 }

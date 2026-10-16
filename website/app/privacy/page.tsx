@@ -2,12 +2,12 @@ import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
 import { MainContainer } from "@/components/main-container"
 import { PageHeader } from "@/components/section"
-import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site"
+import { GITHUB_ISSUES_URL, GITHUB_URL } from "@/lib/site"
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy policy",
   description:
-    "How Hush handles your data: speech is recognised on your Mac, there is no telemetry, and text only leaves your Mac if you turn on AI clean-up.",
+    "How Hush handles your data: speech is recognized on your Mac, there is no telemetry, and text only leaves your Mac if you turn on AI clean-up.",
   path: "/privacy",
 })
 
@@ -89,8 +89,7 @@ export default function PrivacyPage() {
         <h2>Check for yourself</h2>
         <p>
           Hush is open source, so you can verify all of the above in the{" "}
-          <a href={GITHUB_URL}>source code</a>. Questions? Email{" "}
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          <a href={GITHUB_URL}>source code</a>. Questions? <a href={GITHUB_ISSUES_URL}>Open an issue on GitHub</a>.
         </p>
 
         <p className="text-small text-ink-subtle">Last updated: October 2026</p>

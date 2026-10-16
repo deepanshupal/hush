@@ -2,10 +2,10 @@
 
 /*
  * Hush design tokens.
- * Every colour, font, radius, shadow and type size used on the site lives here.
+ * Every color, font, radius, shadow and type size used on the site lives here.
  * Components use the generated utilities (bg-surface, text-ink-muted, text-h2,
  * rounded-card, shadow-card ...) and never hard-code hex values.
- * All text colours meet WCAG AA (>= 4.5:1) on surface and surface-muted.
+ * All text colors meet WCAG AA (>= 4.5:1) on surface and surface-muted.
  */
 
 @font-face {

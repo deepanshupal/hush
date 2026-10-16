@@ -10,7 +10,7 @@ const rows: { label: string; hush: string; wispr: string; superwhisper: string }
     superwhisper: "$8.49/month, or $249.99 one-time",
   },
   {
-    label: "Where speech is recognised",
+    label: "Where speech is recognized",
     hush: "On your Mac",
     wispr: "In the cloud",
     superwhisper: "On your Mac or in the cloud, depending on the model",
@@ -36,7 +36,7 @@ export function Comparison() {
         id="compare-title"
         eyebrow="Compare"
         title="A free, open-source alternative to Wispr Flow"
-        lead="Wispr Flow and Superwhisper are good products. If you would rather not pay every month, or you want your speech recognised on your own machine, Hush is for you."
+        lead="Wispr Flow and Superwhisper are good products. If you would rather not pay every month, or you want your speech recognized on your own machine, Hush is for you."
       />
       <div className="overflow-x-auto rounded-panel border border-line">
         <table className="w-full min-w-[36rem] border-collapse text-left text-small">

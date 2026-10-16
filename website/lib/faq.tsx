@@ -11,10 +11,10 @@ export interface FaqItem {
 export const faqs: FaqItem[] = [
   {
     question: "Is Hush really free?",
-    text: "Yes. Hush is free forever and open source under the MIT licence. There is no time limit, no paid tier, no account and no payment of any kind.",
+    text: "Yes. Hush is free forever and open source under the MIT license. There is no time limit, no paid tier, no account and no payment of any kind.",
     answer: (
       <>
-        Yes. Hush is free forever and open source under the MIT licence. There is no time limit, no paid
+        Yes. Hush is free forever and open source under the MIT license. There is no time limit, no paid
         tier, no account and no payment of any kind.
       </>
     ),
@@ -36,10 +36,10 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Why does macOS warn me when I first open Hush?",
-    text: "Hush builds are not notarised by Apple yet, so macOS asks you to confirm the first time you open the app. Right-click Hush and choose Open, or go to System Settings, Privacy & Security, and click Open Anyway. The source code is public, so you can also build it yourself.",
+    text: "Hush builds are not notarized by Apple yet, so macOS asks you to confirm the first time you open the app. Right-click Hush and choose Open, or go to System Settings, Privacy & Security, and click Open Anyway. The source code is public, so you can also build it yourself.",
     answer: (
       <>
-        Hush builds are not notarised by Apple yet, so macOS asks you to confirm the first time you
+        Hush builds are not notarized by Apple yet, so macOS asks you to confirm the first time you
         open the app. Right-click Hush and choose <strong>Open</strong>, or go to System Settings
         → Privacy &amp; Security and click <strong>Open Anyway</strong>. See the{" "}
         <Link href="/download#install" className="link">
@@ -94,10 +94,10 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "How is Hush different from Wispr Flow?",
-    text: "Hush is free and open source, and recognises speech on your Mac. Wispr Flow is a paid monthly service that processes speech in the cloud, and it is available on more platforms.",
+    text: "Hush is free and open source, and recognizes speech on your Mac. Wispr Flow is a paid monthly service that processes speech in the cloud, and it is available on more platforms.",
     answer: (
       <>
-        Hush is free and open source, and recognises speech on your Mac. Wispr Flow is a paid
+        Hush is free and open source, and recognizes speech on your Mac. Wispr Flow is a paid
         monthly service that processes speech in the cloud, and it is available on more
         platforms. See the{" "}
         <Link href="/#compare" className="link">

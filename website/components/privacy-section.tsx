@@ -3,7 +3,7 @@ import { CheckIcon } from "@/components/icons/ui-icons"
 import { Section, SectionHeading } from "@/components/section"
 
 const staysOnMac = [
-  "Your voice. Audio is recognised on your Mac and never uploaded.",
+  "Your voice. Audio is recognized on your Mac and never uploaded.",
   "Your transcription history, and recordings if you choose to keep them.",
   "Your settings, custom words, snippets and API keys.",
 ]

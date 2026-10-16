@@ -15,7 +15,6 @@ export const GITHUB_NEW_ISSUE_URL = `${GITHUB_URL}/issues/new`
 export const GITHUB_LICENSE_URL = `${GITHUB_URL}/blob/main/LICENSE`
 export const RELEASES_URL = `https://github.com/${DOWNLOADS_REPO}/releases`
 
-export const CONTACT_EMAIL = "hi@hush.software"
 export const AUTHOR_NAME = "Deepanshu Pal"
 export const AUTHOR_URL = "https://x.com/deepanshuxpal"
 

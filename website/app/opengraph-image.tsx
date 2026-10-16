@@ -6,7 +6,7 @@ export const alt = "Hush: free, open-source dictation for Mac"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
-// Colours mirror the tokens in app/globals.css (ImageResponse can't read CSS variables).
+// Colors mirror the tokens in app/globals.css (ImageResponse can't read CSS variables).
 const PAGE = "#d4ccb8"
 const DOT = "#b0a890"
 const SURFACE = "#f0ebe0"

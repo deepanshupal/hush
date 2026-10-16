@@ -65,7 +65,7 @@ export default async function ChangelogPage() {
               {release.bodyHtml ? (
                 <div
                   className="prose"
-                  // Rendered and sanitised by GitHub's API (body_html).
+                  // Rendered and sanitized by GitHub's API (body_html).
                   dangerouslySetInnerHTML={{ __html: release.bodyHtml }}
                 />
               ) : (

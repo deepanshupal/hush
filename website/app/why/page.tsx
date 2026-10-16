@@ -30,7 +30,7 @@ export default function WhyPage() {
         </p>
         <p>
           You don&apos;t have to any more. Open speech models like Parakeet and Whisper got good
-          enough, and Apple Silicon got fast enough, that a Mac can recognise speech on its own and
+          enough, and Apple Silicon got fast enough, that a Mac can recognize speech on its own and
           keep up with you. So that is what Hush does.
         </p>
 
@@ -43,7 +43,7 @@ export default function WhyPage() {
 
         <h2>Private</h2>
         <p>
-          Your audio is recognised on your Mac and is never uploaded. Hush has no analytics and no
+          Your audio is recognized on your Mac and is never uploaded. Hush has no analytics and no
           telemetry. The only time anything leaves your Mac is when you ask it to: downloading a
           speech model, or turning on AI clean-up with a provider you chose, in which case the text
           (not the audio) goes to that provider under your own key. We wrote down{" "}
@@ -52,7 +52,7 @@ export default function WhyPage() {
 
         <h2>Open</h2>
         <p>
-          &ldquo;Trust us&rdquo; is not a privacy policy. Hush is open source under the MIT licence,
+          &ldquo;Trust us&rdquo; is not a privacy policy. Hush is open source under the MIT license,
           so you can read every line that touches your voice, build it yourself, and change it to
           suit you. If Hush ever stopped being what it says it is, anyone could fork it.
         </p>

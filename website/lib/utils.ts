@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx"
 import { extendTailwindMerge } from "tailwind-merge"
 
 // Teach tailwind-merge about the custom tokens in app/globals.css so that,
-// for example, `text-small` (a font size) and `text-ink-muted` (a colour)
+// for example, `text-small` (a font size) and `text-ink-muted` (a color)
 // are not treated as conflicting classes.
 const twMerge = extendTailwindMerge({
   extend: {
