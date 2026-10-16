@@ -156,19 +156,15 @@ function Demo({ animate }: { animate: boolean }) {
               </span>
             </div>
 
-            <div className="flex min-h-[11.5rem] flex-col gap-3 p-4 sm:min-h-[12.5rem]">
-              {scene.context.map((m) => (
-                <div key={m.text} className="max-w-[85%] rounded-panel bg-surface-muted px-3 py-2">
-                  <p className="text-caption font-medium text-ink-subtle">{m.from}</p>
-                  <p className="text-small text-ink">{m.text}</p>
-                </div>
+            {/* Every scene is laid out invisibly in the same grid cell, so the window is
+                always as tall as the tallest scene and cycling never shifts the page. */}
+            <div className="grid">
+              {SCENES.map((s) => (
+                <SceneBody key={s.app} scene={s} className="invisible [grid-area:1/1]" aria-hidden>
+                  {s.result}
+                </SceneBody>
               ))}
-              <div
-                className={cn(
-                  "mt-auto min-h-[4.5rem] whitespace-pre-line rounded-panel border border-line bg-surface px-3 py-2.5 text-small text-ink",
-                  scene.mono && "font-mono text-[0.8125rem]",
-                )}
-              >
+              <SceneBody scene={scene} className="[grid-area:1/1]">
                 {scene.result.slice(0, typed)}
                 {phase !== "pasted" || typed < scene.result.length ? (
                   <span aria-hidden className="ml-px inline-block h-4 w-px translate-y-0.5 animate-pulse bg-ink" />
@@ -176,7 +172,7 @@ function Demo({ animate }: { animate: boolean }) {
                 {typed === 0 && phase !== "pasted" && (
                   <span className="text-ink-subtle">{scene.placeholder}</span>
                 )}
-              </div>
+              </SceneBody>
             </div>
           </div>
 
@@ -216,6 +212,33 @@ function Demo({ animate }: { animate: boolean }) {
           </figcaption>
         </div>
       </figure>
+    </div>
+  )
+}
+
+/** The app window's content: the conversation so far and the text field Hush pastes into. */
+function SceneBody({
+  scene,
+  className,
+  children,
+  ...props
+}: { scene: Scene; className?: string; children: React.ReactNode } & React.AriaAttributes) {
+  return (
+    <div className={cn("flex min-h-[11.5rem] flex-col gap-3 p-4 sm:min-h-[12.5rem]", className)} {...props}>
+      {scene.context.map((m) => (
+        <div key={m.text} className="max-w-[85%] rounded-panel bg-surface-muted px-3 py-2">
+          <p className="text-caption font-medium text-ink-subtle">{m.from}</p>
+          <p className="text-small text-ink">{m.text}</p>
+        </div>
+      ))}
+      <div
+        className={cn(
+          "mt-auto min-h-[4.5rem] whitespace-pre-line rounded-panel border border-line bg-surface px-3 py-2.5 text-small text-ink",
+          scene.mono && "font-mono text-[0.8125rem]",
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }
