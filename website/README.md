@@ -12,10 +12,12 @@ The app lives in the same repository, one folder up (`src/` and `src-tauri/`). R
 |---|---|
 | `/` | Hero, animated dictation demo, use cases, features, comparison, privacy, FAQ, open source, CTA |
 | `/compare` | Hush vs Wispr Flow, Superwhisper, VoiceInk and OpenWhispr (plus Spokenly, Willow and Apple Dictation behind "Show more apps"; a pick-one view on phones) |
+| `/alternatives` | Hub for the alternative pages: `/alternatives/wispr-flow`, `/alternatives/superwhisper`, `/alternatives/voiceink` (copy in `lib/alternatives.tsx`) |
 | `/download` | Latest DMG, install steps, Gatekeeper note, permissions |
 | `/changelog` | Release notes, generated from GitHub Releases |
-| `/roadmap` | Public roadmap: shipping in 1.1, next, later (`lib/roadmap.ts`) |
-| `/faq` | All FAQs (with FAQPage structured data) |
+| `/roadmap` | Public roadmap: shipped in 1.1, next, later (`lib/roadmap.ts`) |
+| `/faq` | All FAQs, grouped by topic (with FAQPage structured data) |
+| `/llms.txt`, `/llms-full.txt` | Plain-text summaries for AI assistants (`lib/llms.ts`) |
 | `/why` | Manifesto: free, private, open |
 | `/open-source` | Contribute, build from source, report issues, license |
 | `/privacy`, `/terms` | Privacy policy and MIT "as is" terms |

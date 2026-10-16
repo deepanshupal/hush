@@ -22,12 +22,22 @@ export const revalidate = 3600
 
 export const metadata: Metadata = pageMetadata("home")
 
-const HOME_FAQ_COUNT = 6
+// The questions a first-time visitor asks before downloading; the rest are on /faq.
+const HOME_FAQ_QUESTIONS = [
+  "Is Hush really free?",
+  "So what's the catch?",
+  "Which Macs does it run on?",
+  "Does it work offline?",
+  "Why does macOS warn me when I first open Hush?",
+  "What permissions does Hush need?",
+]
 
 export default async function Home() {
   const [download, stars] = await Promise.all([getLatestDownload(), getStarCount()])
 
-  const homeFaqs = faqs.slice(0, HOME_FAQ_COUNT)
+  const homeFaqs = HOME_FAQ_QUESTIONS.map((q) => faqs.find((f) => f.question === q)).filter(
+    (f): f is (typeof faqs)[number] => Boolean(f),
+  )
 
   return (
     <MainContainer>

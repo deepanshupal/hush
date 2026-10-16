@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
-import { breadcrumbJsonLd, softwareApplicationJsonLd } from "@/lib/structured-data"
+import { breadcrumbJsonLd, howToJsonLd, softwareApplicationJsonLd } from "@/lib/structured-data"
 import Link from "next/link"
 import { AppleIcon } from "@/components/icons/apple-icon"
 import { GitHubIcon } from "@/components/icons/ui-icons"
@@ -16,13 +16,16 @@ export const revalidate = 3600
 
 export const metadata: Metadata = pageMetadata("download")
 
-const steps: { title: string; body: React.ReactNode }[] = [
+/** `text` is the plain-text version of `body`, for the HowTo structured data. */
+const steps: { title: string; body: React.ReactNode; text: string }[] = [
   {
     title: "Open the DMG and drag Hush to Applications",
-    body: <>Then eject the disk image. You can delete the DMG afterwards.</>,
+    body: <>Then eject the disk image. You can delete the DMG afterward.</>,
+    text: "Open the downloaded DMG, drag Hush to Applications, then eject the disk image. You can delete the DMG afterward.",
   },
   {
     title: "Open Hush for the first time",
+    text: "macOS stops the app the first time because Hush builds aren't notarized by Apple. Click Done, open System Settings, Privacy & Security, scroll down and click Open Anyway next to the note about Hush. You only need to do this once.",
     body: (
       <>
         Hush is free and open source, and its builds aren&apos;t notarized by Apple (that requires a paid Apple account), so macOS stops it the first time. Click{" "}
@@ -35,6 +38,7 @@ const steps: { title: string; body: React.ReactNode }[] = [
   },
   {
     title: "Grant two permissions",
+    text: "Allow Microphone, so Hush can hear you, and Accessibility, so it can listen for your shortcut and paste text into other apps. Hush walks you through both.",
     body: (
       <>
         <strong>Microphone</strong>, so Hush can hear you, and <strong>Accessibility</strong>, so it
@@ -44,15 +48,19 @@ const steps: { title: string; body: React.ReactNode }[] = [
   },
   {
     title: "Pick a speech model",
+    text: "Pick Fast (Parakeet V3), the recommended model: fast and accurate in English and 24 other European languages. It downloads once (about 480 MB) and then runs on your Mac.",
     body: (
       <>
-        <strong>Parakeet V3</strong> is recommended: fast and accurate in English and 24 other
-        European languages. It downloads once (about 480 MB) and then runs on your Mac.
+        <strong>Fast (Parakeet V3)</strong> is recommended: quick and accurate in English and 24
+        other European languages. It downloads once (about 480 MB) and then runs on your Mac. Pick{" "}
+        <strong>Live preview</strong> to see words as you talk, or <strong>Most accurate</strong>{" "}
+        when accuracy matters more than speed.
       </>
     ),
   },
   {
     title: "Hold Fn and talk",
+    text: "Put your cursor in any text field, hold Fn, speak, and let go. You can change the shortcut in settings.",
     body: (
       <>
         Put your cursor in any text field, hold <kbd className="kbd">Fn</kbd>, speak, and let go.
@@ -73,11 +81,20 @@ export default async function DownloadPage() {
 
   return (
     <MainContainer>
-      <JsonLd data={[softwareApplicationJsonLd(download), breadcrumbJsonLd("download")]} />
+      <JsonLd
+        data={[
+          softwareApplicationJsonLd(download),
+          breadcrumbJsonLd("download"),
+          howToJsonLd({
+            name: "How to install Hush on a Mac",
+            steps: steps.map((step) => ({ name: step.title, text: step.text })),
+          }),
+        ]}
+      />
       <PageHeader
         eyebrow="Free forever · MIT license"
-        title="Download Hush"
-        lead="Dictation for Mac that runs on your Mac. No account, no sign-up, no payment. Just download and start talking."
+        title="Download Hush for Mac"
+        lead="Free dictation that runs on your Mac. Download it, drag it to Applications and start talking. There's no account to create and nothing to pay."
       >
         <div className="mt-2 flex flex-col items-center gap-3">
           <Button href={download.url} size="lg">

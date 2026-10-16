@@ -29,7 +29,7 @@ export default async function ChangelogPage() {
       <JsonLd data={breadcrumbJsonLd("changelog")} />
       <PageHeader
         eyebrow="What's new"
-        title="Changelog"
+        title="Hush changelog"
         lead="What changed in each release of Hush. Pulled straight from GitHub Releases."
       />
 

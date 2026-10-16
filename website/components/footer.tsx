@@ -17,6 +17,7 @@ const columns = [
       { label: "FAQ", href: "/faq" },
       { label: "Why Hush", href: "/why" },
       { label: "Compare", href: "/compare" },
+      { label: "Alternatives", href: "/alternatives" },
     ],
   },
   {
