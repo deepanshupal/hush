@@ -38,7 +38,7 @@ def acc_from_wer(wer):
     return None if wer is None else round(100 * math.exp(-wer / ACC_SCALE))
 
 # ───────────────────────── curation (CJ owns; editorial, not derivable) ──────
-# slug -> {rank?, rec?, desc?, use_case?, default_quant?, hidden?}.  All optional.
+# slug -> {rank?, rec?, desc?, use_case?, default_quant?}.  All optional.
 # desc is hand-written UI copy; models without one use factual generated summaries.
 # rank = editorial sort position (broad ordering). rec = the small "Recommended"
 # badge / onboarding subset — independent of rank, so a model can rank high
@@ -46,20 +46,24 @@ def acc_from_wer(wer):
 CURATION = {
     "parakeet-unified-en-0.6b":        {"rank": 1, "rec": True, "desc": "Fast, accurate live English transcription"},
     "nemotron-3.5-asr-streaming-0.6b": {"rank": 2, "rec": True, "desc": "Live multilingual transcription across 28 languages"},
-    "canary-180m-flash":               {"rank": 3, "rec": True, "desc": "Tiny and instant, runs well on any hardware"},
+    "parakeet-tdt-0.6b-v3":            {"rank": 3, "rec": True, "desc": "Fast and accurate. Supports 25 European languages"},
     "cohere-transcribe-03-2026":       {"rank": 4, "rec": True, "desc": "Highest accuracy, 14 languages, slower"},
-    "whisper-medium":                  {"rank": 5, "rec": True, "desc": "Broadest language, but may run a bit slow"},
+    "whisper-large-v3-turbo":          {"rank": 5, "rec": True, "desc": "Broadest language support, 100 languages"},
     # ranked (sorted high) but NOT tagged recommended
-    "Voxtral-Mini-4B-Realtime-2602":   {"rank": 6, "desc": "Live multilingual, excellent on powerful machines"},
-    "parakeet-tdt-0.6b-v3":            {"rank": 7, "desc": "Fast and accurate. Supports 25 European languages"},
-    "parakeet-tdt-0.6b-v2":            {"rank": 8, "desc": "English only. The best model for English speakers"},
-    "Qwen3-ASR-0.6B":                  {"rank": 9, "desc": "Excellent multilingual model"},
-    "Fun-ASR-MLT-Nano-2512":           {"rank": 10, "desc": "A tiny multilingual model"},
-    # description-only (unranked, not recommended) — carried over from the legacy .bin entry
-    "Breeze-ASR-25":                   {"desc": "Optimized for Taiwanese Mandarin. Code-switching support."},
-    # Sortformer emits speaker segments only; the catalog is for models
-    # that produce transcription text.
-    "diar_streaming_sortformer_4spk-v2.1": {"hidden": True},
+    "granite-speech-4.1-2b":           {"rank": 6},
+    "Qwen3-ASR-0.6B":                  {"rank": 7, "desc": "Excellent multilingual model"},
+}
+# The curated set Hush offers for download. The org publishes many more
+# repos; only these are written to the catalog. A model dropped from this list
+# keeps working for anyone who already downloaded it (the HF-cache scan in
+# `managers/model.rs` picks it up from its GGUF header).
+CATALOG_SLUGS = {
+    *CURATION,
+    "canary-1b-v2",
+    "moonshine-streaming-small",
+    "whisper-small",
+    "SenseVoiceSmall",
+    "gigaam-v3-e2e-ctc",
 }
 # temporary capability corrections pending a card re-push (remove once cards fixed)
 OVERRIDES = {
@@ -261,7 +265,11 @@ def build(repo):
     }
 
 def main():
-    repos = [m.id for m in api.list_models(author=ORG, limit=500)]
+    repos = [m.id for m in api.list_models(author=ORG, limit=500)
+             if slug(m.id) in CATALOG_SLUGS]
+    missing = CATALOG_SLUGS - {slug(r) for r in repos}
+    if missing:
+        raise SystemExit(f"curated model(s) not found in {ORG}: {sorted(missing)}")
     models = []
     failures = []
     with ThreadPoolExecutor(max_workers=10) as ex:
@@ -269,7 +277,7 @@ def main():
         for f in as_completed(futs):
             try:
                 m = f.result()
-                if not CURATION.get(m["slug"], {}).get("hidden"): models.append(m)
+                models.append(m)
             except Exception as e:
                 failures.append((futs[f], e))
                 print(f"!! {futs[f]}: {e}", file=sys.stderr)

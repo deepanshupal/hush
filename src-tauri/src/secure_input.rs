@@ -2,7 +2,7 @@
 //!
 //! When any process enables secure event input (password fields, Terminal's
 //! "Secure Keyboard Entry", a stuck `loginwindow`), CGEventTaps stop receiving
-//! KeyDown/KeyUp events while FlagsChanged still flows. The handy-keys
+//! KeyDown/KeyUp events while FlagsChanged still flows. The Hush Keys
 //! implementation is tap-based, so keyed shortcuts (e.g. Option+Space) die
 //! silently while modifier-only shortcuts keep working. See issue #1578.
 //!
@@ -470,7 +470,7 @@ mod imp {
             && app
                 .try_state::<crate::commands::ShortcutsInitialized>()
                 .is_some()
-            && settings.keyboard_implementation == KeyboardImplementation::HandyKeys;
+            && settings.keyboard_implementation == KeyboardImplementation::HushKeys;
 
         let mut next = FallbackState::default();
         let mut immune = 0usize;
