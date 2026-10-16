@@ -413,10 +413,7 @@ impl CoordinatorState {
                             .take()
                             .is_some_and(|t| now.saturating_duration_since(t) < DOUBLE_TAP_WINDOW)
                         {
-                            debug!(
-                                "Double-tap for '{}': staying hands-free",
-                                input.binding_id
-                            );
+                            debug!("Double-tap for '{}': staying hands-free", input.binding_id);
                             return None;
                         }
                     }
