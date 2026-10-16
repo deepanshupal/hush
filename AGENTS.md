@@ -48,7 +48,7 @@ checks on every push and builds an unpublished DMG artifact on `v1`.
   migrations (including Hush 0.8 → 1.0), the Hush clean-up prompt.
 - `managers/`: audio, model (downloads from Hugging Face), transcription
   (engine supervisor), history (SQLite `history.db`), snippets (same DB).
-- `shortcut/`: global shortcuts (`handy_keys` listener on macOS, Tauri plugin
+- `shortcut/`: global shortcuts (`hush_keys` listener on macOS, Tauri plugin
   fallback) and most `change_*_setting` commands.
 - `tray.rs`, `overlay.rs`: menu bar icon and the recording overlay window.
 
@@ -79,8 +79,8 @@ checks on every push and builds an unpublished DMG artifact on `v1`.
   and never log the settings struct or API keys. No telemetry. No network calls
   beyond model downloads and the user's configured AI provider.
 - **Persisted data.** The bundle identifier `com.hush.software` and the
-  persisted settings values (e.g. `"handy_keys"`) must not change; add serde
-  aliases or a migration in `apply_settings_migrations` instead. New SQLite
-  tables/columns go at the end of `MIGRATIONS` in `managers/history.rs`.
+  persisted settings values (e.g. the legacy `"handy_keys"`) must keep loading;
+  add serde aliases or a migration in `apply_settings_migrations` instead. New
+  SQLite tables/columns go at the end of `MIGRATIONS` in `managers/history.rs`.
 - **Rust:** `cargo fmt`, `cargo clippy`; avoid `unwrap` on user data paths.
 - **Commits:** small and focused; explain why.

@@ -227,7 +227,9 @@ pub enum RecordingRetentionPeriod {
 #[serde(rename_all = "snake_case")]
 pub enum KeyboardImplementation {
     Tauri,
-    HandyKeys,
+    // Persisted as `"hush_keys"`; `"handy_keys"` is the pre-rename value.
+    #[serde(alias = "handy_keys")]
+    HushKeys,
 }
 
 impl Default for KeyboardImplementation {
@@ -235,7 +237,7 @@ impl Default for KeyboardImplementation {
         #[cfg(target_os = "linux")]
         return KeyboardImplementation::Tauri;
         #[cfg(not(target_os = "linux"))]
-        return KeyboardImplementation::HandyKeys;
+        return KeyboardImplementation::HushKeys;
     }
 }
 
@@ -1002,7 +1004,7 @@ pub fn get_default_settings() -> AppSettings {
     #[cfg(target_os = "windows")]
     let default_shortcut = "ctrl+space";
     // Hush uses the Fn (globe) key on macOS: one key, no chord, nothing else
-    // claims it. The handy-keys listener (macOS default) supports it.
+    // claims it. The Hush Keys listener (macOS default) supports it.
     #[cfg(target_os = "macos")]
     let default_shortcut = "fn";
     #[cfg(target_os = "linux")]
@@ -1659,6 +1661,11 @@ mod tests {
             .expect("a stored v0.9.0 settings object must keep parsing strictly");
 
         assert_eq!(settings.selected_model, "whisper-large-v3-turbo");
+        // Saved before the internal rename: the old value still loads.
+        assert_eq!(
+            settings.keyboard_implementation,
+            KeyboardImplementation::HushKeys
+        );
         assert_eq!(settings.bindings["transcribe"].current_binding, "f13");
         assert_eq!(settings.log_level, LogLevel::Debug);
         assert_eq!(settings.sound_theme, SoundTheme::Pop);
@@ -1684,6 +1691,18 @@ mod tests {
         // matching legacy mode rather than the new hold-or-toggle default.
         assert_eq!(settings.shortcut_activation, ShortcutActivation::Toggle);
         assert_eq!(settings.transcribe_gpu_device, None);
+    }
+
+    /// `"handy_keys"` (the pre-rename value) still loads; new saves use `"hush_keys"`.
+    #[test]
+    fn keyboard_implementation_accepts_legacy_value() {
+        let legacy: KeyboardImplementation =
+            serde_json::from_value(serde_json::json!("handy_keys")).unwrap();
+        assert_eq!(legacy, KeyboardImplementation::HushKeys);
+        assert_eq!(
+            serde_json::to_value(KeyboardImplementation::HushKeys).unwrap(),
+            serde_json::json!("hush_keys")
+        );
     }
 
     /// The old mute toggle maps onto the media choice: muting users keep
