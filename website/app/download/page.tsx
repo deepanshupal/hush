@@ -25,7 +25,7 @@ const steps: { title: string; body: React.ReactNode }[] = [
     title: "Open Hush for the first time",
     body: (
       <>
-        Hush is free and open source, and its builds aren't notarized by Apple (that requires a paid Apple account), so macOS stops it the first time. Click{" "}
+        Hush is free and open source, and its builds aren&apos;t notarized by Apple (that requires a paid Apple account), so macOS stops it the first time. Click{" "}
         <em>Done</em>, then open <strong>System Settings → Privacy &amp; Security</strong>, scroll
         down and click <strong>Open Anyway</strong> next to the note about Hush. This works on every
         version of macOS, and you only need to do it once. (On macOS 14 and earlier you can also
