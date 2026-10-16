@@ -533,6 +533,13 @@ async cancelOperation() : Promise<void> {
 async isPortable() : Promise<boolean> {
     return await TAURI_INVOKE("is_portable");
 },
+/**
+ * Installed RAM in whole gigabytes, or 0 when it cannot be read. Used to
+ * recommend the larger, most accurate model only on Macs that can hold it.
+ */
+async getSystemMemoryGb() : Promise<number> {
+    return await TAURI_INVOKE("get_system_memory_gb");
+},
 async getAppDirPath() : Promise<Result<string, string>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("get_app_dir_path") };
