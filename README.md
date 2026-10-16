@@ -21,11 +21,14 @@ paid dictation apps like Wispr Flow.
 ## Features
 
 - **Push to talk anywhere.** Hold <kbd>Fn</kbd> (or any shortcut you choose) to
-  dictate into any text field. Tap instead of holding to keep recording
+  dictate into any text field. Tap (or double-tap) to keep recording
   hands-free, and press <kbd>Esc</kbd> to cancel.
-- **On-device speech recognition.** Parakeet, Whisper, Moonshine and other
-  open models run locally with Metal acceleration. Pick a model once; Hush
-  downloads it and works offline from then on.
+- **Paste last transcript.** <kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>V</kbd> pastes
+  your most recent dictation again; it's also in the menu bar.
+- **On-device speech recognition.** Pick Fast (Parakeet V3), Live preview
+  (Nemotron Streaming) or Most accurate (Granite Speech 4.1), or any of the
+  other open models. They run locally with Metal acceleration; Hush downloads
+  the model once and works offline from then on.
 - **Live preview.** Streaming models show your words in the overlay as you speak.
 - **AI clean-up (optional).** Fix punctuation, drop "um"s and self-corrections,
   and keep your custom words spelled right, using an AI provider you choose:
@@ -37,6 +40,8 @@ paid dictation apps like Wispr Flow.
   punctuation don't matter, and snippets work in the middle of a sentence.
 - **Custom vocabulary** for names and jargon, and automatic filler-word removal
   that works without AI.
+- **Your music pauses while you dictate** and resumes afterwards (or lower the
+  volume, mute, or leave it alone).
 - **History** of recent dictations, with audio, so you can copy or re-run them.
 - **Native feel.** Menu bar app, light and dark mode, and an interface in 26
   languages.
