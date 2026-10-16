@@ -203,6 +203,16 @@
     },
     "sound": {
       "title": "Ton",
+      "mediaWhileRecording": {
+        "title": "Beim Diktieren",
+        "description": "Was mit Musik und Videos passiert, während du diktierst",
+        "options": {
+          "pause": "Medien pausieren",
+          "lowerVolume": "Lautstärke senken",
+          "mute": "Alles stummschalten",
+          "off": "Nichts tun"
+        }
+      },
       "microphone": {
         "title": "Mikrofon",
         "description": "Bevorzugtes Mikrofon auswählen",
@@ -551,10 +561,6 @@
       "postProcessingToggle": {
         "label": "KI-Bereinigung",
         "description": "Diktate mit einem KI-Anbieter deiner Wahl bereinigen"
-      },
-      "muteWhileRecording": {
-        "label": "Während Aufnahme stummschalten",
-        "description": "Systemaudio während der Aufnahme stummschalten"
       },
       "appendTrailingSpace": {
         "label": "Leerzeichen anhängen",

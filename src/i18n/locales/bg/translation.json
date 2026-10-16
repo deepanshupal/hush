@@ -203,6 +203,16 @@
     },
     "sound": {
       "title": "Звук",
+      "mediaWhileRecording": {
+        "title": "По време на диктуване",
+        "description": "Какво да става с музиката и видеата, докато диктувате",
+        "options": {
+          "pause": "Пауза на медията",
+          "lowerVolume": "Намаляване на звука",
+          "mute": "Заглушаване на всичко",
+          "off": "Нищо"
+        }
+      },
       "microphone": {
         "title": "Микрофон",
         "description": "Изберете предпочитано микрофонно устройство",
@@ -551,10 +561,6 @@
       "postProcessingToggle": {
         "label": "AI почистване",
         "description": "Почиствайте диктовката с AI доставчик по ваш избор"
-      },
-      "muteWhileRecording": {
-        "label": "Заглушаване при запис",
-        "description": "Заглушаване на системния звук по време на запис"
       },
       "appendTrailingSpace": {
         "label": "Интервал в края",
