@@ -151,9 +151,9 @@ export function ComparisonTable() {
 export function ComparisonNotes() {
   const { notes } = collectNotes()
   return (
-    <ol className="flex flex-col gap-1.5 text-small text-ink-muted">
+    <ol className="gap-x-10 text-small text-ink-muted sm:columns-2">
       {notes.map((note) => (
-        <li key={note.number} id={`note-${note.number}`} className="flex gap-2 scroll-mt-6">
+        <li key={note.number} id={`note-${note.number}`} className="mb-1.5 flex break-inside-avoid gap-2 scroll-mt-6">
           <a href={`#ref-${note.number}`} className="link w-6 shrink-0 text-right" aria-label={`Back to note ${note.number} in the table`}>
             {note.number}.
           </a>

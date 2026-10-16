@@ -31,7 +31,7 @@ const features = [
   {
     title: "Per-app styles",
     description:
-      "Default, Casual, Professional, Developer or Raw. Hush can write differently in Slack than in Mail.",
+      "Default, Message, Email, Code or Raw. Hush writes a quick reply in Slack differently from an email in Mail.",
     icon: WandIcon,
   },
   {

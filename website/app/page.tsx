@@ -1,12 +1,13 @@
-import { AppScreenshot } from "@/components/app-screenshot"
 import { Comparison } from "@/components/comparison"
 import { CTASection } from "@/components/cta-section"
+import { DictationDemo } from "@/components/dictation-demo"
 import { FaqList } from "@/components/faq"
 import { FeaturesGrid } from "@/components/features-grid"
 import { Hero } from "@/components/hero"
 import { MainContainer } from "@/components/main-container"
 import { OpenSourceSection } from "@/components/open-source-section"
 import { PrivacySection } from "@/components/privacy-section"
+import { UseCases } from "@/components/use-cases"
 import { Section, SectionHeading } from "@/components/section"
 import { faqs } from "@/lib/faq"
 import { getLatestDownload, getStarCount } from "@/lib/github"
@@ -23,10 +24,11 @@ export default async function Home() {
   return (
     <MainContainer>
       <Hero download={download} stars={stars} />
-      <AppScreenshot />
+      <DictationDemo />
       <div className="mt-14">
-        <FeaturesGrid />
+        <UseCases />
       </div>
+      <FeaturesGrid />
       <Comparison />
       <PrivacySection />
       <Section id="faq" aria-labelledby="faq-title">

@@ -87,7 +87,11 @@ export default function ComparePage() {
           title={`Sources & last checked: ${CHECKED}`}
           lead="Every competitor cell comes from the product's own website, documentation, pricing page or source repository."
         />
-        <div className="grid gap-6 sm:grid-cols-2">
+        <details className="group rounded-panel border border-line bg-surface-raised">
+          <summary className="cursor-pointer list-none px-5 py-4 text-small font-medium text-ink marker:hidden">
+            Show all sources <span aria-hidden className="text-ink-subtle group-open:hidden">+</span>
+          </summary>
+        <div className="grid gap-6 border-t border-line px-5 py-5 sm:grid-cols-2">
           {apps.map((app) => (
             <div key={app.id}>
               <h3>{app.name}</h3>
@@ -103,6 +107,7 @@ export default function ComparePage() {
             </div>
           ))}
         </div>
+        </details>
       </Section>
 
       <Section className="flex flex-col items-center gap-5 bg-surface-raised py-20 text-center">

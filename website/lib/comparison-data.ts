@@ -307,7 +307,7 @@ export const groups: Group[] = [
         id: "languages",
         label: "Languages",
         cells: {
-          hush: { value: "25+", note: "25 European languages with Parakeet V3; Whisper models cover many more.", source: HUSH },
+          hush: { value: "99", note: "99 with Whisper models; 25 European languages with the default Parakeet V3.", source: HUSH },
           wispr: { value: "100+", source: WISPR_PRICING },
           superwhisper: { value: "100+", note: "Depends on the model.", source: SW_INTRO },
           voiceink: { value: "unknown", note: "Multilingual models, but no total is stated." },
