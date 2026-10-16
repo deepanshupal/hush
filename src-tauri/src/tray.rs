@@ -28,8 +28,9 @@ use crate::tray_i18n::get_tray_translations;
 use log::{debug, error, info, trace, warn};
 use std::collections::HashMap;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard};
-use std::time::Instant;
+use std::time::{Duration, Instant};
 use tauri::image::Image;
 use tauri::menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem, Submenu};
 use tauri::tray::TrayIcon;
@@ -498,6 +499,13 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
         true,
         None::<&str>,
     )?;
+    let paste_last_transcript_i = MenuItem::with_id(
+        app,
+        "paste_last_transcript",
+        &strings.paste_last_transcript,
+        true,
+        None::<&str>,
+    )?;
     let quit_i = MenuItem::with_id(app, "quit", &strings.quit, true, quit_accelerator)?;
     let separator = || PredefinedMenuItem::separator(app);
 
@@ -510,6 +518,7 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
                 &separator()?,
                 &cancel_i,
                 &separator()?,
+                &paste_last_transcript_i,
                 &copy_last_transcript_i,
                 &separator()?,
                 &settings_i,
@@ -547,6 +556,7 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
             &[
                 &version_i,
                 &separator()?,
+                &paste_last_transcript_i,
                 &copy_last_transcript_i,
                 &separator()?,
                 &model_submenu,
@@ -612,28 +622,72 @@ pub fn recreate_tray_icon(app: &AppHandle) {
     }
 }
 
-pub fn copy_last_transcript(app: &AppHandle) {
+/// The most recent non-empty transcript (AI-cleaned text when there is one).
+fn latest_transcript(app: &AppHandle) -> Option<String> {
     let history_manager = app.state::<Arc<HistoryManager>>();
     let entry = match history_manager.get_latest_completed_entry() {
         Ok(Some(entry)) => entry,
         Ok(None) => {
-            warn!("No completed transcription history entries available for tray copy.");
-            return;
+            warn!("No completed transcription history entries available.");
+            return None;
         }
         Err(err) => {
             error!(
                 "Failed to fetch last completed transcription entry: {}",
                 err
             );
-            return;
+            return None;
         }
     };
 
     let text = last_transcript_text(&entry);
     if text.trim().is_empty() {
-        warn!("Last completed transcription is empty; skipping tray copy.");
+        warn!("Last completed transcription is empty.");
+        return None;
+    }
+    Some(text.to_string())
+}
+
+/// Set while a paste-last is waiting or pasting, so a held or repeated
+/// shortcut pastes once.
+static PASTE_LAST_IN_FLIGHT: AtomicBool = AtomicBool::new(false);
+
+/// Paste the most recent transcript into the frontmost app, after `delay`
+/// and once the user has let go of the shortcut's modifier keys.
+pub fn paste_last_transcript(app: &AppHandle, delay: Duration) {
+    if PASTE_LAST_IN_FLIGHT.swap(true, Ordering::SeqCst) {
+        debug!("Paste last transcript already in progress");
         return;
     }
+    let app = app.clone();
+    std::thread::spawn(move || {
+        if !delay.is_zero() {
+            std::thread::sleep(delay);
+        }
+        crate::input::wait_for_modifiers_released(Duration::from_millis(1500));
+        let Some(text) = latest_transcript(&app) else {
+            PASTE_LAST_IN_FLIGHT.store(false, Ordering::SeqCst);
+            return;
+        };
+        let app_for_paste = app.clone();
+        let scheduled = app.run_on_main_thread(move || {
+            match crate::clipboard::paste(text, app_for_paste) {
+                Ok(()) => info!("Pasted last transcript."),
+                Err(e) => error!("Failed to paste last transcript: {}", e),
+            }
+            PASTE_LAST_IN_FLIGHT.store(false, Ordering::SeqCst);
+        });
+        if let Err(e) = scheduled {
+            error!("Failed to run paste on main thread: {:?}", e);
+            PASTE_LAST_IN_FLIGHT.store(false, Ordering::SeqCst);
+        }
+    });
+}
+
+pub fn copy_last_transcript(app: &AppHandle) {
+    let Some(text) = latest_transcript(app) else {
+        return;
+    };
 
     if let Err(err) = app.clipboard().write_text(text) {
         error!("Failed to copy last transcript to clipboard: {}", err);

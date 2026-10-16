@@ -6,7 +6,8 @@
     "model": "Mô hình",
     "quit": "Thoát",
     "cancel": "Hủy",
-    "secureInputWarning": "⚠ Phím tắt bị Secure Input chặn"
+    "secureInputWarning": "⚠ Phím tắt bị Secure Input chặn",
+    "pasteLastTranscript": "Dán bản chép lời mới nhất"
   },
   "sidebar": {
     "general": "Chung",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Phím tắt xử lý sau",
             "description": "Tùy chọn: Phím tắt chuyên dụng luôn áp dụng xử lý sau bằng AI cho bản chuyển đổi của bạn."
+          },
+          "paste_last": {
+            "name": "Dán bản chép lời mới nhất",
+            "description": "Dán lại bản chép lời gần nhất vào ứng dụng bạn đang dùng."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Bật/tắt"
         },
         "descriptions": {
-          "hold_or_toggle": "Giữ để ghi âm hoặc nhấn nhanh để bật/tắt",
-          "push_to_talk": "Ghi âm trong lúc bạn giữ phím tắt",
+          "hold_or_toggle": "Giữ để ghi âm, hoặc nhấn (hay nhấn đúp) để ghi rảnh tay đến lần nhấn tiếp theo",
+          "push_to_talk": "Ghi âm trong lúc bạn giữ phím tắt. Nhấn đúp để ghi rảnh tay đến lần nhấn tiếp theo",
           "toggle": "Nhấn phím tắt để bắt đầu ghi âm, nhấn lại để dừng"
         }
       }

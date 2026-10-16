@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Keluar",
     "cancel": "Batal",
-    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input"
+    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input",
+    "pasteLastTranscript": "Tempel Transkripsi Terakhir"
   },
   "sidebar": {
     "general": "Umum",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Pintasan Pascaproses",
             "description": "Opsional: pintasan khusus yang selalu menerapkan pascaproses AI pada transkripsi Anda."
+          },
+          "paste_last": {
+            "name": "Tempel Transkripsi Terakhir",
+            "description": "Menempelkan lagi transkripsi terbaru Anda ke aplikasi yang sedang Anda gunakan."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Tekan"
         },
         "descriptions": {
-          "hold_or_toggle": "Tahan untuk merekam atau tekan untuk mulai/berhenti",
-          "push_to_talk": "Merekam selama Anda menahan pintasan",
+          "hold_or_toggle": "Tahan untuk merekam, atau ketuk (atau ketuk dua kali) untuk bebas genggam hingga tekanan berikutnya",
+          "push_to_talk": "Merekam selama Anda menahan pintasan. Ketuk dua kali untuk bebas genggam hingga tekanan berikutnya",
           "toggle": "Ketuk pintasan untuk mulai merekam, lalu ketuk lagi untuk berhenti"
         }
       }

@@ -6,7 +6,8 @@
     "model": "모델",
     "quit": "종료",
     "cancel": "취소",
-    "secureInputWarning": "⚠ Secure Input으로 단축키가 차단됨"
+    "secureInputWarning": "⚠ Secure Input으로 단축키가 차단됨",
+    "pasteLastTranscript": "마지막 녹음 내용 붙여넣기"
   },
   "sidebar": {
     "general": "일반",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "후처리 단축키",
             "description": "선택 사항: 항상 AI 후처리를 적용하는 전용 단축키입니다."
+          },
+          "paste_last": {
+            "name": "마지막 녹음 내용 붙여넣기",
+            "description": "가장 최근 녹음 내용을 사용 중인 앱에 다시 붙여넣습니다."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "전환"
         },
         "descriptions": {
-          "hold_or_toggle": "길게 누르면 녹음, 탭하면 전환",
-          "push_to_talk": "단축키를 누르고 있는 동안 녹음합니다",
+          "hold_or_toggle": "길게 눌러 녹음하거나, 탭(또는 두 번 탭)하면 다음에 누를 때까지 핸즈프리로 녹음합니다",
+          "push_to_talk": "단축키를 누르고 있는 동안 녹음합니다. 두 번 탭하면 다음에 누를 때까지 핸즈프리로 녹음합니다",
           "toggle": "단축키를 탭하면 녹음을 시작하고, 다시 탭하면 중지합니다"
         }
       }

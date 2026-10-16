@@ -6,7 +6,8 @@
     "model": "Modell",
     "quit": "Avsluta",
     "cancel": "Avbryt",
-    "secureInputWarning": "⚠ Kortkommandon blockeras av Secure Input"
+    "secureInputWarning": "⚠ Kortkommandon blockeras av Secure Input",
+    "pasteLastTranscript": "Klistra in senaste transkriptionen"
   },
   "sidebar": {
     "general": "Allmänt",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Snabbkommando för efterbearbetning",
             "description": "Valfritt: En dedikerad snabbknapp som alltid tillämpar AI-efterbearbetning på din transkription."
+          },
+          "paste_last": {
+            "name": "Klistra in senaste transkriptionen",
+            "description": "Klistrar in din senaste transkription igen i appen du använder."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Växla"
         },
         "descriptions": {
-          "hold_or_toggle": "Håll nere för att spela in eller tryck kort för att växla",
-          "push_to_talk": "Spelar in så länge du håller genvägen nedtryckt",
+          "hold_or_toggle": "Håll ned för att spela in, eller tryck (eller dubbeltryck) för handsfree tills nästa tryck",
+          "push_to_talk": "Spelar in så länge du håller genvägen nedtryckt. Dubbeltryck för handsfree tills nästa tryck",
           "toggle": "Tryck på genvägen för att starta inspelningen, tryck igen för att stoppa"
         }
       }

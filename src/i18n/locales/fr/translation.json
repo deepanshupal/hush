@@ -6,7 +6,8 @@
     "model": "Modèle",
     "quit": "Quitter",
     "cancel": "Annuler",
-    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input"
+    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input",
+    "pasteLastTranscript": "Coller la dernière transcription"
   },
   "sidebar": {
     "general": "Général",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Raccourci de post-traitement",
             "description": "Facultatif : Un raccourci dédié qui applique toujours le post-traitement IA à votre transcription."
+          },
+          "paste_last": {
+            "name": "Coller la dernière transcription",
+            "description": "Colle à nouveau votre dernière transcription dans l'app que vous utilisez."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Basculer"
         },
         "descriptions": {
-          "hold_or_toggle": "Maintenez pour enregistrer ou appuyez brièvement pour basculer",
-          "push_to_talk": "Enregistre tant que le raccourci est maintenu",
+          "hold_or_toggle": "Maintenez pour enregistrer, ou appuyez (ou appuyez deux fois) pour enregistrer mains libres jusqu'au prochain appui",
+          "push_to_talk": "Enregistre tant que le raccourci est maintenu. Appuyez deux fois pour enregistrer mains libres jusqu'au prochain appui",
           "toggle": "Appuyez sur le raccourci pour démarrer l'enregistrement, appuyez à nouveau pour arrêter"
         }
       }

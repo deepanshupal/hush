@@ -329,6 +329,11 @@ fn initialize_core_logic(app_handle: &AppHandle) {
             "copy_last_transcript" => {
                 tray::copy_last_transcript(app);
             }
+            "paste_last_transcript" => {
+                // Give the menu time to close and focus to return to the app
+                // the user was in before pasting into it.
+                tray::paste_last_transcript(app, std::time::Duration::from_millis(250));
+            }
             "unload_model" => {
                 let transcription_manager = app.state::<Arc<TranscriptionManager>>();
                 if !transcription_manager.is_model_loaded() {

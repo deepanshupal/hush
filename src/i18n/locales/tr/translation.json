@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Çıkış",
     "cancel": "İptal",
-    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor"
+    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor",
+    "pasteLastTranscript": "Son Transkripti Yapıştır"
   },
   "sidebar": {
     "general": "Genel",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Son İşlem Kısayolu",
             "description": "İsteğe bağlı: Transkripsiyonunuza her zaman yapay zekâ ile son işlem uygulayan özel bir kısayol tuşu."
+          },
+          "paste_last": {
+            "name": "Son Transkripti Yapıştır",
+            "description": "En son transkriptinizi kullandığınız uygulamaya yeniden yapıştırır."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Aç/Kapat"
         },
         "descriptions": {
-          "hold_or_toggle": "Kaydetmek için basılı tutun veya açıp kapatmak için dokunun",
-          "push_to_talk": "Kısayolu basılı tuttuğunuz sürece kaydeder",
+          "hold_or_toggle": "Kaydetmek için basılı tutun ya da bir sonraki basışa kadar eller serbest kayıt için dokunun (veya çift dokunun)",
+          "push_to_talk": "Kısayolu basılı tuttuğunuz sürece kaydeder. Bir sonraki basışa kadar eller serbest kayıt için çift dokunun",
           "toggle": "Kaydı başlatmak için kısayola dokunun, durdurmak için tekrar dokunun"
         }
       }

@@ -6,7 +6,8 @@
     "model": "Modello",
     "quit": "Esci",
     "cancel": "Annulla",
-    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input"
+    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input",
+    "pasteLastTranscript": "Incolla l'ultima trascrizione"
   },
   "sidebar": {
     "general": "Generale",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Tasto di post-elaborazione",
             "description": "Facoltativo: Un tasto di scelta rapida dedicato che applica sempre la post-elaborazione IA alla trascrizione."
+          },
+          "paste_last": {
+            "name": "Incolla l'ultima trascrizione",
+            "description": "Incolla di nuovo la tua trascrizione più recente nell'app che stai usando."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Alterna"
         },
         "descriptions": {
-          "hold_or_toggle": "Tieni premuto per registrare o tocca per alternare",
-          "push_to_talk": "Registra finché tieni premuta la scorciatoia",
+          "hold_or_toggle": "Tieni premuto per registrare, oppure tocca (o tocca due volte) per registrare a mani libere fino alla pressione successiva",
+          "push_to_talk": "Registra finché tieni premuta la scorciatoia. Tocca due volte per registrare a mani libere fino alla pressione successiva",
           "toggle": "Tocca la scorciatoia per avviare la registrazione, tocca di nuovo per fermarla"
         }
       }

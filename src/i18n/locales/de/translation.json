@@ -6,7 +6,8 @@
     "model": "Modell",
     "quit": "Beenden",
     "cancel": "Abbrechen",
-    "secureInputWarning": "⚠ Tastenkürzel durch Secure Input blockiert"
+    "secureInputWarning": "⚠ Tastenkürzel durch Secure Input blockiert",
+    "pasteLastTranscript": "Letzte Transkription einfügen"
   },
   "sidebar": {
     "general": "Allgemein",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Nachbearbeitungs-Tastenkürzel",
             "description": "Optional: Ein dediziertes Tastenkürzel, das immer die KI-Nachbearbeitung auf deine Transkription anwendet."
+          },
+          "paste_last": {
+            "name": "Letzte Transkription einfügen",
+            "description": "Fügt deine letzte Transkription erneut in die App ein, die du gerade verwendest."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Umschalten"
         },
         "descriptions": {
-          "hold_or_toggle": "Gedrückt halten zum Aufnehmen oder antippen zum Umschalten",
-          "push_to_talk": "Nimmt auf, solange die Tastenkombination gedrückt bleibt",
+          "hold_or_toggle": "Halten zum Aufnehmen oder tippen (bzw. doppelt tippen) für freihändige Aufnahme bis zum nächsten Druck",
+          "push_to_talk": "Nimmt auf, solange die Tastenkombination gedrückt bleibt. Doppelt tippen für freihändige Aufnahme bis zum nächsten Druck",
           "toggle": "Tastenkombination antippen, um die Aufnahme zu starten, erneut antippen zum Stoppen"
         }
       }

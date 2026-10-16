@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Afsluiten",
     "cancel": "Annuleren",
-    "secureInputWarning": "⚠ Sneltoetsen geblokkeerd door Secure Input"
+    "secureInputWarning": "⚠ Sneltoetsen geblokkeerd door Secure Input",
+    "pasteLastTranscript": "Laatste transcriptie plakken"
   },
   "sidebar": {
     "general": "Algemeen",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Sneltoets voor naverwerking",
             "description": "Optioneel: Een specifieke sneltoets die altijd AI-naverwerking toepast op je transcriptie."
+          },
+          "paste_last": {
+            "name": "Laatste transcriptie plakken",
+            "description": "Plakt je meest recente transcriptie opnieuw in de app die je gebruikt."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Schakelen"
         },
         "descriptions": {
-          "hold_or_toggle": "Houd ingedrukt om op te nemen of tik om te schakelen",
-          "push_to_talk": "Neemt op zolang je de sneltoets ingedrukt houdt",
+          "hold_or_toggle": "Houd ingedrukt om op te nemen, of tik (of dubbeltik) voor handsfree opnemen tot de volgende druk",
+          "push_to_talk": "Neemt op zolang je de sneltoets ingedrukt houdt. Dubbeltik voor handsfree opnemen tot de volgende druk",
           "toggle": "Tik op de sneltoets om de opname te starten, tik opnieuw om te stoppen"
         }
       }

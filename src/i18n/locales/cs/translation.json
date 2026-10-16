@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Ukončit",
     "cancel": "Zrušit",
-    "secureInputWarning": "⚠ Zkratky blokuje Secure Input"
+    "secureInputWarning": "⚠ Zkratky blokuje Secure Input",
+    "pasteLastTranscript": "Vložit poslední přepis"
   },
   "sidebar": {
     "general": "Obecné",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Klávesa pro následné zpracování",
             "description": "Volitelné: Vyhrazená klávesová zkratka, která vždy použije AI následné zpracování na váš přepis."
+          },
+          "paste_last": {
+            "name": "Vložit poslední přepis",
+            "description": "Znovu vloží váš poslední přepis do aplikace, kterou právě používáte."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Přepínat"
         },
         "descriptions": {
-          "hold_or_toggle": "Podržte pro nahrávání nebo klepněte pro přepnutí",
-          "push_to_talk": "Nahrává, dokud držíte zkratku",
+          "hold_or_toggle": "Podržením nahráváte, klepnutím (nebo dvojitým klepnutím) nahráváte bez rukou až do dalšího stisknutí",
+          "push_to_talk": "Nahrává, dokud držíte zkratku. Dvojitým klepnutím nahráváte bez rukou až do dalšího stisknutí",
           "toggle": "Klepněte na zkratku pro zahájení nahrávání, klepněte znovu pro zastavení"
         }
       }

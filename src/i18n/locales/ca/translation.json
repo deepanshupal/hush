@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Surt",
     "cancel": "Cancel·la",
-    "secureInputWarning": "⚠ Dreceres blocades per l'entrada segura"
+    "secureInputWarning": "⚠ Dreceres blocades per l'entrada segura",
+    "pasteLastTranscript": "Enganxa l'última transcripció"
   },
   "sidebar": {
     "general": "General",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Drecera de postprocessament",
             "description": "Opcional: una drecera específica que sempre aplica postprocessament amb IA a la transcripció."
+          },
+          "paste_last": {
+            "name": "Enganxa l'última transcripció",
+            "description": "Torna a enganxar la vostra transcripció més recent a l'aplicació que feu servir."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Commuta"
         },
         "descriptions": {
-          "hold_or_toggle": "Manteniu-la premuda per enregistrar o feu una pulsació breu per iniciar o aturar l'enregistrament",
-          "push_to_talk": "Enregistreu mentre manteniu premuda la drecera",
+          "hold_or_toggle": "Manteniu premut per enregistrar, o toqueu (o toqueu dues vegades) per enregistrar sense mans fins a la següent pulsació",
+          "push_to_talk": "Enregistreu mentre manteniu premuda la drecera. Toqueu dues vegades per enregistrar sense mans fins a la següent pulsació",
           "toggle": "Premeu la drecera per iniciar l'enregistrament i torneu-la a prémer per aturar-lo"
         }
       }

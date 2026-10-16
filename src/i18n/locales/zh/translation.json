@@ -6,7 +6,8 @@
     "model": "模型",
     "quit": "退出",
     "cancel": "取消",
-    "secureInputWarning": "⚠ 快捷键被 Secure Input 阻止"
+    "secureInputWarning": "⚠ 快捷键被 Secure Input 阻止",
+    "pasteLastTranscript": "粘贴最新转录"
   },
   "sidebar": {
     "general": "通用",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "后处理快捷键",
             "description": "可选：一个专用快捷键，始终对您的转录应用 AI 后处理。"
+          },
+          "paste_last": {
+            "name": "粘贴最新转录",
+            "description": "将最新的转录再次粘贴到你正在使用的应用中。"
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "切换"
         },
         "descriptions": {
-          "hold_or_toggle": "按住录音，或轻按切换",
-          "push_to_talk": "按住快捷键期间录音",
+          "hold_or_toggle": "按住录音，或轻点（或双击）进入免手持录音，直到下次按下",
+          "push_to_talk": "按住快捷键期间录音。双击进入免手持录音，直到下次按下",
           "toggle": "轻按快捷键开始录音，再次轻按停止"
         }
       }

@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Zamknij",
     "cancel": "Anuluj",
-    "secureInputWarning": "⚠ Skróty zablokowane przez Secure Input"
+    "secureInputWarning": "⚠ Skróty zablokowane przez Secure Input",
+    "pasteLastTranscript": "Wklej ostatnią transkrypcję"
   },
   "sidebar": {
     "general": "Ogólne",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Skrót postprocessingu",
             "description": "Opcjonalnie: Dedykowany skrót klawiszowy, który zawsze stosuje postprocessing AI do transkrypcji."
+          },
+          "paste_last": {
+            "name": "Wklej ostatnią transkrypcję",
+            "description": "Ponownie wkleja ostatnią transkrypcję do aplikacji, której używasz."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Przełączaj"
         },
         "descriptions": {
-          "hold_or_toggle": "Przytrzymaj, aby nagrywać, lub dotknij, aby przełączyć",
-          "push_to_talk": "Nagrywa, dopóki trzymasz skrót",
+          "hold_or_toggle": "Przytrzymaj, aby nagrywać, lub stuknij (albo stuknij dwukrotnie), aby nagrywać bez rąk do następnego naciśnięcia",
+          "push_to_talk": "Nagrywa, dopóki trzymasz skrót. Stuknij dwukrotnie, aby nagrywać bez rąk do następnego naciśnięcia",
           "toggle": "Dotknij skrótu, aby rozpocząć nagrywanie, dotknij ponownie, aby zatrzymać"
         }
       }

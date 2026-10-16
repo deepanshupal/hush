@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Afslut",
     "cancel": "Annuller",
-    "secureInputWarning": "⚠ Genveje blokeret af Secure Input"
+    "secureInputWarning": "⚠ Genveje blokeret af Secure Input",
+    "pasteLastTranscript": "Indsæt seneste transskription"
   },
   "sidebar": {
     "general": "Generelt",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Genvej til efterbehandling",
             "description": "Valgfrit: En dedikeret genvej, der altid anvender AI-efterbehandling på din transskription."
+          },
+          "paste_last": {
+            "name": "Indsæt seneste transskription",
+            "description": "Indsætter din seneste transskription igen i den app, du bruger."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Skift"
         },
         "descriptions": {
-          "hold_or_toggle": "Hold nede for at optage, eller tryk kort for at slå til/fra",
-          "push_to_talk": "Optager, mens du holder genvejen nede",
+          "hold_or_toggle": "Hold nede for at optage, eller tryk (eller dobbelttryk) for håndfri optagelse indtil næste tryk",
+          "push_to_talk": "Optager, mens du holder genvejen nede. Dobbelttryk for håndfri optagelse indtil næste tryk",
           "toggle": "Tryk på genvejen for at starte optagelsen, tryk igen for at stoppe"
         }
       }

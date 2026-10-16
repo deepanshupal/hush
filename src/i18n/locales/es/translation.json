@@ -6,7 +6,8 @@
     "model": "Modelo",
     "quit": "Salir",
     "cancel": "Cancelar",
-    "secureInputWarning": "⚠ Atajos bloqueados por Secure Input"
+    "secureInputWarning": "⚠ Atajos bloqueados por Secure Input",
+    "pasteLastTranscript": "Pegar la última transcripción"
   },
   "sidebar": {
     "general": "General",
@@ -171,6 +172,10 @@
           "transcribe_with_post_process": {
             "name": "Tecla de post procesamiento",
             "description": "Opcional: Una tecla de acceso rápido dedicada que siempre aplica post procesamiento con IA a tu transcripción."
+          },
+          "paste_last": {
+            "name": "Pegar la última transcripción",
+            "description": "Vuelve a pegar tu transcripción más reciente en la app que estás usando."
           }
         },
         "errors": {
@@ -195,8 +200,8 @@
           "toggle": "Alternar"
         },
         "descriptions": {
-          "hold_or_toggle": "Mantén pulsado para grabar o toca para alternar",
-          "push_to_talk": "Graba mientras mantienes pulsado el atajo",
+          "hold_or_toggle": "Mantén pulsado para grabar, o toca (o toca dos veces) para grabar sin manos hasta la siguiente pulsación",
+          "push_to_talk": "Graba mientras mantienes pulsado el atajo. Toca dos veces para grabar sin manos hasta la siguiente pulsación",
           "toggle": "Toca el atajo para empezar a grabar, tócalo de nuevo para detener"
         }
       }

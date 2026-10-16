@@ -6,7 +6,8 @@
     "model": "Model",
     "quit": "Quit",
     "cancel": "Cancel",
-    "secureInputWarning": "⚠ Shortcuts blocked by Secure Input"
+    "secureInputWarning": "⚠ Shortcuts blocked by Secure Input",
+    "pasteLastTranscript": "Paste Last Transcript"
   },
   "sidebar": {
     "general": "General",
@@ -144,6 +145,10 @@
           "transcribe_with_post_process": {
             "name": "Post-Processing Hotkey",
             "description": "Optional: A dedicated hotkey that always applies AI post-processing to your transcription."
+          },
+          "paste_last": {
+            "name": "Paste Last Transcript",
+            "description": "Pastes your most recent transcript again into the app you are using."
           }
         },
         "errors": {
@@ -168,8 +173,8 @@
           "toggle": "Toggle"
         },
         "descriptions": {
-          "hold_or_toggle": "Hold to record or tap to toggle",
-          "push_to_talk": "Records while you hold the shortcut",
+          "hold_or_toggle": "Hold to record, or tap (or double-tap) for hands-free until the next press",
+          "push_to_talk": "Records while you hold the shortcut. Double-tap for hands-free until the next press",
           "toggle": "Tap the shortcut to start recording, tap again to stop"
         }
       }
