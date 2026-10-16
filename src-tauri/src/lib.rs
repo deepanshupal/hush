@@ -185,6 +185,38 @@ fn should_force_show_permissions_window(app: &AppHandle) -> bool {
     false
 }
 
+/// Startup warm-up: load the selected model and the VAD, then decode one
+/// second of silence. Skipped when nothing is downloaded yet (onboarding), and
+/// when the user unloads the model right after each use anyway.
+fn preload_and_warm_up(app_handle: &AppHandle) {
+    let settings = settings::get_settings(app_handle);
+    if !settings.onboarding_completed
+        || settings.selected_model.is_empty()
+        || settings.model_unload_timeout == settings::ModelUnloadTimeout::Immediately
+    {
+        return;
+    }
+    let model_manager = app_handle.state::<Arc<ModelManager>>();
+    let downloaded = model_manager
+        .get_model_info(&settings.selected_model)
+        .is_some_and(|model| model.is_downloaded);
+    if !downloaded {
+        return;
+    }
+
+    let started = std::time::Instant::now();
+    let recording_manager = app_handle.state::<Arc<AudioRecordingManager>>();
+    if let Err(e) = recording_manager.preload_vad() {
+        log::warn!("VAD preload failed: {}", e);
+    }
+    let transcription_manager = app_handle.state::<Arc<TranscriptionManager>>();
+    transcription_manager.initiate_model_load();
+    match transcription_manager.transcribe(vec![0.0; 16_000]) {
+        Ok(_) => log::info!("Model warmed up in {:?}", started.elapsed()),
+        Err(e) => log::warn!("Model warm-up skipped: {}", e),
+    }
+}
+
 fn initialize_core_logic(app_handle: &AppHandle) {
     // Note: Enigo (keyboard/mouse simulation) is NOT initialized here.
     // The frontend is responsible for calling the `initialize_enigo` command
@@ -1016,6 +1048,13 @@ pub fn run(cli_args: CliArgs) {
                 crate::managers::transcription::report_compute_devices(&tm);
                 let _ = crate::managers::transcription::get_available_accelerators(&tm);
             });
+
+            // Load the selected model and VAD in the background and run one
+            // short silent transcription, so the first dictation doesn't wait
+            // for the model load or (on a fresh install) ggml's Metal shader
+            // compile.
+            let warm_app_handle = app_handle.clone();
+            std::thread::spawn(move || preload_and_warm_up(&warm_app_handle));
 
             // Hide tray icon if --no-tray was passed
             if cli_args.no_tray {
