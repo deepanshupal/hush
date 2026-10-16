@@ -12,10 +12,11 @@
     "general": "通用",
     "models": "模型",
     "advanced": "高级",
-    "postProcessing": "后处理",
+    "postProcessing": "AI 润色",
     "history": "历史记录",
     "debug": "调试",
-    "about": "关于"
+    "about": "关于",
+    "snippets": "片段"
   },
   "onboarding": {
     "subtitle": "请选择一个转录模型以开始使用",
@@ -441,6 +442,42 @@
         "cancel": "取消",
         "selectToEdit": "选择上方的提示词以查看和编辑其详细信息。",
         "createFirst": "点击上方的「创建新提示词」来创建您的第一个后处理提示词。"
+      },
+      "cleanup": {
+        "title": "AI 润色",
+        "privacy": "开启后，每次听写的文字（绝不包括音频）会发送给你在下方选择的服务商。",
+        "level": {
+          "title": "润色程度",
+          "description": "“轻度”修正标点、口头禅和改口；“中度”还会精简措辞；“仅快捷键”不改动普通听写。",
+          "options": {
+            "none": "仅快捷键",
+            "light": "轻度",
+            "medium": "中度"
+          }
+        }
+      },
+      "styles": {
+        "title": "按应用设置风格",
+        "description": "Hush 会根据你正在听写的应用调整润色方式。风格仅在开启 AI 润色时生效。",
+        "offNotice": "AI 润色已关闭，因此这些风格暂不生效。",
+        "default": {
+          "title": "默认风格",
+          "description": "用于没有单独设置风格的应用"
+        },
+        "options": {
+          "default": "默认",
+          "message": "消息（随意、简短）",
+          "email": "邮件（正式）",
+          "code": "代码（保留标识符）",
+          "raw": "原样（不用 AI）"
+        },
+        "empty": "还没有按应用的风格，所有应用使用默认风格。",
+        "addTitle": "添加应用",
+        "pickApp": "正在运行的应用",
+        "typeName": "或输入应用名称",
+        "add": "添加",
+        "refresh": "刷新正在运行的应用",
+        "remove": "移除"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "笔记本电脑盖子关闭时使用的麦克风"
       },
       "postProcessingToggle": {
-        "label": "后处理",
-        "description": "启用转录后的 AI 文本优化"
+        "label": "AI 润色",
+        "description": "用你选择的 AI 服务商润色听写内容"
       },
       "muteWhileRecording": {
         "label": "录制时静音",
@@ -615,6 +652,21 @@
         "label": "显示新功能",
         "description": "Hush 更新后显示发行说明"
       }
+    },
+    "snippets": {
+      "title": "语音片段",
+      "description": "说出触发短语，Hush 会输入对应的展开内容。大小写和标点不影响匹配，所以 “My email.” 也会触发 “my email”。在长句中同样有效。",
+      "trigger": "触发短语",
+      "triggerPlaceholder": "my email",
+      "expansion": "展开内容",
+      "expansionPlaceholder": "you@example.com",
+      "add": "添加片段",
+      "save": "保存",
+      "cancel": "取消",
+      "edit": "编辑",
+      "delete": "删除",
+      "empty": "还没有片段。",
+      "error": "无法保存片段：{{error}}"
     }
   },
   "footer": {

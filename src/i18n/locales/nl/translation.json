@@ -12,10 +12,11 @@
     "general": "Algemeen",
     "models": "Modellen",
     "advanced": "Geavanceerd",
-    "postProcessing": "Naverwerking",
+    "postProcessing": "AI-opschoning",
     "history": "Geschiedenis",
     "debug": "Probleemoplossing",
-    "about": "Over Hush"
+    "about": "Over Hush",
+    "snippets": "Snippets"
   },
   "onboarding": {
     "subtitle": "Kies een transcriptiemodel om aan de slag te gaan",
@@ -441,6 +442,42 @@
         "cancel": "Annuleren",
         "selectToEdit": "Selecteer hierboven een prompt om de details te bekijken en te bewerken.",
         "createFirst": "Klik hierboven op 'Nieuwe prompt maken' om je eerste naverwerkingsprompt aan te maken."
+      },
+      "cleanup": {
+        "title": "AI-opschoning",
+        "privacy": "Als dit aan staat, wordt de tekst van elk dictaat (nooit de audio) naar de hieronder gekozen aanbieder gestuurd.",
+        "level": {
+          "title": "Opschoonniveau",
+          "description": "Licht herstelt interpunctie, stopwoorden en zelfcorrecties. Gemiddeld maakt de formulering ook strakker. \"Alleen sneltoets\" laat gewoon dictaat ongemoeid.",
+          "options": {
+            "none": "Alleen sneltoets",
+            "light": "Licht",
+            "medium": "Gemiddeld"
+          }
+        }
+      },
+      "styles": {
+        "title": "Stijlen per app",
+        "description": "Hush past de opschoning aan op de app waarin je dicteert. Stijlen gelden alleen als AI-opschoning aan staat.",
+        "offNotice": "AI-opschoning staat uit, dus deze stijlen worden nog niet toegepast.",
+        "default": {
+          "title": "Standaardstijl",
+          "description": "Voor apps zonder eigen stijl"
+        },
+        "options": {
+          "default": "Standaard",
+          "message": "Bericht (informeel, kort)",
+          "email": "E-mail (zakelijk)",
+          "code": "Code (behoudt identifiers)",
+          "raw": "Ruw (geen AI)"
+        },
+        "empty": "Nog geen app-stijlen. Elke app gebruikt de standaardstijl.",
+        "addTitle": "App toevoegen",
+        "pickApp": "Actieve apps",
+        "typeName": "of typ een naam",
+        "add": "Toevoegen",
+        "refresh": "Actieve apps vernieuwen",
+        "remove": "Verwijderen"
       }
     },
     "history": {
@@ -526,8 +563,8 @@
         "description": "Microfoon die gebruikt moet worden wanneer het laptopscherm gesloten is"
       },
       "postProcessingToggle": {
-        "label": "Naverwerking",
-        "description": "Schakel AI-gestuurde tekstverfijning in na transcriptie"
+        "label": "AI-opschoning",
+        "description": "Schoon dictaat op met een AI-aanbieder naar keuze"
       },
       "muteWhileRecording": {
         "label": "Dempen tijdens opname",
@@ -615,6 +652,21 @@
           "details": "Hush's lokale spraak-naar-tekst is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
         }
       }
+    },
+    "snippets": {
+      "title": "Spraaksnippets",
+      "description": "Zeg een triggerzin en Hush typt de uitbreiding. Hoofdletters en leestekens maken niet uit, dus \"My email.\" activeert \"my email\". Werkt ook midden in een langere zin.",
+      "trigger": "Triggerzin",
+      "triggerPlaceholder": "my email",
+      "expansion": "Uitbreiding",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Snippet toevoegen",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "empty": "Nog geen snippets.",
+      "error": "Snippet kon niet worden opgeslagen: {{error}}"
     }
   },
   "footer": {

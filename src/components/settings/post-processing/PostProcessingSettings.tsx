@@ -21,6 +21,8 @@ import { ModelSelect } from "../PostProcessingSettingsApi/ModelSelect";
 import { usePostProcessProviderState } from "../PostProcessingSettingsApi/usePostProcessProviderState";
 import { ShortcutInput } from "../ShortcutInput";
 import { useSettings } from "../../../hooks/useSettings";
+import { PostProcessingToggle } from "../PostProcessingToggle";
+import { AppStylesSettings, CleanupLevelSetting } from "./AppStylesSettings";
 
 const PostProcessingSettingsApiComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -467,7 +469,12 @@ export const PostProcessingSettings: React.FC = () => {
 
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
-      <SettingsGroup title={t("settings.postProcessing.hotkey.title")}>
+      <SettingsGroup
+        title={t("settings.postProcessing.cleanup.title")}
+        description={t("settings.postProcessing.cleanup.privacy")}
+      >
+        <PostProcessingToggle descriptionMode="tooltip" grouped={true} />
+        <CleanupLevelSetting />
         <ShortcutInput
           shortcutId="transcribe_with_post_process"
           descriptionMode="tooltip"
@@ -477,6 +484,13 @@ export const PostProcessingSettings: React.FC = () => {
 
       <SettingsGroup title={t("settings.postProcessing.api.title")}>
         <PostProcessingSettingsApi />
+      </SettingsGroup>
+
+      <SettingsGroup
+        title={t("settings.postProcessing.styles.title")}
+        description={t("settings.postProcessing.styles.description")}
+      >
+        <AppStylesSettings />
       </SettingsGroup>
 
       <SettingsGroup title={t("settings.postProcessing.prompts.title")}>

@@ -928,6 +928,80 @@ async isLaptop() : Promise<Result<boolean, string>> {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async getSnippets() : Promise<Result<Snippet[], string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("get_snippets") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async addSnippet(trigger: string, expansion: string) : Promise<Result<number, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("add_snippet", { trigger, expansion }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async updateSnippet(id: number, trigger: string, expansion: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("update_snippet", { id, trigger, expansion }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async deleteSnippet(id: number) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("delete_snippet", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Lists the running apps for the per-app style picker.
+ */
+async listRunningApps() : Promise<AppInfo[]> {
+    return await TAURI_INVOKE("list_running_apps");
+},
+async changeCleanupLevelSetting(level: CleanupLevel) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_cleanup_level_setting", { level }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeDefaultAppStyleSetting(style: AppStyle) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_default_app_style_setting", { style }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Add or update the clean-up style for one app. `app_id` is the bundle id
+ * when the app was picked from the running apps, or its typed name.
+ */
+async setAppStyle(appId: string, appName: string, style: AppStyle) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("set_app_style", { appId, appName, style }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async removeAppStyle(appId: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("remove_app_style", { appId }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -990,7 +1064,19 @@ whats_new_last_seen_version?: string; selected_model?: string; onboarding_comple
  * Which input channel to use on the selected microphone device.
  * None means "average all channels" (original behavior).
  */
-selected_channel?: number | null; clamshell_microphone?: string | null; selected_output_device?: string | null; translate_to_english?: boolean; selected_language?: string; overlay_position?: OverlayPosition; debug_mode?: boolean; log_level?: LogLevel; custom_words?: string[]; model_unload_timeout?: ModelUnloadTimeout; word_correction_threshold?: number; history_limit?: number; recording_retention_period?: RecordingRetentionPeriod; paste_method?: PasteMethod; clipboard_handling?: ClipboardHandling; auto_submit?: boolean; auto_submit_key?: AutoSubmitKey; post_process_enabled?: boolean; post_process_provider_id?: string; post_process_providers?: PostProcessProvider[]; post_process_api_keys?: SecretMap; post_process_models?: Partial<{ [key in string]: string }>; post_process_prompts?: LLMPrompt[]; post_process_selected_prompt_id?: string | null; mute_while_recording?: boolean; append_trailing_space?: boolean; app_language?: string; theme?: Theme; experimental_enabled?: boolean; lazy_stream_close?: boolean; keyboard_implementation?: KeyboardImplementation; show_tray_icon?: boolean; paste_delay_ms?: number; paste_delay_after_ms?: number; 
+selected_channel?: number | null; clamshell_microphone?: string | null; selected_output_device?: string | null; translate_to_english?: boolean; selected_language?: string; overlay_position?: OverlayPosition; debug_mode?: boolean; log_level?: LogLevel; custom_words?: string[]; model_unload_timeout?: ModelUnloadTimeout; word_correction_threshold?: number; history_limit?: number; recording_retention_period?: RecordingRetentionPeriod; paste_method?: PasteMethod; clipboard_handling?: ClipboardHandling; auto_submit?: boolean; auto_submit_key?: AutoSubmitKey; post_process_enabled?: boolean; post_process_provider_id?: string; post_process_providers?: PostProcessProvider[]; post_process_api_keys?: SecretMap; post_process_models?: Partial<{ [key in string]: string }>; post_process_prompts?: LLMPrompt[]; post_process_selected_prompt_id?: string | null; 
+/**
+ * How much AI clean-up changes ordinary dictation (see [`CleanupLevel`]).
+ */
+cleanup_level?: CleanupLevel; 
+/**
+ * Style used in apps without their own rule.
+ */
+default_app_style?: AppStyle; 
+/**
+ * Per-app style overrides, matched by bundle id (or name).
+ */
+app_styles?: AppStyleRule[]; mute_while_recording?: boolean; append_trailing_space?: boolean; app_language?: string; theme?: Theme; experimental_enabled?: boolean; lazy_stream_close?: boolean; keyboard_implementation?: KeyboardImplementation; show_tray_icon?: boolean; paste_delay_ms?: number; paste_delay_after_ms?: number; 
 /**
  * Debug-gated ("beta") receipt-sequenced paste: restore the clipboard only
  * after the target app actually reads the transcript, instead of after a
@@ -1024,6 +1110,49 @@ long_form_chunking?: boolean;
  * `overlay_position` (position `none` → style `None`).
  */
 overlay_style?: OverlayStyle }
+/**
+ * A user-facing application, identified for style matching.
+ */
+export type AppInfo = { 
+/**
+ * macOS bundle identifier (`com.apple.mail`), when the app has one.
+ */
+bundle_id: string | null; 
+/**
+ * Localized display name (`Mail`).
+ */
+name: string }
+/**
+ * Writing style applied by AI clean-up, chosen per app.
+ */
+export type AppStyle = 
+/**
+ * Neutral: keep the speaker's tone.
+ */
+"default" | 
+/**
+ * Casual and short, like a chat message.
+ */
+"message" | 
+/**
+ * Professional, in paragraphs.
+ */
+"email" | 
+/**
+ * Preserve identifiers, commands and symbols exactly.
+ */
+"code" | 
+/**
+ * Skip AI clean-up entirely for this app.
+ */
+"raw"
+/**
+ * A per-app style rule. `app_id` is the macOS bundle identifier when known
+ * (e.g. `com.tinyspeck.slackmacgap`); rules added by typing a name, or
+ * migrated from Hush 0.8, use the app's display name instead and match
+ * against the frontmost app's name.
+ */
+export type AppStyleRule = { app_id: string; app_name: string; style: AppStyle }
 export type AudioDevice = { index: string; name: string; is_default: boolean }
 export type AutoSubmitKey = "enter" | "ctrl_enter" | "cmd_enter"
 export type AvailableAccelerators = { transcribe: string[]; gpu_devices: GpuDeviceOption[] }
@@ -1032,6 +1161,14 @@ export type BindingResponse = { success: boolean; binding: ShortcutBinding | nul
  * Script applied to Mandarin and Cantonese output. Other languages are never
  * converted.
  */
+/**
+ * How much the AI clean-up step may change a dictation.
+ * 
+ * `None` leaves ordinary dictation untouched (only the dedicated clean-up
+ * shortcut runs the AI, at `Light`). `Light` fixes punctuation, fillers and
+ * self-corrections. `Medium` also tightens wording.
+ */
+export type CleanupLevel = "none" | "light" | "medium"
 export type ChineseScript = 
 /**
  * Keep whatever script the model produced.
@@ -1151,6 +1288,7 @@ recorder_blocked: boolean }
 /**
  * How the transcribe shortcut's key events drive a recording.
  */
+export type Snippet = { id: number; trigger_text: string; expansion_text: string; created_at: number }
 export type ShortcutActivation = 
 /**
  * Press to start, press again to stop.

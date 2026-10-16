@@ -666,7 +666,8 @@ impl ModelManager {
                 description: "Fast and fairly accurate.".to_string(),
                 filename: "ggml-small.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin".to_string(),
+                    url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin"
+                        .to_string(),
                     sha256: Some(
                         "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b"
                             .to_string(),

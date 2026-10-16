@@ -12,10 +12,11 @@
     "general": "Général",
     "models": "Modèles",
     "advanced": "Avancé",
-    "postProcessing": "Post-traitement",
+    "postProcessing": "Nettoyage IA",
     "history": "Historique",
     "debug": "Débogage",
-    "about": "À propos"
+    "about": "À propos",
+    "snippets": "Raccourcis"
   },
   "onboarding": {
     "subtitle": "Pour commencer, choisissez un modèle de transcription",
@@ -441,6 +442,42 @@
         "cancel": "Annuler",
         "selectToEdit": "Sélectionnez un prompt ci-dessus pour voir et modifier ses détails.",
         "createFirst": "Cliquez sur 'Créer un nouveau prompt' ci-dessus pour créer votre premier prompt de post-traitement."
+      },
+      "cleanup": {
+        "title": "Nettoyage IA",
+        "privacy": "Lorsque cette option est activée, le texte de chaque dictée (jamais l’audio) est envoyé au fournisseur choisi ci-dessous.",
+        "level": {
+          "title": "Niveau de nettoyage",
+          "description": "Léger corrige la ponctuation, les mots de remplissage et les reformulations. Moyen resserre aussi la formulation. « Raccourci seulement » laisse la dictée normale intacte.",
+          "options": {
+            "none": "Raccourci seulement",
+            "light": "Léger",
+            "medium": "Moyen"
+          }
+        }
+      },
+      "styles": {
+        "title": "Styles par app",
+        "description": "Hush adapte le nettoyage à l’app dans laquelle vous dictez. Les styles ne s’appliquent que si le nettoyage IA est activé.",
+        "offNotice": "Le nettoyage IA est désactivé : ces styles ne sont pas encore appliqués.",
+        "default": {
+          "title": "Style par défaut",
+          "description": "Utilisé dans les apps sans style propre"
+        },
+        "options": {
+          "default": "Par défaut",
+          "message": "Message (décontracté, court)",
+          "email": "E-mail (professionnel)",
+          "code": "Code (garde les identifiants)",
+          "raw": "Brut (sans IA)"
+        },
+        "empty": "Aucun style d’app pour l’instant. Toutes les apps utilisent le style par défaut.",
+        "addTitle": "Ajouter une app",
+        "pickApp": "Apps ouvertes",
+        "typeName": "ou saisissez un nom",
+        "add": "Ajouter",
+        "refresh": "Actualiser les apps ouvertes",
+        "remove": "Retirer"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Microphone à utiliser lorsque le couvercle du portable est fermé"
       },
       "postProcessingToggle": {
-        "label": "Post-traitement",
-        "description": "Activer l'affinage du texte par IA après la transcription"
+        "label": "Nettoyage IA",
+        "description": "Nettoyer la dictée avec le fournisseur d’IA de votre choix"
       },
       "muteWhileRecording": {
         "label": "Muet pendant l'enregistrement",
@@ -615,6 +652,21 @@
         "label": "Afficher les nouveautés",
         "description": "Afficher les notes de version après les mises à jour de Hush"
       }
+    },
+    "snippets": {
+      "title": "Raccourcis vocaux",
+      "description": "Dites une phrase déclencheur et Hush tape le texte associé. Majuscules et ponctuation n’ont pas d’importance : « My email. » déclenche « my email ». Fonctionne aussi au milieu d’une phrase.",
+      "trigger": "Phrase déclencheur",
+      "triggerPlaceholder": "my email",
+      "expansion": "Texte associé",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Ajouter",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "empty": "Aucun raccourci pour l’instant.",
+      "error": "Impossible d’enregistrer : {{error}}"
     }
   },
   "footer": {

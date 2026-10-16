@@ -12,10 +12,11 @@
     "general": "Allmänt",
     "models": "Modeller",
     "advanced": "Avancerat",
-    "postProcessing": "Efterbearbetning",
+    "postProcessing": "AI-städning",
     "history": "Historik",
     "debug": "Felsökning",
-    "about": "Om"
+    "about": "Om",
+    "snippets": "Textmallar"
   },
   "onboarding": {
     "subtitle": "För att komma igång, välj en transkriptionsmodell",
@@ -441,6 +442,42 @@
         "cancel": "Avbryt",
         "selectToEdit": "Välj en prompt ovan för att visa och redigera dess detaljer.",
         "createFirst": "Klicka på 'Skapa ny prompt' ovan för att skapa din första prompt för efterbearbetning."
+      },
+      "cleanup": {
+        "title": "AI-städning",
+        "privacy": "När det är på skickas texten från varje diktering (aldrig ljudet) till leverantören du väljer nedan.",
+        "level": {
+          "title": "Städnivå",
+          "description": "Lätt rättar skiljetecken, utfyllnadsord och självkorrigeringar. Mellan stramar även upp formuleringar. \"Endast kortkommando\" lämnar vanlig diktering orörd.",
+          "options": {
+            "none": "Endast kortkommando",
+            "light": "Lätt",
+            "medium": "Mellan"
+          }
+        }
+      },
+      "styles": {
+        "title": "Stil per app",
+        "description": "Hush anpassar städningen efter appen du dikterar i. Stilar gäller bara när AI-städning är på.",
+        "offNotice": "AI-städning är av, så de här stilarna används inte än.",
+        "default": {
+          "title": "Standardstil",
+          "description": "Används i appar utan egen stil"
+        },
+        "options": {
+          "default": "Standard",
+          "message": "Meddelande (avslappnat, kort)",
+          "email": "E-post (professionellt)",
+          "code": "Kod (behåller identifierare)",
+          "raw": "Rå (ingen AI)"
+        },
+        "empty": "Inga appstilar än. Alla appar använder standardstilen.",
+        "addTitle": "Lägg till en app",
+        "pickApp": "Öppna appar",
+        "typeName": "eller skriv ett namn",
+        "add": "Lägg till",
+        "refresh": "Uppdatera öppna appar",
+        "remove": "Ta bort"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Mikrofon som ska användas när bärbara datorns lock är stängt"
       },
       "postProcessingToggle": {
-        "label": "Efterbearbetning",
-        "description": "Aktivera AI-driven textförfining efter transkription"
+        "label": "AI-städning",
+        "description": "Städa upp diktering med en AI-leverantör du väljer"
       },
       "muteWhileRecording": {
         "label": "Ljudlös under inspelning",
@@ -615,6 +652,21 @@
         "label": "Visa nyheter",
         "description": "Visa versionsinformation efter Hush-uppdateringar"
       }
+    },
+    "snippets": {
+      "title": "Röstmallar",
+      "description": "Säg en utlösarfras så skriver Hush ut texten. Versaler och skiljetecken spelar ingen roll, så \"My email.\" utlöser \"my email\". Fungerar även mitt i längre meningar.",
+      "trigger": "Utlösarfras",
+      "triggerPlaceholder": "my email",
+      "expansion": "Utskrift",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Lägg till mall",
+      "save": "Spara",
+      "cancel": "Avbryt",
+      "edit": "Redigera",
+      "delete": "Radera",
+      "empty": "Inga mallar än.",
+      "error": "Kunde inte spara mallen: {{error}}"
     }
   },
   "footer": {

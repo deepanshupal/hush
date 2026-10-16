@@ -12,10 +12,11 @@
     "general": "Chung",
     "models": "Mô hình",
     "advanced": "Nâng cao",
-    "postProcessing": "Xử lý sau",
+    "postProcessing": "Làm sạch bằng AI",
     "history": "Lịch sử",
     "debug": "Gỡ lỗi",
-    "about": "Giới thiệu"
+    "about": "Giới thiệu",
+    "snippets": "Đoạn mẫu"
   },
   "onboarding": {
     "subtitle": "Để bắt đầu, hãy chọn một mô hình chuyển đổi giọng nói",
@@ -441,6 +442,42 @@
         "cancel": "Hủy",
         "selectToEdit": "Chọn một prompt ở trên để xem và chỉnh sửa chi tiết.",
         "createFirst": "Nhấn 'Tạo Prompt mới' ở trên để tạo prompt xử lý sau đầu tiên của bạn."
+      },
+      "cleanup": {
+        "title": "Làm sạch bằng AI",
+        "privacy": "Khi bật, văn bản của mỗi lần đọc (không bao giờ là âm thanh) được gửi đến nhà cung cấp bạn chọn bên dưới.",
+        "level": {
+          "title": "Mức làm sạch",
+          "description": "Nhẹ sửa dấu câu, từ đệm và chỗ tự sửa. Vừa còn rút gọn câu chữ. \"Chỉ phím tắt\" giữ nguyên văn bản đọc thông thường.",
+          "options": {
+            "none": "Chỉ phím tắt",
+            "light": "Nhẹ",
+            "medium": "Vừa"
+          }
+        }
+      },
+      "styles": {
+        "title": "Kiểu theo ứng dụng",
+        "description": "Hush điều chỉnh việc làm sạch theo ứng dụng bạn đang đọc vào. Kiểu chỉ áp dụng khi bật Làm sạch bằng AI.",
+        "offNotice": "Làm sạch bằng AI đang tắt nên các kiểu này chưa được áp dụng.",
+        "default": {
+          "title": "Kiểu mặc định",
+          "description": "Dùng cho ứng dụng không có kiểu riêng"
+        },
+        "options": {
+          "default": "Mặc định",
+          "message": "Tin nhắn (thân mật, ngắn)",
+          "email": "Email (trang trọng)",
+          "code": "Mã (giữ định danh)",
+          "raw": "Thô (không AI)"
+        },
+        "empty": "Chưa có kiểu theo ứng dụng. Mọi ứng dụng dùng kiểu mặc định.",
+        "addTitle": "Thêm ứng dụng",
+        "pickApp": "Ứng dụng đang chạy",
+        "typeName": "hoặc nhập tên",
+        "add": "Thêm",
+        "refresh": "Làm mới ứng dụng đang chạy",
+        "remove": "Xóa"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Micrô sử dụng khi nắp laptop được đóng"
       },
       "postProcessingToggle": {
-        "label": "Xử lý sau",
-        "description": "Bật tinh chỉnh văn bản bằng AI sau khi chuyển đổi"
+        "label": "Làm sạch bằng AI",
+        "description": "Làm sạch văn bản đọc bằng nhà cung cấp AI bạn chọn"
       },
       "muteWhileRecording": {
         "label": "Tắt tiếng khi ghi âm",
@@ -615,6 +652,21 @@
         "label": "Hiển thị điểm mới",
         "description": "Hiển thị ghi chú phát hành sau khi Hush cập nhật"
       }
+    },
+    "snippets": {
+      "title": "Đoạn mẫu giọng nói",
+      "description": "Nói cụm từ kích hoạt và Hush sẽ gõ nội dung mở rộng. Chữ hoa và dấu câu không quan trọng, nên “My email.” vẫn kích hoạt “my email”. Cũng hoạt động giữa câu dài.",
+      "trigger": "Cụm từ kích hoạt",
+      "triggerPlaceholder": "my email",
+      "expansion": "Nội dung mở rộng",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Thêm đoạn mẫu",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "edit": "Sửa",
+      "delete": "Xóa",
+      "empty": "Chưa có đoạn mẫu nào.",
+      "error": "Không lưu được đoạn mẫu: {{error}}"
     }
   },
   "footer": {

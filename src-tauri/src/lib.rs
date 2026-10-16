@@ -1,4 +1,5 @@
 mod actions;
+mod app_context;
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 mod apple_intelligence;
 mod audio_feedback;
@@ -638,34 +639,10 @@ fn run_headless_transcription(app: &AppHandle, args: &CliArgs) -> i32 {
     0
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-pub fn run(cli_args: CliArgs) {
-    // Avoid ggml-metal residency-set teardown assertions when a native engine
-    // outlives the Tauri shutdown sequence (#1902). This must happen before
-    // transcribe-cpp initializes its Metal device. Advanced users can restore
-    // upstream residency behavior with HANDY_METAL_RESIDENCY=1.
-    #[cfg(target_os = "macos")]
-    if std::env::var("HANDY_METAL_RESIDENCY").as_deref() == Ok("1") {
-        // ggml treats GGML_METAL_NO_RESIDENCY as presence-based, so remove an
-        // inherited value as well when explicitly opting back in.
-        std::env::remove_var("GGML_METAL_NO_RESIDENCY");
-    } else {
-        std::env::set_var("GGML_METAL_NO_RESIDENCY", "1");
-    }
-
-    // Pin glibc's dynamic mmap threshold before the first large allocation,
-    // so per-dictation transient buffers are returned to the OS on free
-    // instead of accumulating in malloc arenas (#1792). No-op off Linux/glibc.
-    memory::init_allocator();
-
-    // Detect portable mode before anything else
-    portable::init();
-
-    // Parse console logging directives from RUST_LOG, falling back to info-level logging
-    // when the variable is unset
-    let console_filter = build_console_filter();
-
-    let specta_builder = Builder::<tauri::Wry>::new()
+/// The tauri-specta builder: every command and event the frontend can use.
+/// Debug runs (and the `export_bindings` test) write `src/bindings.ts` from it.
+fn specta_builder() -> Builder<tauri::Wry> {
+    Builder::<tauri::Wry>::new()
         .commands(collect_commands![
             shortcut::change_binding,
             shortcut::reset_binding,
@@ -1185,4 +1162,21 @@ pub fn run(cli_args: CliArgs) {
         // could block quitting behind a hung model load.
         _ => {}
     });
+}
+
+#[cfg(test)]
+mod bindings_export {
+    /// Regenerates `src/bindings.ts` without launching the app:
+    /// `cargo test --lib export_bindings -- --ignored`.
+    #[test]
+    #[ignore]
+    fn export_bindings() {
+        super::specta_builder()
+            .export(
+                specta_typescript::Typescript::default()
+                    .bigint(specta_typescript::BigIntExportBehavior::Number),
+                "../src/bindings.ts",
+            )
+            .expect("export bindings");
+    }
 }

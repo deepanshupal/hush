@@ -12,10 +12,11 @@
     "general": "Umum",
     "models": "Model",
     "advanced": "Lanjutan",
-    "postProcessing": "Pascaproses",
+    "postProcessing": "Perapian AI",
     "history": "Riwayat",
     "debug": "Debug",
-    "about": "Tentang"
+    "about": "Tentang",
+    "snippets": "Cuplikan"
   },
   "onboarding": {
     "subtitle": "Untuk memulai, pilih model transkripsi",
@@ -441,6 +442,42 @@
         "cancel": "Batal",
         "selectToEdit": "Pilih prompt di atas untuk melihat dan mengedit detailnya.",
         "createFirst": "Klik 'Buat Prompt Baru' di atas untuk membuat prompt pascaproses pertama Anda."
+      },
+      "cleanup": {
+        "title": "Perapian AI",
+        "privacy": "Saat aktif, teks setiap dikte (tidak pernah audionya) dikirim ke penyedia yang Anda pilih di bawah.",
+        "level": {
+          "title": "Tingkat perapian",
+          "description": "Ringan memperbaiki tanda baca, kata pengisi, dan koreksi diri. Sedang juga merapikan susunan kata. \"Hanya pintasan\" membiarkan dikte biasa apa adanya.",
+          "options": {
+            "none": "Hanya pintasan",
+            "light": "Ringan",
+            "medium": "Sedang"
+          }
+        }
+      },
+      "styles": {
+        "title": "Gaya per aplikasi",
+        "description": "Hush menyesuaikan perapian dengan aplikasi tempat Anda mendikte. Gaya hanya berlaku saat Perapian AI aktif.",
+        "offNotice": "Perapian AI nonaktif, jadi gaya ini belum diterapkan.",
+        "default": {
+          "title": "Gaya bawaan",
+          "description": "Dipakai di aplikasi yang tidak punya gaya sendiri"
+        },
+        "options": {
+          "default": "Bawaan",
+          "message": "Pesan (santai, singkat)",
+          "email": "Email (profesional)",
+          "code": "Kode (identifier tetap)",
+          "raw": "Mentah (tanpa AI)"
+        },
+        "empty": "Belum ada gaya aplikasi. Semua aplikasi memakai gaya bawaan.",
+        "addTitle": "Tambahkan aplikasi",
+        "pickApp": "Aplikasi yang berjalan",
+        "typeName": "atau ketik nama",
+        "add": "Tambah",
+        "refresh": "Muat ulang aplikasi yang berjalan",
+        "remove": "Hapus"
       }
     },
     "history": {
@@ -526,8 +563,8 @@
         "description": "Mikrofon yang digunakan saat laptop ditutup"
       },
       "postProcessingToggle": {
-        "label": "Pascaproses",
-        "description": "Aktifkan penyempurnaan teks berbasis AI setelah transkripsi"
+        "label": "Perapian AI",
+        "description": "Rapikan dikte dengan penyedia AI pilihan Anda"
       },
       "muteWhileRecording": {
         "label": "Bisukan Saat Merekam",
@@ -615,6 +652,21 @@
           "details": "Fitur ucapan-ke-teks lokal Hush dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
         }
       }
+    },
+    "snippets": {
+      "title": "Cuplikan suara",
+      "description": "Ucapkan frasa pemicu dan Hush mengetik teks lengkapnya. Huruf kapital dan tanda baca tidak berpengaruh, jadi “My email.” memicu “my email”. Juga berfungsi di tengah kalimat panjang.",
+      "trigger": "Frasa pemicu",
+      "triggerPlaceholder": "my email",
+      "expansion": "Teks lengkap",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Tambah cuplikan",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "edit": "Edit",
+      "delete": "Hapus",
+      "empty": "Belum ada cuplikan.",
+      "error": "Gagal menyimpan cuplikan: {{error}}"
     }
   },
   "footer": {

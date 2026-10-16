@@ -12,10 +12,11 @@
     "general": "Ogólne",
     "models": "Modele",
     "advanced": "Zaawansowane",
-    "postProcessing": "Postproces",
+    "postProcessing": "Porządkowanie AI",
     "history": "Historia",
     "debug": "Debugowanie",
-    "about": "O programie"
+    "about": "O programie",
+    "snippets": "Fragmenty"
   },
   "onboarding": {
     "subtitle": "Aby rozpocząć, wybierz model transkrypcji",
@@ -441,6 +442,42 @@
         "cancel": "Anuluj",
         "selectToEdit": "Wybierz prompt powyżej, aby zobaczyć i edytować jego szczegóły.",
         "createFirst": "Kliknij 'Utwórz nowy prompt' powyżej, aby utworzyć pierwszy prompt postprocessingu."
+      },
+      "cleanup": {
+        "title": "Porządkowanie AI",
+        "privacy": "Po włączeniu tekst każdego dyktowania (nigdy dźwięk) jest wysyłany do dostawcy wybranego poniżej.",
+        "level": {
+          "title": "Poziom porządkowania",
+          "description": "Lekki poprawia interpunkcję, wypełniacze i autopoprawki. Średni dodatkowo skraca sformułowania. „Tylko skrót” zostawia zwykłe dyktowanie bez zmian.",
+          "options": {
+            "none": "Tylko skrót",
+            "light": "Lekki",
+            "medium": "Średni"
+          }
+        }
+      },
+      "styles": {
+        "title": "Style dla aplikacji",
+        "description": "Hush dopasowuje porządkowanie do aplikacji, w której dyktujesz. Style działają tylko przy włączonym porządkowaniu AI.",
+        "offNotice": "Porządkowanie AI jest wyłączone, więc te style nie są jeszcze stosowane.",
+        "default": {
+          "title": "Styl domyślny",
+          "description": "Używany w aplikacjach bez własnego stylu"
+        },
+        "options": {
+          "default": "Domyślny",
+          "message": "Wiadomość (swobodnie, krótko)",
+          "email": "E-mail (profesjonalnie)",
+          "code": "Kod (zachowuje identyfikatory)",
+          "raw": "Surowy (bez AI)"
+        },
+        "empty": "Brak stylów aplikacji. Wszystkie używają stylu domyślnego.",
+        "addTitle": "Dodaj aplikację",
+        "pickApp": "Uruchomione aplikacje",
+        "typeName": "lub wpisz nazwę",
+        "add": "Dodaj",
+        "refresh": "Odśwież uruchomione aplikacje",
+        "remove": "Usuń"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Mikrofon używany, gdy pokrywa laptopa jest zamknięta"
       },
       "postProcessingToggle": {
-        "label": "Postprocess",
-        "description": "Włącz AI do ulepszania tekstu po transkrypcji"
+        "label": "Porządkowanie AI",
+        "description": "Porządkuj dyktowanie za pomocą wybranego dostawcy AI"
       },
       "muteWhileRecording": {
         "label": "Wycisz podczas nagrywania",
@@ -615,6 +652,21 @@
         "label": "Pokaż nowości",
         "description": "Pokazuj informacje o wydaniu po aktualizacjach Hush"
       }
+    },
+    "snippets": {
+      "title": "Fragmenty głosowe",
+      "description": "Powiedz frazę wyzwalającą, a Hush wpisze rozwinięcie. Wielkość liter i interpunkcja nie mają znaczenia, więc „My email.” uruchomi „my email”. Działa też w dłuższych zdaniach.",
+      "trigger": "Fraza wyzwalająca",
+      "triggerPlaceholder": "my email",
+      "expansion": "Rozwinięcie",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Dodaj fragment",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "edit": "Edytuj",
+      "delete": "Usuń",
+      "empty": "Brak fragmentów.",
+      "error": "Nie udało się zapisać fragmentu: {{error}}"
     }
   },
   "footer": {

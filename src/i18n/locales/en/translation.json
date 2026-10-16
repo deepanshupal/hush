@@ -12,10 +12,11 @@
     "general": "General",
     "models": "Models",
     "advanced": "Advanced",
-    "postProcessing": "Post Process",
+    "postProcessing": "AI clean-up",
     "history": "History",
     "debug": "Debug",
-    "about": "About"
+    "about": "About",
+    "snippets": "Snippets"
   },
   "onboarding": {
     "subtitle": "To get started, choose a transcription model",
@@ -441,6 +442,42 @@
         "cancel": "Cancel",
         "selectToEdit": "Select a prompt above to view and edit its details.",
         "createFirst": "Click 'Create New Prompt' above to create your first post-processing prompt."
+      },
+      "cleanup": {
+        "title": "AI clean-up",
+        "privacy": "When on, the text of each dictation (never the audio) is sent to the provider you choose below.",
+        "level": {
+          "title": "Clean-up level",
+          "description": "Light fixes punctuation, fillers and self-corrections. Medium also tightens wording. Shortcut only leaves normal dictation alone and cleans up only with the clean-up shortcut.",
+          "options": {
+            "none": "Shortcut only",
+            "light": "Light",
+            "medium": "Medium"
+          }
+        }
+      },
+      "styles": {
+        "title": "Styles per app",
+        "description": "Hush adapts clean-up to the app you’re dictating into. Styles apply only when AI clean-up is on.",
+        "offNotice": "AI clean-up is off, so these styles aren’t applied yet.",
+        "default": {
+          "title": "Default style",
+          "description": "Used in apps that don’t have their own style"
+        },
+        "options": {
+          "default": "Default",
+          "message": "Message (casual, short)",
+          "email": "Email (professional)",
+          "code": "Code (keeps identifiers)",
+          "raw": "Raw (no AI)"
+        },
+        "empty": "No app styles yet. Every app uses the default style.",
+        "addTitle": "Add an app",
+        "pickApp": "Running apps",
+        "typeName": "or type an app name",
+        "add": "Add",
+        "refresh": "Refresh running apps",
+        "remove": "Remove"
       }
     },
     "history": {
@@ -526,8 +563,8 @@
         "description": "Microphone to use when laptop lid is closed"
       },
       "postProcessingToggle": {
-        "label": "Post Processing",
-        "description": "Enable AI-powered text refinement after transcription"
+        "label": "AI clean-up",
+        "description": "Clean up dictation with an AI provider you choose"
       },
       "muteWhileRecording": {
         "label": "Mute While Recording",
@@ -615,6 +652,21 @@
           "details": "Hush's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
+    },
+    "snippets": {
+      "title": "Voice snippets",
+      "description": "Say a trigger phrase and Hush types the expansion instead. Capitals and punctuation don’t matter, so “My email.” triggers “my email”. Triggers work inside longer sentences too.",
+      "trigger": "Trigger phrase",
+      "triggerPlaceholder": "my email",
+      "expansion": "Expansion",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Add snippet",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "empty": "No snippets yet.",
+      "error": "Couldn’t save the snippet: {{error}}"
     }
   },
   "footer": {

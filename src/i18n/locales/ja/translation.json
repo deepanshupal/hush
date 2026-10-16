@@ -12,10 +12,11 @@
     "general": "一般",
     "models": "モデル",
     "advanced": "詳細設定",
-    "postProcessing": "後処理",
+    "postProcessing": "AI整形",
     "history": "履歴",
     "debug": "デバッグ",
-    "about": "概要"
+    "about": "概要",
+    "snippets": "スニペット"
   },
   "onboarding": {
     "subtitle": "開始するには、文字起こしのモデルを選択してください",
@@ -441,6 +442,42 @@
         "cancel": "キャンセル",
         "selectToEdit": "上からプロンプトを選択して、詳細を表示・編集します。",
         "createFirst": "上の「新しいプロンプトを作成」をクリックして、最初の後処理プロンプトを作成してください。"
+      },
+      "cleanup": {
+        "title": "AI整形",
+        "privacy": "オンにすると、各音声入力のテキスト（音声は送信しません）が下で選んだプロバイダーに送信されます。",
+        "level": {
+          "title": "整形レベル",
+          "description": "「軽め」は句読点、つなぎ言葉、言い直しを整えます。「標準」は表現も簡潔にします。「ショートカットのみ」は通常の音声入力を変更しません。",
+          "options": {
+            "none": "ショートカットのみ",
+            "light": "軽め",
+            "medium": "標準"
+          }
+        }
+      },
+      "styles": {
+        "title": "アプリ別スタイル",
+        "description": "Hushは入力先のアプリに合わせて整形を調整します。スタイルはAI整形がオンのときだけ適用されます。",
+        "offNotice": "AI整形がオフのため、これらのスタイルはまだ適用されません。",
+        "default": {
+          "title": "既定のスタイル",
+          "description": "専用のスタイルがないアプリで使われます"
+        },
+        "options": {
+          "default": "既定",
+          "message": "メッセージ（くだけた・短め）",
+          "email": "メール（ビジネス）",
+          "code": "コード（識別子を保持）",
+          "raw": "そのまま（AIなし）"
+        },
+        "empty": "アプリ別スタイルはまだありません。すべてのアプリで既定のスタイルが使われます。",
+        "addTitle": "アプリを追加",
+        "pickApp": "起動中のアプリ",
+        "typeName": "またはアプリ名を入力",
+        "add": "追加",
+        "refresh": "起動中のアプリを更新",
+        "remove": "削除"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "ノートパソコンの蓋を閉じたときに使用するマイク"
       },
       "postProcessingToggle": {
-        "label": "後処理",
-        "description": "文字起こし後の AI によるテキスト改善を有効化"
+        "label": "AI整形",
+        "description": "選んだAIプロバイダーで音声入力を整えます"
       },
       "muteWhileRecording": {
         "label": "録音中にミュート",
@@ -615,6 +652,21 @@
         "label": "新機能を表示",
         "description": "Hush のアップデート後にリリースノートを表示"
       }
+    },
+    "snippets": {
+      "title": "音声スニペット",
+      "description": "トリガーフレーズを話すと、Hushが展開テキストを入力します。大文字小文字や句読点は区別しないので、「My email.」でも「my email」が発動します。長い文の途中でも使えます。",
+      "trigger": "トリガーフレーズ",
+      "triggerPlaceholder": "my email",
+      "expansion": "展開テキスト",
+      "expansionPlaceholder": "you@example.com",
+      "add": "スニペットを追加",
+      "save": "保存",
+      "cancel": "キャンセル",
+      "edit": "編集",
+      "delete": "削除",
+      "empty": "スニペットはまだありません。",
+      "error": "スニペットを保存できませんでした: {{error}}"
     }
   },
   "footer": {

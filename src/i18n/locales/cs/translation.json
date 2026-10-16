@@ -12,10 +12,11 @@
     "general": "Obecné",
     "models": "Modely",
     "advanced": "Pokročilé",
-    "postProcessing": "Následné zpracování",
+    "postProcessing": "Úprava AI",
     "history": "Historie",
     "debug": "Ladění",
-    "about": "O aplikaci"
+    "about": "O aplikaci",
+    "snippets": "Úryvky"
   },
   "onboarding": {
     "subtitle": "Pro začátek vyberte model pro přepis",
@@ -441,6 +442,42 @@
         "cancel": "Zrušit",
         "selectToEdit": "Vyberte výše prompt, abyste zobrazili a upravili jeho podrobnosti.",
         "createFirst": "Klikněte nahoře na 'Vytvořit nový prompt' a vytvořte svůj první prompt pro následné zpracování."
+      },
+      "cleanup": {
+        "title": "Úprava AI",
+        "privacy": "Když je zapnuto, text každého diktátu (nikdy zvuk) se odesílá poskytovateli, kterého zvolíte níže.",
+        "level": {
+          "title": "Úroveň úprav",
+          "description": "Lehká opraví interpunkci, výplňová slova a opravy v řeči. Střední navíc zestruční formulace. „Jen zkratka“ nechá běžný diktát beze změny.",
+          "options": {
+            "none": "Jen zkratka",
+            "light": "Lehká",
+            "medium": "Střední"
+          }
+        }
+      },
+      "styles": {
+        "title": "Styly podle aplikace",
+        "description": "Hush přizpůsobí úpravy aplikaci, do které diktujete. Styly platí jen se zapnutou úpravou AI.",
+        "offNotice": "Úprava AI je vypnutá, takže se tyto styly zatím nepoužijí.",
+        "default": {
+          "title": "Výchozí styl",
+          "description": "Použije se v aplikacích bez vlastního stylu"
+        },
+        "options": {
+          "default": "Výchozí",
+          "message": "Zpráva (neformální, krátká)",
+          "email": "E-mail (formální)",
+          "code": "Kód (zachová identifikátory)",
+          "raw": "Beze změn (bez AI)"
+        },
+        "empty": "Zatím žádné styly aplikací. Všechny aplikace používají výchozí styl.",
+        "addTitle": "Přidat aplikaci",
+        "pickApp": "Spuštěné aplikace",
+        "typeName": "nebo zadejte název",
+        "add": "Přidat",
+        "refresh": "Obnovit spuštěné aplikace",
+        "remove": "Odebrat"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Mikrofon, který se použije při zavřeném víku notebooku"
       },
       "postProcessingToggle": {
-        "label": "Následné zpracování",
-        "description": "Povolit AI vylepšení textu po přepisu"
+        "label": "Úprava AI",
+        "description": "Upravujte diktát pomocí poskytovatele AI dle vaší volby"
       },
       "muteWhileRecording": {
         "label": "Ztlumit při nahrávání",
@@ -615,6 +652,21 @@
         "label": "Zobrazovat novinky",
         "description": "Zobrazovat poznámky k vydání po aktualizacích Hush"
       }
+    },
+    "snippets": {
+      "title": "Hlasové úryvky",
+      "description": "Vyslovte spouštěcí frázi a Hush napíše její rozšíření. Na velikosti písmen a interpunkci nezáleží, takže „My email.“ spustí „my email“. Funguje to i uvnitř delších vět.",
+      "trigger": "Spouštěcí fráze",
+      "triggerPlaceholder": "my email",
+      "expansion": "Rozšíření",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Přidat úryvek",
+      "save": "Uložit",
+      "cancel": "Zrušit",
+      "edit": "Upravit",
+      "delete": "Smazat",
+      "empty": "Zatím žádné úryvky.",
+      "error": "Úryvek se nepodařilo uložit: {{error}}"
     }
   },
   "footer": {

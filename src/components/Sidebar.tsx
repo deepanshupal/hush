@@ -1,6 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
+import {
+  Cog,
+  FlaskConical,
+  History,
+  Info,
+  Sparkles,
+  Cpu,
+  TextQuote,
+} from "lucide-react";
 import HushTextLogo from "./icons/HushTextLogo";
 import WaveIcon from "./icons/WaveIcon";
 import { useSettings } from "../hooks/useSettings";
@@ -12,6 +20,7 @@ import {
   AboutSettings,
   PostProcessingSettings,
   ModelsSettings,
+  SnippetsSettings,
 } from "./settings";
 
 export type SidebarSection = keyof typeof SECTIONS_CONFIG;
@@ -60,7 +69,13 @@ export const SECTIONS_CONFIG = {
     labelKey: "sidebar.postProcessing",
     icon: Sparkles,
     component: PostProcessingSettings,
-    enabled: (settings) => settings?.post_process_enabled ?? false,
+    enabled: () => true,
+  },
+  snippets: {
+    labelKey: "sidebar.snippets",
+    icon: TextQuote,
+    component: SnippetsSettings,
+    enabled: () => true,
   },
   debug: {
     labelKey: "sidebar.debug",

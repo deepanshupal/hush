@@ -1490,3 +1490,76 @@ mod tests {
         }
     }
 }
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_cleanup_level_setting(
+    app: AppHandle,
+    level: settings::CleanupLevel,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.cleanup_level = level;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn change_default_app_style_setting(
+    app: AppHandle,
+    style: settings::AppStyle,
+) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings.default_app_style = style;
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+/// Add or update the clean-up style for one app. `app_id` is the bundle id
+/// when the app was picked from the running apps, or its typed name.
+#[tauri::command]
+#[specta::specta]
+pub fn set_app_style(
+    app: AppHandle,
+    app_id: String,
+    app_name: String,
+    style: settings::AppStyle,
+) -> Result<(), String> {
+    let app_id = app_id.trim().to_string();
+    if app_id.is_empty() {
+        return Err("App name can't be empty".to_string());
+    }
+    let app_name = match app_name.trim() {
+        "" => app_id.clone(),
+        name => name.to_string(),
+    };
+    let mut settings = settings::get_settings(&app);
+    match settings
+        .app_styles
+        .iter_mut()
+        .find(|rule| rule.app_id.eq_ignore_ascii_case(&app_id))
+    {
+        Some(rule) => {
+            rule.style = style;
+            rule.app_name = app_name;
+        }
+        None => settings.app_styles.push(settings::AppStyleRule {
+            app_id,
+            app_name,
+            style,
+        }),
+    }
+    settings::write_settings(&app, settings);
+    Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn remove_app_style(app: AppHandle, app_id: String) -> Result<(), String> {
+    let mut settings = settings::get_settings(&app);
+    settings
+        .app_styles
+        .retain(|rule| !rule.app_id.eq_ignore_ascii_case(&app_id));
+    settings::write_settings(&app, settings);
+    Ok(())
+}

@@ -12,10 +12,11 @@
     "general": "Generelt",
     "models": "Modeller",
     "advanced": "Avanceret",
-    "postProcessing": "Efterbehandling",
+    "postProcessing": "AI-oprydning",
     "history": "Historik",
     "debug": "Fejlfinding",
-    "about": "Om"
+    "about": "Om",
+    "snippets": "Snippets"
   },
   "onboarding": {
     "subtitle": "For at komme i gang skal du vælge en transskriptionsmodel",
@@ -441,6 +442,42 @@
         "cancel": "Annuller",
         "selectToEdit": "Vælg en prompt ovenfor for at se og redigere dens detaljer.",
         "createFirst": "Klik på 'Opret ny prompt' ovenfor for at oprette din første efterbehandlingsprompt."
+      },
+      "cleanup": {
+        "title": "AI-oprydning",
+        "privacy": "Når den er slået til, sendes teksten fra hvert diktat (aldrig lyden) til den udbyder, du vælger nedenfor.",
+        "level": {
+          "title": "Oprydningsniveau",
+          "description": "Let retter tegnsætning, fyldord og selvrettelser. Middel strammer også formuleringerne. \"Kun genvej\" lader almindeligt diktat være.",
+          "options": {
+            "none": "Kun genvej",
+            "light": "Let",
+            "medium": "Middel"
+          }
+        }
+      },
+      "styles": {
+        "title": "Stil pr. app",
+        "description": "Hush tilpasser oprydningen til den app, du dikterer i. Stilarter gælder kun, når AI-oprydning er slået til.",
+        "offNotice": "AI-oprydning er slået fra, så disse stilarter bruges ikke endnu.",
+        "default": {
+          "title": "Standardstil",
+          "description": "Bruges i apps uden egen stil"
+        },
+        "options": {
+          "default": "Standard",
+          "message": "Besked (afslappet, kort)",
+          "email": "E-mail (professionel)",
+          "code": "Kode (bevarer identifikatorer)",
+          "raw": "Rå (uden AI)"
+        },
+        "empty": "Ingen app-stilarter endnu. Alle apps bruger standardstilen.",
+        "addTitle": "Tilføj en app",
+        "pickApp": "Kørende apps",
+        "typeName": "eller skriv et navn",
+        "add": "Tilføj",
+        "refresh": "Opdater kørende apps",
+        "remove": "Fjern"
       }
     },
     "history": {
@@ -526,8 +563,8 @@
         "description": "Mikrofon, der skal bruges, når den bærbares låg er lukket"
       },
       "postProcessingToggle": {
-        "label": "Efterbehandling",
-        "description": "Aktivér AI-drevet tekstforbedring efter transskription"
+        "label": "AI-oprydning",
+        "description": "Ryd op i diktat med en AI-udbyder, du vælger"
       },
       "muteWhileRecording": {
         "label": "Mute under optagelse",
@@ -615,6 +652,21 @@
           "details": "Hushs lokale tale-til-tekst funktionalitet er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
         }
       }
+    },
+    "snippets": {
+      "title": "Stemme-snippets",
+      "description": "Sig en udløsersætning, så skriver Hush udvidelsen. Store bogstaver og tegnsætning er ligegyldige, så \"My email.\" udløser \"my email\". Det virker også inde i længere sætninger.",
+      "trigger": "Udløsersætning",
+      "triggerPlaceholder": "my email",
+      "expansion": "Udvidelse",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Tilføj snippet",
+      "save": "Gem",
+      "cancel": "Annuller",
+      "edit": "Rediger",
+      "delete": "Slet",
+      "empty": "Ingen snippets endnu.",
+      "error": "Kunne ikke gemme snippet: {{error}}"
     }
   },
   "footer": {

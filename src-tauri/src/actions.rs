@@ -1,3 +1,4 @@
+use crate::app_context::{self, AppInfo};
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 use crate::apple_intelligence;
 use crate::audio_feedback::{play_feedback_sound, play_feedback_sound_blocking, SoundType};
@@ -84,9 +85,141 @@ fn strip_think_block(s: &str) -> &str {
 }
 
 /// Build a system prompt from the user's prompt template.
-/// Removes `${output}` placeholder since the transcription is sent as the user message.
+/// Removes the `${output}` placeholder (and the `<transcript>` block around
+/// it, if any) since the transcription is sent as the user message.
 fn build_system_prompt(prompt_template: &str) -> String {
-    prompt_template.replace("${output}", "").trim().to_string()
+    let without_block = TRANSCRIPT_BLOCK_RE.replace_all(prompt_template, "");
+    without_block.replace("${output}", "").trim().to_string()
+}
+
+static TRANSCRIPT_BLOCK_RE: Lazy<regex::Regex> = Lazy::new(|| {
+    regex::Regex::new(r"<transcript>\s*\$\{output\}\s*</transcript>")
+        .expect("valid transcript block regex")
+});
+
+/// The transcript as sent to the model: always fenced in `<transcript>` tags,
+/// so the model treats it as data, never as a message addressed to it.
+fn wrap_transcript(transcription: &str) -> String {
+    format!("<transcript>\n{}\n</transcript>", transcription.trim())
+}
+
+/// Below this many words AI clean-up is skipped: there is nothing to fix in
+/// "Yes." or "Sounds good", and the round trip would only add latency.
+const MIN_WORDS_FOR_CLEANUP: usize = 3;
+
+/// Upper bound on the custom-vocabulary text put into the prompt.
+const MAX_CUSTOM_WORDS_CHARS: usize = 600;
+
+/// Remote providers get this long before Hush gives up and pastes the raw
+/// transcript; local ones (custom endpoint, Apple Intelligence) a bit longer.
+const CLEANUP_TIMEOUT_REMOTE: Duration = Duration::from_secs(4);
+const CLEANUP_TIMEOUT_LOCAL: Duration = Duration::from_secs(10);
+
+/// Everything the clean-up prompt is personalized with for one dictation.
+#[derive(Clone, Debug)]
+pub(crate) struct CleanupContext {
+    pub app: Option<AppInfo>,
+    pub style: AppStyle,
+    pub level: CleanupLevel,
+}
+
+fn style_instruction(style: AppStyle) -> &'static str {
+    match style {
+        AppStyle::Default | AppStyle::Raw => "natural; keep the speaker's own tone",
+        AppStyle::Message => {
+            "casual and short, like a chat message; add no greeting or sign-off that was not spoken"
+        }
+        AppStyle::Email => {
+            "professional, in short paragraphs; put a spoken greeting and sign-off on their own lines"
+        }
+        AppStyle::Code => {
+            "technical; keep code identifiers, file names, commands, symbols and their casing exactly as spoken, and do not reword technical terms"
+        }
+    }
+}
+
+fn level_instruction(level: CleanupLevel) -> &'static str {
+    match level {
+        CleanupLevel::Medium => {
+            "Exception: you may tighten wordy phrasing and drop repetition, as long as every point the speaker made is kept. "
+        }
+        CleanupLevel::None | CleanupLevel::Light => "",
+    }
+}
+
+/// The user's custom vocabulary as one comma-separated line, capped so a long
+/// word list cannot crowd out the instructions.
+fn custom_words_for_prompt(words: &[String]) -> String {
+    let mut out = String::new();
+    for word in words.iter().map(|w| w.trim()).filter(|w| !w.is_empty()) {
+        let extra = if out.is_empty() {
+            word.len()
+        } else {
+            word.len() + 2
+        };
+        if out.len() + extra > MAX_CUSTOM_WORDS_CHARS {
+            break;
+        }
+        if !out.is_empty() {
+            out.push_str(", ");
+        }
+        out.push_str(word);
+    }
+    out
+}
+
+/// Fill the per-dictation placeholders of a prompt template, leaving
+/// `${output}` for the caller. Templates without the placeholders still get
+/// the style (and Medium level) appended, so user prompts follow per-app styles.
+fn render_cleanup_prompt(template: &str, settings: &AppSettings, ctx: &CleanupContext) -> String {
+    let app_name = ctx
+        .app
+        .as_ref()
+        .map(|a| a.name.trim())
+        .filter(|n| !n.is_empty())
+        .unwrap_or("the active app");
+    let words = custom_words_for_prompt(&settings.custom_words);
+
+    let mut prompt = template.to_string();
+    if words.is_empty() {
+        prompt = prompt.replace(
+            "Spell these terms exactly when they are spoken: ${custom_words}. ",
+            "",
+        );
+    }
+    let had_style = prompt.contains("${style}");
+    let had_level = prompt.contains("${level}");
+    prompt = prompt
+        .replace("${app}", app_name)
+        .replace("${custom_words}", &words)
+        .replace("${style}", style_instruction(ctx.style))
+        .replace("${level}", level_instruction(ctx.level));
+
+    let mut extra = String::new();
+    if !had_level && ctx.level == CleanupLevel::Medium {
+        extra.push_str(level_instruction(ctx.level));
+    }
+    if !had_style && ctx.style != AppStyle::Default {
+        extra.push_str(&format!("Tone: {}.", style_instruction(ctx.style)));
+    }
+    if !extra.is_empty() {
+        prompt = match TRANSCRIPT_BLOCK_RE.find(&prompt).map(|m| m.start()) {
+            Some(pos) => format!("{}{}\n\n{}", &prompt[..pos], extra.trim(), &prompt[pos..]),
+            None => format!("{}\n\n{}", prompt.trim_end(), extra.trim()),
+        };
+    }
+    prompt
+}
+
+fn word_count(text: &str) -> usize {
+    text.split_whitespace().count()
+}
+
+/// Rough output budget for a clean-up: the cleaned text is about as long as
+/// the input, so scale with it instead of using one fixed cap.
+pub(crate) fn cleanup_max_tokens(transcription: &str) -> u32 {
+    let estimated = (transcription.chars().count() / 3) as u32 + 256;
+    estimated.clamp(512, 8192)
 }
 
 /// Returns `true` when a transcription has no meaningful content to
@@ -122,7 +255,11 @@ fn should_use_streaming_overlay(style: OverlayStyle, is_streaming: bool) -> bool
     style == OverlayStyle::Live && is_streaming
 }
 
-async fn post_process_transcription(settings: &AppSettings, transcription: &str) -> Option<String> {
+async fn post_process_transcription(
+    settings: &AppSettings,
+    transcription: &str,
+    ctx: &CleanupContext,
+) -> Option<String> {
     if is_blank_transcription(transcription) {
         debug!("Post-processing skipped because the transcription is empty");
         return None;
@@ -163,7 +300,7 @@ async fn post_process_transcription(settings: &AppSettings, transcription: &str)
         .iter()
         .find(|prompt| prompt.id == selected_prompt_id)
     {
-        Some(prompt) => prompt.prompt.clone(),
+        Some(prompt) => render_cleanup_prompt(&prompt.prompt, settings, ctx),
         None => {
             debug!(
                 "Post-processing skipped because prompt '{}' was not found",
@@ -192,13 +329,16 @@ async fn post_process_transcription(settings: &AppSettings, transcription: &str)
     // Ask these providers to skip reasoning/thinking — post-processing rarely
     // benefits from it and it adds seconds of latency. llm_client picks the
     // field the endpoint understands and retries without it if rejected.
-    let disable_reasoning = matches!(provider.id.as_str(), "custom" | "openrouter");
+    let disable_reasoning = matches!(
+        provider.id.as_str(),
+        "custom" | "openrouter" | "openai" | "groq" | "cerebras"
+    );
 
     if provider.supports_structured_output {
         debug!("Using structured outputs for provider '{}'", provider.id);
 
         let system_prompt = build_system_prompt(&prompt);
-        let user_content = transcription.to_string();
+        let user_content = wrap_transcript(transcription);
 
         // Handle Apple Intelligence separately since it uses native Swift APIs
         if provider.id == APPLE_INTELLIGENCE_PROVIDER_ID {
@@ -312,7 +452,16 @@ async fn post_process_transcription(settings: &AppSettings, transcription: &str)
     }
 
     // Legacy mode: Replace ${output} variable in the prompt with the actual text
-    let processed_prompt = prompt.replace("${output}", transcription);
+    // (or append the fenced transcript when the template has no placeholder).
+    let processed_prompt = if prompt.contains("${output}") {
+        prompt.replace("${output}", transcription.trim())
+    } else {
+        format!(
+            "{}\n\n{}",
+            prompt.trim_end(),
+            wrap_transcript(transcription)
+        )
+    };
     debug!("Processed prompt length: {} chars", processed_prompt.len());
 
     match crate::llm_client::send_chat_completion(
@@ -321,6 +470,7 @@ async fn post_process_transcription(settings: &AppSettings, transcription: &str)
         &model,
         processed_prompt,
         disable_reasoning,
+        cleanup_max_tokens(transcription),
     )
     .await
     {
@@ -799,7 +949,7 @@ impl ShortcutAction for TranscribeAction {
                                 utils::redact_text(&transcription)
                             );
 
-                            if post_process {
+                            if wants_ai_cleanup(&get_settings(&ah), post_process) {
                                 if use_streaming_overlay {
                                     tm.emit_stream_working(StreamWorkKind::Polishing);
                                 } else {
@@ -830,7 +980,7 @@ impl ShortcutAction for TranscribeAction {
                                 if let Err(err) = hm.save_entry(
                                     file_name,
                                     transcription,
-                                    post_process,
+                                    processed.ai_requested,
                                     processed.post_processed_text.clone(),
                                     processed.post_process_prompt.clone(),
                                 ) {
@@ -983,9 +1133,85 @@ pub static ACTION_MAP: Lazy<HashMap<String, Arc<dyn ShortcutAction>>> = Lazy::ne
 
 #[cfg(test)]
 mod tests {
+    use crate::settings::{get_default_settings, HUSH_CLEANUP_PROMPT};
+
+    fn ctx(style: AppStyle, level: CleanupLevel) -> CleanupContext {
+        CleanupContext {
+            app: Some(AppInfo {
+                bundle_id: Some("com.tinyspeck.slackmacgap".to_string()),
+                name: "Slack".to_string(),
+            }),
+            style,
+            level,
+        }
+    }
+
+    #[test]
+    fn hush_prompt_is_filled_and_keeps_the_transcript_placeholder() {
+        let mut settings = get_default_settings();
+        settings.custom_words = vec!["Hush".to_string(), "Tauri".to_string()];
+        let prompt = render_cleanup_prompt(
+            HUSH_CLEANUP_PROMPT,
+            &settings,
+            &ctx(AppStyle::Message, CleanupLevel::Light),
+        );
+        assert!(prompt.contains("typed into Slack"));
+        assert!(prompt.contains("spoken: Hush, Tauri."));
+        assert!(prompt.contains("Tone: casual and short"));
+        assert!(prompt.contains("${output}"));
+        assert!(!prompt.contains("${style}") && !prompt.contains("${level}"));
+        assert!(!prompt.contains("tighten"));
+    }
+
+    #[test]
+    fn empty_vocabulary_drops_its_sentence_and_medium_adds_tightening() {
+        let settings = get_default_settings();
+        let prompt = render_cleanup_prompt(
+            HUSH_CLEANUP_PROMPT,
+            &settings,
+            &ctx(AppStyle::Default, CleanupLevel::Medium),
+        );
+        assert!(!prompt.contains("Spell these terms"));
+        assert!(prompt.contains("tighten wordy phrasing"));
+    }
+
+    #[test]
+    fn custom_prompts_still_get_the_app_style() {
+        let settings = get_default_settings();
+        let prompt = render_cleanup_prompt(
+            "Fix this:\n<transcript>\n${output}\n</transcript>",
+            &settings,
+            &ctx(AppStyle::Email, CleanupLevel::Light),
+        );
+        let style_at = prompt.find("Tone: professional").expect("style appended");
+        assert!(style_at < prompt.find("<transcript>").unwrap());
+    }
+
+    #[test]
+    fn custom_words_are_capped() {
+        let words: Vec<String> = (0..500).map(|i| format!("word{i}")).collect();
+        assert!(custom_words_for_prompt(&words).len() <= MAX_CUSTOM_WORDS_CHARS);
+    }
+
+    #[test]
+    fn system_prompt_drops_the_transcript_block() {
+        let system = build_system_prompt(HUSH_CLEANUP_PROMPT);
+        assert!(!system.contains("${output}"));
+        assert!(!system.contains("</transcript>"));
+        assert!(system.ends_with("output nothing."));
+    }
+
+    #[test]
+    fn max_tokens_scale_with_input() {
+        assert_eq!(cleanup_max_tokens("short"), 512);
+        assert!(cleanup_max_tokens(&"word ".repeat(2000)) > 3000);
+    }
+
     use super::{
-        complete_unless_cancelled, is_blank_transcription, should_use_streaming_overlay,
-        strip_think_block,
+        build_system_prompt, cleanup_max_tokens, complete_unless_cancelled,
+        custom_words_for_prompt, is_blank_transcription, render_cleanup_prompt,
+        should_use_streaming_overlay, strip_think_block, AppInfo, AppStyle, CleanupContext,
+        CleanupLevel, MAX_CUSTOM_WORDS_CHARS,
     };
     use crate::settings::OverlayStyle;
     use std::future;

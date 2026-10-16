@@ -12,10 +12,11 @@
     "general": "Geral",
     "models": "Modelos",
     "advanced": "Avançado",
-    "postProcessing": "Pós-Processamento",
+    "postProcessing": "Limpeza com IA",
     "history": "Histórico",
     "debug": "Depuração",
-    "about": "Sobre"
+    "about": "Sobre",
+    "snippets": "Trechos"
   },
   "onboarding": {
     "subtitle": "Para começar, escolha um modelo de transcrição",
@@ -441,6 +442,42 @@
         "cancel": "Cancelar",
         "selectToEdit": "Selecione um prompt acima para visualizar e editar seus detalhes.",
         "createFirst": "Clique em 'Criar Novo Prompt' acima para criar seu primeiro prompt de pós-processamento."
+      },
+      "cleanup": {
+        "title": "Limpeza com IA",
+        "privacy": "Quando ativado, o texto de cada ditado (nunca o áudio) é enviado ao provedor escolhido abaixo.",
+        "level": {
+          "title": "Nível de limpeza",
+          "description": "Leve corrige pontuação, palavras de preenchimento e autocorreções. Médio também enxuga o texto. \"Só atalho\" deixa o ditado normal intacto.",
+          "options": {
+            "none": "Só atalho",
+            "light": "Leve",
+            "medium": "Médio"
+          }
+        }
+      },
+      "styles": {
+        "title": "Estilos por app",
+        "description": "O Hush adapta a limpeza ao app em que você dita. Os estilos só se aplicam com a limpeza com IA ativada.",
+        "offNotice": "A limpeza com IA está desativada, então esses estilos ainda não são aplicados.",
+        "default": {
+          "title": "Estilo padrão",
+          "description": "Usado em apps sem estilo próprio"
+        },
+        "options": {
+          "default": "Padrão",
+          "message": "Mensagem (informal, curta)",
+          "email": "E-mail (profissional)",
+          "code": "Código (mantém identificadores)",
+          "raw": "Bruto (sem IA)"
+        },
+        "empty": "Ainda não há estilos por app. Todos usam o estilo padrão.",
+        "addTitle": "Adicionar um app",
+        "pickApp": "Apps abertos",
+        "typeName": "ou digite um nome",
+        "add": "Adicionar",
+        "refresh": "Atualizar apps abertos",
+        "remove": "Remover"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Microfone a usar quando a tampa do laptop está fechada"
       },
       "postProcessingToggle": {
-        "label": "Pós-Processamento",
-        "description": "Habilitar refinamento de texto com IA após a transcrição"
+        "label": "Limpeza com IA",
+        "description": "Limpe o ditado com o provedor de IA que escolher"
       },
       "muteWhileRecording": {
         "label": "Silenciar Durante Gravação",
@@ -615,6 +652,21 @@
         "label": "Mostrar novidades",
         "description": "Mostrar notas de versão após atualizações do Hush"
       }
+    },
+    "snippets": {
+      "title": "Trechos de voz",
+      "description": "Diga uma frase de ativação e o Hush digita a expansão. Maiúsculas e pontuação não importam: \"My email.\" ativa \"my email\". Funciona também no meio de frases maiores.",
+      "trigger": "Frase de ativação",
+      "triggerPlaceholder": "my email",
+      "expansion": "Expansão",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Adicionar trecho",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "empty": "Ainda não há trechos.",
+      "error": "Não foi possível salvar o trecho: {{error}}"
     }
   },
   "footer": {

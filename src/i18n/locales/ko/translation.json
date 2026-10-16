@@ -12,10 +12,11 @@
     "general": "일반",
     "models": "모델",
     "advanced": "고급",
-    "postProcessing": "후처리",
+    "postProcessing": "AI 다듬기",
     "history": "히스토리",
     "debug": "디버그",
-    "about": "정보"
+    "about": "정보",
+    "snippets": "스니펫"
   },
   "onboarding": {
     "subtitle": "시작하려면 음성 인식 모델을 선택하세요",
@@ -441,6 +442,42 @@
         "cancel": "취소",
         "selectToEdit": "세부 정보를 보고 편집하려면 위에서 프롬프트를 선택하세요.",
         "createFirst": "첫 번째 후처리 프롬프트를 만들려면 위의 '새 프롬프트 만들기'를 클릭하세요."
+      },
+      "cleanup": {
+        "title": "AI 다듬기",
+        "privacy": "켜면 각 받아쓰기의 텍스트(오디오는 절대 아님)가 아래에서 선택한 제공자에게 전송됩니다.",
+        "level": {
+          "title": "다듬기 수준",
+          "description": "가볍게는 문장 부호, 군말, 말 바꿈을 고칩니다. 보통은 표현도 다듬습니다. \"단축키만\"은 일반 받아쓰기를 그대로 둡니다.",
+          "options": {
+            "none": "단축키만",
+            "light": "가볍게",
+            "medium": "보통"
+          }
+        }
+      },
+      "styles": {
+        "title": "앱별 스타일",
+        "description": "Hush는 받아쓰는 앱에 맞춰 다듬기를 조정합니다. 스타일은 AI 다듬기가 켜져 있을 때만 적용됩니다.",
+        "offNotice": "AI 다듬기가 꺼져 있어 이 스타일은 아직 적용되지 않습니다.",
+        "default": {
+          "title": "기본 스타일",
+          "description": "자체 스타일이 없는 앱에 사용됩니다"
+        },
+        "options": {
+          "default": "기본",
+          "message": "메시지(캐주얼, 짧게)",
+          "email": "이메일(격식)",
+          "code": "코드(식별자 유지)",
+          "raw": "원문(AI 없음)"
+        },
+        "empty": "아직 앱별 스타일이 없습니다. 모든 앱이 기본 스타일을 사용합니다.",
+        "addTitle": "앱 추가",
+        "pickApp": "실행 중인 앱",
+        "typeName": "또는 앱 이름 입력",
+        "add": "추가",
+        "refresh": "실행 중인 앱 새로고침",
+        "remove": "제거"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "노트북 덮개가 닫혀 있을 때 사용할 마이크"
       },
       "postProcessingToggle": {
-        "label": "후처리",
-        "description": "텍스트 변환 후 AI 기반 텍스트 개선 활성화"
+        "label": "AI 다듬기",
+        "description": "선택한 AI 제공자로 받아쓰기를 다듬습니다"
       },
       "muteWhileRecording": {
         "label": "녹음 중 음소거",
@@ -615,6 +652,21 @@
         "label": "새 소식 표시",
         "description": "Hush 업데이트 후 릴리스 노트를 표시합니다"
       }
+    },
+    "snippets": {
+      "title": "음성 스니펫",
+      "description": "트리거 문구를 말하면 Hush가 확장 텍스트를 입력합니다. 대소문자와 문장 부호는 상관없어서 “My email.”도 “my email”을 실행합니다. 긴 문장 안에서도 작동합니다.",
+      "trigger": "트리거 문구",
+      "triggerPlaceholder": "my email",
+      "expansion": "확장 텍스트",
+      "expansionPlaceholder": "you@example.com",
+      "add": "스니펫 추가",
+      "save": "저장",
+      "cancel": "취소",
+      "edit": "편집",
+      "delete": "삭제",
+      "empty": "아직 스니펫이 없습니다.",
+      "error": "스니펫을 저장하지 못했습니다: {{error}}"
     }
   },
   "footer": {

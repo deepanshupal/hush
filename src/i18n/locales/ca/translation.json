@@ -12,10 +12,11 @@
     "general": "General",
     "models": "Models",
     "advanced": "Avançat",
-    "postProcessing": "Postprocessament",
+    "postProcessing": "Neteja amb IA",
     "history": "Historial",
     "debug": "Depuració",
-    "about": "Quant a"
+    "about": "Quant a",
+    "snippets": "Fragments"
   },
   "onboarding": {
     "subtitle": "Per començar, trieu un model de transcripció",
@@ -441,6 +442,42 @@
         "cancel": "Cancel·leu",
         "selectToEdit": "Seleccioneu una indicació more amunt per veure'n i editar-ne els detalls.",
         "createFirst": "Feu clic a «Creeu una indicació nova» més amunt per crear la primera indicació de postprocessament."
+      },
+      "cleanup": {
+        "title": "Neteja amb IA",
+        "privacy": "Quan està activat, el text de cada dictat (mai l’àudio) s’envia al proveïdor que triïs a sota.",
+        "level": {
+          "title": "Nivell de neteja",
+          "description": "Lleuger corregeix la puntuació, les crosses i les autocorreccions. Mitjà també ajusta la redacció. «Només drecera» deixa el dictat normal intacte.",
+          "options": {
+            "none": "Només drecera",
+            "light": "Lleuger",
+            "medium": "Mitjà"
+          }
+        }
+      },
+      "styles": {
+        "title": "Estils per aplicació",
+        "description": "Hush adapta la neteja a l’aplicació on dictes. Els estils només s’apliquen quan la neteja amb IA està activada.",
+        "offNotice": "La neteja amb IA està desactivada, així que aquests estils encara no s’apliquen.",
+        "default": {
+          "title": "Estil per defecte",
+          "description": "S’usa a les aplicacions sense estil propi"
+        },
+        "options": {
+          "default": "Per defecte",
+          "message": "Missatge (informal, curt)",
+          "email": "Correu (professional)",
+          "code": "Codi (manté els identificadors)",
+          "raw": "En brut (sense IA)"
+        },
+        "empty": "Encara no hi ha estils per aplicació. Totes fan servir l’estil per defecte.",
+        "addTitle": "Afegeix una aplicació",
+        "pickApp": "Aplicacions obertes",
+        "typeName": "o escriu un nom",
+        "add": "Afegeix",
+        "refresh": "Actualitza les aplicacions obertes",
+        "remove": "Elimina"
       }
     },
     "history": {
@@ -526,8 +563,8 @@
         "description": "Micròfon que s'utilitzarà quan la tapa del portàtil estigui tancada"
       },
       "postProcessingToggle": {
-        "label": "Postprocessament",
-        "description": "Activa la millora del text amb IA després de la transcripció"
+        "label": "Neteja amb IA",
+        "description": "Neteja el dictat amb el proveïdor d’IA que triïs"
       },
       "muteWhileRecording": {
         "label": "Silencia durant l'enregistrament",
@@ -615,6 +652,21 @@
           "details": "La transcripció local de veu a text del Hush es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
         }
       }
+    },
+    "snippets": {
+      "title": "Fragments de veu",
+      "description": "Digues la frase activadora i Hush escriu l’expansió. Les majúscules i la puntuació no importen: «My email.» activa «my email». També funciona dins de frases més llargues.",
+      "trigger": "Frase activadora",
+      "triggerPlaceholder": "my email",
+      "expansion": "Expansió",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Afegeix fragment",
+      "save": "Desa",
+      "cancel": "Cancel·la",
+      "edit": "Edita",
+      "delete": "Elimina",
+      "empty": "Encara no hi ha fragments.",
+      "error": "No s’ha pogut desar el fragment: {{error}}"
     }
   },
   "footer": {

@@ -12,10 +12,11 @@
     "general": "Allgemein",
     "models": "Modelle",
     "advanced": "Erweitert",
-    "postProcessing": "Nachbearbeitung",
+    "postProcessing": "KI-Bereinigung",
     "history": "Verlauf",
     "debug": "Debug",
-    "about": "Info"
+    "about": "Info",
+    "snippets": "Textbausteine"
   },
   "onboarding": {
     "subtitle": "Wähle ein Transkriptionsmodell, um loszulegen",
@@ -441,6 +442,42 @@
         "cancel": "Abbrechen",
         "selectToEdit": "Wähle oben einen Prompt aus, um dessen Details anzuzeigen und zu bearbeiten.",
         "createFirst": "Klicke oben auf 'Neuen Prompt erstellen', um deinen ersten Nachbearbeitungs-Prompt zu erstellen."
+      },
+      "cleanup": {
+        "title": "KI-Bereinigung",
+        "privacy": "Wenn aktiviert, wird der Text jedes Diktats (nie das Audio) an den unten gewählten Anbieter gesendet.",
+        "level": {
+          "title": "Bereinigungsstufe",
+          "description": "Leicht korrigiert Satzzeichen, Füllwörter und Selbstkorrekturen. Mittel strafft zusätzlich die Formulierung. „Nur Tastenkürzel“ lässt normale Diktate unverändert.",
+          "options": {
+            "none": "Nur Tastenkürzel",
+            "light": "Leicht",
+            "medium": "Mittel"
+          }
+        }
+      },
+      "styles": {
+        "title": "Stile pro App",
+        "description": "Hush passt die Bereinigung an die App an, in die du diktierst. Stile gelten nur bei aktivierter KI-Bereinigung.",
+        "offNotice": "KI-Bereinigung ist aus, daher werden diese Stile noch nicht angewendet.",
+        "default": {
+          "title": "Standardstil",
+          "description": "Gilt für Apps ohne eigenen Stil"
+        },
+        "options": {
+          "default": "Standard",
+          "message": "Nachricht (locker, kurz)",
+          "email": "E-Mail (professionell)",
+          "code": "Code (Bezeichner bleiben)",
+          "raw": "Roh (ohne KI)"
+        },
+        "empty": "Noch keine App-Stile. Alle Apps nutzen den Standardstil.",
+        "addTitle": "App hinzufügen",
+        "pickApp": "Laufende Apps",
+        "typeName": "oder Namen eingeben",
+        "add": "Hinzufügen",
+        "refresh": "Laufende Apps aktualisieren",
+        "remove": "Entfernen"
       }
     },
     "history": {
@@ -512,8 +549,8 @@
         "description": "Mikrofon bei geschlossenem Laptop-Deckel"
       },
       "postProcessingToggle": {
-        "label": "Nachbearbeitung",
-        "description": "KI-gestützte Textverfeinerung nach der Transkription aktivieren"
+        "label": "KI-Bereinigung",
+        "description": "Diktate mit einem KI-Anbieter deiner Wahl bereinigen"
       },
       "muteWhileRecording": {
         "label": "Während Aufnahme stummschalten",
@@ -615,6 +652,21 @@
         "label": "Neuerungen anzeigen",
         "description": "Versionshinweise nach Hush-Updates anzeigen"
       }
+    },
+    "snippets": {
+      "title": "Sprach-Textbausteine",
+      "description": "Sag eine Auslösephrase und Hush tippt den Textbaustein. Groß-/Kleinschreibung und Satzzeichen spielen keine Rolle: „My email.“ löst „my email“ aus. Funktioniert auch mitten im Satz.",
+      "trigger": "Auslösephrase",
+      "triggerPlaceholder": "my email",
+      "expansion": "Textbaustein",
+      "expansionPlaceholder": "you@example.com",
+      "add": "Baustein hinzufügen",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "empty": "Noch keine Textbausteine.",
+      "error": "Baustein konnte nicht gespeichert werden: {{error}}"
     }
   },
   "footer": {
