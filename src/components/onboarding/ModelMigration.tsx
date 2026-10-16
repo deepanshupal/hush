@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
 import type { RetiredModel } from "@/bindings";
-import HandyTextLogo from "../icons/HandyTextLogo";
+import HushTextLogo from "../icons/HushTextLogo";
 import { Button } from "../ui/Button";
 import { useModelStore } from "../../stores/modelStore";
 import { formatModelSize } from "../../lib/utils/format";
@@ -271,10 +271,10 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
 
   return (
     <div className="h-screen w-full flex flex-col p-6 gap-5 items-center justify-center">
-      <HandyTextLogo width={160} className="shrink-0" />
+      <HushTextLogo width={160} className="shrink-0" />
 
       <div className="text-center max-w-md shrink-0">
-        <h2 className="text-xl font-semibold text-text mb-1.5">
+        <h2 className="font-display italic text-3xl text-text mb-1.5">
           {t("onboarding.migration.title")}
         </h2>
         <p className="text-sm text-text/70">
@@ -282,7 +282,7 @@ const ModelMigration: React.FC<ModelMigrationProps> = ({
         </p>
       </div>
 
-      <ul className="w-full max-w-[560px] min-h-0 overflow-y-auto rounded-xl border-2 border-mid-gray/20 divide-y divide-mid-gray/20">
+      <ul className="w-full max-w-[560px] min-h-0 overflow-y-auto rounded-xl border-2 border-border divide-y divide-border">
         {rows.map((pair) => (
           <MigrationRow
             key={pair.retired.id}
@@ -492,7 +492,7 @@ const MigrationRow: React.FC<MigrationRowProps> = ({
           aria-hidden
           className={`grid place-items-center w-5 h-5 shrink-0 rounded-full border-2 transition-colors ${
             chosen
-              ? "bg-background-ui border-background-ui text-white"
+              ? "bg-accent border-accent text-accent-contrast"
               : "border-mid-gray/45"
           } ${toggleable ? "" : "opacity-55"}`}
         >

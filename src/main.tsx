@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "@fontsource-variable/inter";
+import "@fontsource/dm-serif-display/latin-400-italic.css";
 import { platform } from "@tauri-apps/plugin-os";
 import App from "./App";
 import { installCompatShims } from "./lib/compat";

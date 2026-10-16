@@ -1,22 +1,51 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
 
-/* Register the shared color tokens (src/styles/theme.css) as Tailwind
-   utilities */
+/* Register the Hush tokens (src/styles/theme.css) as Tailwind utilities.
+   `inline` makes utilities reference the CSS variables directly, so light,
+   dark and the Appearance override all apply without per-component dark:
+   variants. */
 @theme inline {
-  --color-text: var(--color-text);
-  --color-background: var(--color-background);
-  --color-background-ui: var(--color-background-ui);
-  --color-logo-primary: var(--color-logo-primary);
-  --color-logo-stroke: var(--color-logo-stroke);
-  --color-text-stroke: var(--color-text-stroke);
-  --color-mid-gray: var(--color-mid-gray);
-  --color-warning: var(--color-warning);
-  --color-error: var(--color-error);
+  /* Semantic palette */
+  --color-bg: var(--hush-bg);
+  --color-surface: var(--hush-surface);
+  --color-surface-raised: var(--hush-surface-raised);
+  --color-border: var(--hush-border);
+  --color-text: var(--hush-text);
+  --color-text-muted: var(--hush-text-muted);
+  --color-accent: var(--hush-accent);
+  --color-accent-contrast: var(--hush-accent-contrast);
+  --color-danger: var(--hush-danger);
+  --color-warning: var(--hush-warning);
+  --color-success: var(--hush-success);
+
+  /* Legacy names used across the component tree, mapped onto the above */
+  --color-background: var(--hush-bg);
+  --color-background-ui: var(--hush-accent);
+  --color-logo-primary: var(--hush-accent);
+  --color-logo-stroke: var(--hush-text);
+  --color-text-stroke: var(--hush-surface-raised);
+  --color-mid-gray: var(--hush-text-muted);
+  --color-error: var(--hush-danger);
+
+  /* Type */
+  --font-sans: var(--hush-font-sans);
+  --font-display: var(--hush-font-display);
+
+  /* One radius scale for the whole app */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+
+  --shadow-card: var(--hush-shadow);
 }
 
 :root {
   /* Typography */
+  font-family: var(--hush-font-sans);
   font-size: 15px;
   line-height: 24px;
   font-weight: 400;
@@ -35,10 +64,9 @@
     transparent 70%
   );
 
-  /* Log console surface — a subtle shade off the app background so the live log
-     viewer reads as a distinct console. In light mode this is a faint gray code
-     block (matching other surfaces); the dark theme overrides it below. */
-  --color-log-surface: color-mix(in srgb, var(--color-background), black 6%);
+  /* Log console surface: a shade off the app background so the live log
+     viewer reads as a distinct console in both schemes. */
+  --color-log-surface: color-mix(in srgb, var(--hush-bg), black 8%);
 
   /* Apply colors */
   color: var(--color-text);
@@ -54,12 +82,6 @@
   text-align: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Just a bit darker than the (already dark) background, keeping its warm tint */
-    --color-log-surface: color-mix(in srgb, var(--color-background), black 15%);
-  }
-}
 
 /* Keep onboarding centered when classic scrollbars consume layout space.
    Overlay scrollbars do not reserve a gutter, so this has no effect on them. */
@@ -107,4 +129,19 @@
   fill: var(--color-logo-stroke);
   stroke: var(--color-logo-stroke);
   stroke-width: 1;
+}
+
+body {
+  background-color: var(--hush-bg);
+  color: var(--hush-text);
+}
+
+/* Focus ring in the brand accent for every interactive element */
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--hush-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--hush-accent) 25%, transparent);
 }

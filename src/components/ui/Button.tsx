@@ -20,26 +20,26 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    "font-medium rounded-lg border focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
+    "font-medium rounded-md border focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
   const variantClasses = {
     primary:
-      "text-white bg-background-ui border-background-ui hover:bg-background-ui/80 hover:border-background-ui/80 focus:ring-1 focus:ring-background-ui",
+      "text-accent-contrast bg-accent border-accent shadow-card hover:bg-accent/90 focus-visible:ring-2 focus-visible:ring-accent/40",
     "primary-soft":
-      "text-text bg-logo-primary/20 border-transparent hover:bg-logo-primary/30 focus:ring-1 focus:ring-logo-primary",
+      "text-accent bg-accent/12 border-transparent hover:bg-accent/20 focus-visible:ring-2 focus-visible:ring-accent/40",
     secondary:
-      "bg-mid-gray/10 border-mid-gray/20 hover:bg-background-ui/30 hover:border-logo-primary focus:outline-none",
+      "text-text bg-surface-raised border-border shadow-card hover:border-accent/60 hover:bg-surface",
     // Secondary's neutral resting look, but hover/focus use the semantic
     // --color-warning token (theme.css) instead of the pink accent — for
     // buttons sitting on warning surfaces like SecureInputWarning
     warning:
-      "text-text bg-mid-gray/10 border-mid-gray/20 hover:bg-warning/15 hover:border-warning focus:ring-1 focus:ring-warning",
+      "text-text bg-surface-raised border-border hover:bg-warning/15 hover:border-warning focus-visible:ring-2 focus-visible:ring-warning/40",
     danger:
-      "text-white bg-red-600 border-mid-gray/20 hover:bg-red-700 hover:border-red-700 focus:ring-1 focus:ring-red-500",
+      "text-accent-contrast bg-danger border-danger hover:bg-danger/90 focus-visible:ring-2 focus-visible:ring-danger/40",
     "danger-ghost":
-      "text-red-400 border-transparent hover:text-red-300 hover:bg-red-500/10 focus:bg-red-500/20",
+      "text-danger border-transparent hover:bg-danger/10 focus-visible:bg-danger/15",
     ghost:
-      "text-current border-transparent hover:bg-mid-gray/10 hover:border-logo-primary focus:bg-mid-gray/20",
+      "text-current border-transparent hover:bg-text/5 focus-visible:bg-text/10",
   };
 
   const sizeClasses = {

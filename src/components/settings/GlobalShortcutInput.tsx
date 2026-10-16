@@ -217,7 +217,7 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
         descriptionMode={descriptionMode}
         grouped={grouped}
       >
-        <div className="text-sm text-mid-gray">
+        <div className="text-sm text-text-muted">
           {t("settings.general.shortcut.loading")}
         </div>
       </SettingContainer>
@@ -233,7 +233,7 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
         descriptionMode={descriptionMode}
         grouped={grouped}
       >
-        <div className="text-sm text-mid-gray">
+        <div className="text-sm text-text-muted">
           {t("settings.general.shortcut.none")}
         </div>
       </SettingContainer>
@@ -249,7 +249,7 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
         descriptionMode={descriptionMode}
         grouped={grouped}
       >
-        <div className="text-sm text-mid-gray">
+        <div className="text-sm text-text-muted">
           {t("settings.general.shortcut.none")}
         </div>
       </SettingContainer>
@@ -285,7 +285,7 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
           </div>
         ) : (
           <div
-            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 hover:bg-logo-primary/10 rounded-md cursor-pointer hover:border-logo-primary"
+            className="px-2 py-1 text-sm font-semibold bg-surface-raised border border-border hover:bg-logo-primary/10 rounded-md cursor-pointer hover:border-logo-primary"
             onClick={() => startRecording(shortcutId)}
           >
             {formatKeyCombination(binding.current_binding, osType)}

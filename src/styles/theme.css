@@ -1,77 +1,119 @@
-/* Handy Colors */
+/*
+ * Hush design tokens — the single source of truth for colour.
+ *
+ * Every themed value is defined once per scheme below as a semantic
+ * `--hush-*` variable. `App.css` registers them as Tailwind colours
+ * (`bg-surface`, `text-text-muted`, `border-border`, `bg-accent`, …) and maps
+ * the older token names the components were written against
+ * (`background`, `mid-gray`, `logo-primary`, `background-ui`, …) onto the same
+ * variables, so every component inherits the palette without per-component
+ * overrides.
+ *
+ * Light: cream paper with the Hush brand red.
+ * Dark: warm charcoal (not neutral grey) with a lifted red that stays legible.
+ *
+ * Scheme selection: follows the OS by default; the Appearance setting forces
+ * one via `data-theme` on <html>. This file is imported by both the settings
+ * window and the recording overlay so they always agree.
+ */
 
 :root {
-  /* Palette source of truth. Each themed color is defined once as a
-     light/dark pair; the active tokens below and the `data-theme` overrides
-     in App.css reference these, so a hex value lives in exactly one place. */
-  --light-color-text: #0f0f0f;
-  --light-color-background: #fbfbfb;
-  --light-color-logo-primary: #faa2ca;
-  --light-color-logo-stroke: #382731;
+  /* ---- Light ---------------------------------------------------------- */
+  --hush-light-bg: #e9e2d0;
+  --hush-light-surface: #f1ecdf;
+  --hush-light-surface-raised: #f8f5ee;
+  --hush-light-border: #cfc5ae;
+  --hush-light-text: #1a1410;
+  --hush-light-text-muted: #75664f;
+  --hush-light-accent: #8b3030;
+  --hush-light-accent-contrast: #fdf8f1;
+  --hush-light-danger: #b42318;
+  --hush-light-warning: #a15c07;
+  --hush-light-success: #2f6b3a;
 
-  --dark-color-text: #fbfbfb;
-  --dark-color-background: #2c2b29;
-  --dark-color-logo-primary: #f28cbb;
-  --dark-color-logo-stroke: #fad1ed;
+  /* ---- Dark (warm charcoal) ------------------------------------------- */
+  --hush-dark-bg: #1d1916;
+  --hush-dark-surface: #26211d;
+  --hush-dark-surface-raised: #2f2924;
+  --hush-dark-border: #443b33;
+  --hush-dark-text: #ece4d4;
+  --hush-dark-text-muted: #a8997f;
+  --hush-dark-accent: #d26a5c;
+  --hush-dark-accent-contrast: #1d1916;
+  --hush-dark-danger: #f2877a;
+  --hush-dark-warning: #e8b45a;
+  --hush-dark-success: #86c48f;
 
-  /* Semantic status colors. First used by SecureInputWarning; intended to
-     replace the ad-hoc yellow-500/red-500 usages (e.g. ui/Alert.tsx) over
-     time so status styling is themeable from one place. */
-  --light-color-warning: #d97706;
-  --light-color-error: #dc2626;
-  --dark-color-warning: #fbbf24;
-  --dark-color-error: #f87171;
-
-  /* Tokens that do not change between light and dark */
-  --color-background-ui: #da5893;
-  --color-text-stroke: #f6f6f6;
-  --color-mid-gray: #808080;
-
-  /* Active palette — defaults to light, follows the OS via the media query
-     below, or is forced by `data-theme` (see the overrides below). */
-  --color-text: var(--light-color-text);
-  --color-background: var(--light-color-background);
-  --color-logo-primary: var(--light-color-logo-primary);
-  --color-logo-stroke: var(--light-color-logo-stroke);
-  --color-warning: var(--light-color-warning);
-  --color-error: var(--light-color-error);
+  /* ---- Active scheme (light by default) ------------------------------- */
+  --hush-bg: var(--hush-light-bg);
+  --hush-surface: var(--hush-light-surface);
+  --hush-surface-raised: var(--hush-light-surface-raised);
+  --hush-border: var(--hush-light-border);
+  --hush-text: var(--hush-light-text);
+  --hush-text-muted: var(--hush-light-text-muted);
+  --hush-accent: var(--hush-light-accent);
+  --hush-accent-contrast: var(--hush-light-accent-contrast);
+  --hush-danger: var(--hush-light-danger);
+  --hush-warning: var(--hush-light-warning);
+  --hush-success: var(--hush-light-success);
+  --hush-shadow: 0 1px 2px rgb(26 20 16 / 0.06), 0 1px 3px rgb(26 20 16 / 0.08);
+  color-scheme: light;
 }
 
+/* Dark values, applied by the OS preference unless the user forced light. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-text: var(--dark-color-text);
-    --color-background: var(--dark-color-background);
-    --color-logo-primary: var(--dark-color-logo-primary);
-    --color-logo-stroke: var(--dark-color-logo-stroke);
-    --color-warning: var(--dark-color-warning);
-    --color-error: var(--dark-color-error);
+  :root:not([data-theme="light"]) {
+    --hush-bg: var(--hush-dark-bg);
+    --hush-surface: var(--hush-dark-surface);
+    --hush-surface-raised: var(--hush-dark-surface-raised);
+    --hush-border: var(--hush-dark-border);
+    --hush-text: var(--hush-dark-text);
+    --hush-text-muted: var(--hush-dark-text-muted);
+    --hush-accent: var(--hush-dark-accent);
+    --hush-accent-contrast: var(--hush-dark-accent-contrast);
+    --hush-danger: var(--hush-dark-danger);
+    --hush-warning: var(--hush-dark-warning);
+    --hush-success: var(--hush-dark-success);
+    --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+    color-scheme: dark;
   }
 }
 
-/*
- * Explicit theme override, driven by the `theme` setting via
- * `document.documentElement.dataset.theme`. When set, the higher-specificity
- * attribute selectors win over the `prefers-color-scheme` media query above,
- * so a user can keep Handy light or dark regardless of the OS setting.
- * `system` (or no attribute) leaves the OS in charge.
- *
- * Lives here (not in App.css) so every window that imports the shared palette —
- * the settings window and the recording overlay alike — honours the override.
- */
-:root[data-theme="light"] {
-  --color-text: var(--light-color-text);
-  --color-background: var(--light-color-background);
-  --color-logo-primary: var(--light-color-logo-primary);
-  --color-logo-stroke: var(--light-color-logo-stroke);
-  --color-warning: var(--light-color-warning);
-  --color-error: var(--light-color-error);
+/* Dark forced from the Appearance setting, regardless of the OS. */
+:root[data-theme="dark"] {
+  --hush-bg: var(--hush-dark-bg);
+  --hush-surface: var(--hush-dark-surface);
+  --hush-surface-raised: var(--hush-dark-surface-raised);
+  --hush-border: var(--hush-dark-border);
+  --hush-text: var(--hush-dark-text);
+  --hush-text-muted: var(--hush-dark-text-muted);
+  --hush-accent: var(--hush-dark-accent);
+  --hush-accent-contrast: var(--hush-dark-accent-contrast);
+  --hush-danger: var(--hush-dark-danger);
+  --hush-warning: var(--hush-dark-warning);
+  --hush-success: var(--hush-dark-success);
+  --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+  color-scheme: dark;
 }
 
-:root[data-theme="dark"] {
-  --color-text: var(--dark-color-text);
-  --color-background: var(--dark-color-background);
-  --color-logo-primary: var(--dark-color-logo-primary);
-  --color-logo-stroke: var(--dark-color-logo-stroke);
-  --color-warning: var(--dark-color-warning);
-  --color-error: var(--dark-color-error);
+/*
+ * Typography, radius and the legacy colour names. The legacy names are what
+ * the components (and the overlay stylesheet) were written against; they are
+ * pure aliases of the semantic tokens above, never separate values.
+ */
+:root {
+  --hush-font-sans:
+    "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --hush-font-display: "DM Serif Display", "Iowan Old Style", Georgia, serif;
+
+  --color-text: var(--hush-text);
+  --color-background: var(--hush-bg);
+  --color-background-ui: var(--hush-accent);
+  --color-logo-primary: var(--hush-accent);
+  --color-logo-stroke: var(--hush-text);
+  --color-text-stroke: var(--hush-surface-raised);
+  --color-mid-gray: var(--hush-text-muted);
+  --color-warning: var(--hush-warning);
+  --color-error: var(--hush-danger);
 }

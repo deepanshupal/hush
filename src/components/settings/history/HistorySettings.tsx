@@ -253,7 +253,7 @@ export const HistorySettings: React.FC = () => {
     content = (
       <>
         <AudioPlayerGroup>
-          <div className="divide-y divide-mid-gray/20">
+          <div className="divide-y divide-border">
             {entries.map((entry) => (
               <HistoryEntryComponent
                 key={entry.id}
@@ -278,7 +278,7 @@ export const HistorySettings: React.FC = () => {
       <div className="space-y-2">
         <div className="px-4 flex items-center justify-between">
           <div>
-            <h2 className="text-xs font-medium text-mid-gray uppercase tracking-wide">
+            <h2 className="text-[11px] font-semibold text-text-muted uppercase tracking-[0.07em]">
               {t("settings.history.title")}
             </h2>
           </div>
@@ -287,7 +287,7 @@ export const HistorySettings: React.FC = () => {
             label={t("settings.history.openFolder")}
           />
         </div>
-        <div className="bg-background border border-mid-gray/20 rounded-lg overflow-visible">
+        <div className="bg-background border border-border rounded-lg overflow-visible">
           {content}
         </div>
       </div>
