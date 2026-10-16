@@ -15,6 +15,7 @@ const columns = [
       { label: "Changelog", href: "/changelog" },
       { label: "FAQ", href: "/faq" },
       { label: "Why Hush", href: "/why" },
+      { label: "Compare", href: "/compare" },
     ],
   },
   {

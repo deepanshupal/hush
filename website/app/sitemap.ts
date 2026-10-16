@@ -6,6 +6,7 @@ const routes: { path: string; priority: number; changeFrequency: "weekly" | "mon
   { path: "/download", priority: 0.9, changeFrequency: "weekly" },
   { path: "/changelog", priority: 0.7, changeFrequency: "weekly" },
   { path: "/faq", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/compare", priority: 0.7, changeFrequency: "monthly" },
   { path: "/why", priority: 0.6, changeFrequency: "monthly" },
   { path: "/open-source", priority: 0.6, changeFrequency: "monthly" },
   { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },

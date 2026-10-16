@@ -1,35 +1,23 @@
+import Link from "next/link"
+import { CellValue } from "@/components/comparison-cell"
 import { Section, SectionHeading } from "@/components/section"
+import { CHECKED, getApp, getRow, type AppId } from "@/lib/comparison-data"
+import { cn } from "@/lib/utils"
 
-// Only facts that can be checked on each product's own website.
-// Prices as listed in October 2026; update this table when they change.
-const rows: { label: string; hush: string; wispr: string; superwhisper: string }[] = [
-  {
-    label: "Price",
-    hush: "Free, forever",
-    wispr: "$15/month for Pro (free tier capped at 2,000 words a week)",
-    superwhisper: "$8.49/month, or $249.99 one-time",
-  },
-  {
-    label: "Where speech is recognized",
-    hush: "On your Mac",
-    wispr: "In the cloud",
-    superwhisper: "On your Mac or in the cloud, depending on the model",
-  },
-  {
-    label: "Source code",
-    hush: "Open source (MIT)",
-    wispr: "Closed",
-    superwhisper: "Closed",
-  },
-  {
-    label: "AI clean-up",
-    hush: "Optional, with your own provider or Apple Intelligence",
-    wispr: "Built in, through their cloud",
-    superwhisper: "Built in, cloud or local models",
-  },
+// A subset of the full comparison on /compare. All values live in lib/comparison-data.ts.
+const HOME_APPS: AppId[] = ["hush", "wispr", "superwhisper"]
+// Notes are shown inline where they add useful detail.
+const HOME_ROWS: { id: string; notes: boolean }[] = [
+  { id: "price", notes: true },
+  { id: "on-device", notes: true },
+  { id: "open-source", notes: false },
+  { id: "ai-cleanup", notes: true },
 ]
 
 export function Comparison() {
+  const apps = HOME_APPS.map(getApp)
+  const rows = HOME_ROWS.map(({ id, notes }) => ({ ...getRow(id), notes }))
+
   return (
     <Section id="compare" aria-labelledby="compare-title">
       <SectionHeading
@@ -40,40 +28,53 @@ export function Comparison() {
       />
       <div className="overflow-x-auto rounded-panel border border-line">
         <table className="w-full min-w-[36rem] border-collapse text-left text-small">
-          <caption className="sr-only">Hush compared with Wispr Flow and Superwhisper</caption>
+          <caption className="sr-only">
+            Hush compared with {apps.slice(1).map((a) => a.name).join(" and ")}
+          </caption>
           <thead>
             <tr className="bg-surface-muted">
               <th scope="col" className="w-1/4 px-4 py-3 font-medium text-ink-muted">
                 <span className="sr-only">Feature</span>
               </th>
-              <th scope="col" className="w-1/4 px-4 py-3 font-semibold text-accent">
-                Hush
-              </th>
-              <th scope="col" className="w-1/4 px-4 py-3 font-semibold text-ink">
-                Wispr Flow
-              </th>
-              <th scope="col" className="w-1/4 px-4 py-3 font-semibold text-ink">
-                Superwhisper
-              </th>
+              {apps.map((app) => (
+                <th
+                  key={app.id}
+                  scope="col"
+                  className={cn("w-1/4 px-4 py-3 font-semibold", app.id === "hush" ? "text-accent" : "text-ink")}
+                >
+                  {app.name}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-t border-line align-top">
+              <tr key={row.id} className="border-t border-line align-top">
                 <th scope="row" className="px-4 py-3 font-medium text-ink">
                   {row.label}
                 </th>
-                <td className="px-4 py-3 font-medium text-ink">{row.hush}</td>
-                <td className="px-4 py-3 text-ink-muted">{row.wispr}</td>
-                <td className="px-4 py-3 text-ink-muted">{row.superwhisper}</td>
+                {apps.map((app) => (
+                  <td
+                    key={app.id}
+                    className={cn("px-4 py-3", app.id === "hush" ? "font-medium text-ink" : "text-ink-muted")}
+                  >
+                    <CellValue cell={row.cells[app.id]} inlineNote={row.notes} />
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <p className="mt-4 text-caption text-ink-subtle">
-        Prices and details from each product&apos;s website, October 2026. They also offer things
-        Hush doesn&apos;t, such as mobile apps. Check their sites for current pricing.
+        From each product&apos;s own website, checked {CHECKED}. They also offer things Hush
+        doesn&apos;t yet, such as mobile apps.
+      </p>
+      <p className="mt-4 text-small">
+        <Link href="/compare" className="link font-medium">
+          See the full comparison
+        </Link>{" "}
+        <span className="text-ink-muted">with VoiceInk, OpenWhispr, Spokenly, Willow and Apple Dictation.</span>
       </p>
     </Section>
   )
