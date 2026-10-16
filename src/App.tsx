@@ -34,6 +34,7 @@ import { useSettingsStore } from "./stores/settingsStore";
 import { commands } from "@/bindings";
 import { deleteRetiredModel } from "@/components/onboarding/retiredModels";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
+import { NAVIGATE_EVENT } from "@/lib/navigation";
 
 type OnboardingStep = "accessibility" | "migration" | "model" | "done";
 
@@ -92,6 +93,18 @@ function App() {
     document.documentElement.toggleAttribute(attribute, isShowingOnboarding);
     return () => document.documentElement.removeAttribute(attribute);
   }, [isShowingOnboarding]);
+
+  // Let settings components jump to another section (e.g. "More models").
+  useEffect(() => {
+    const onNavigate = (event: Event) => {
+      const section = (event as CustomEvent<string>).detail;
+      if (section in SECTIONS_CONFIG) {
+        setCurrentSection(section as SidebarSection);
+      }
+    };
+    window.addEventListener(NAVIGATE_EVENT, onNavigate);
+    return () => window.removeEventListener(NAVIGATE_EVENT, onNavigate);
+  }, []);
 
   // Reset the scroll position whenever the active section changes.
   useLayoutEffect(() => {
