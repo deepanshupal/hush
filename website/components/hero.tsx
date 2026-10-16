@@ -10,14 +10,14 @@ export function Hero({ download, stars }: { download: Download; stars: number | 
   return (
     <div className="flex flex-col items-center gap-8 px-6 pb-14 pt-12 text-center sm:px-10 sm:pt-16">
       <div className="flex flex-col items-center gap-5">
-        <Eyebrow className="animate-enter">Free forever · Open source (MIT) · No account</Eyebrow>
+        <Eyebrow className="animate-enter">The free, open-source Wispr Flow alternative</Eyebrow>
         <h1 className="max-w-[44rem] animate-enter text-display [animation-delay:100ms]">
           Dictation that stays <span className="text-accent">on your Mac.</span>
         </h1>
         <p className="max-w-[36rem] animate-enter text-body text-ink-muted [animation-delay:200ms]">
-          Hold <kbd className="kbd">Fn</kbd>, speak, let go. Hush turns your voice into text in
-          any app, with speech recognition running on your Mac. Free and open source, with no
-          account, no fees and no telemetry.
+          Hold <kbd className="kbd">Fn</kbd>, talk, let go. Clean, punctuated text appears wherever
+          your cursor is. Speech recognition runs on your Mac, so your voice never leaves it. Free
+          forever, no account, no telemetry.
         </p>
       </div>
 

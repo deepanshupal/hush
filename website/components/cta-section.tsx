@@ -10,7 +10,8 @@ export function CTASection({ download }: { download: Download }) {
         You talk faster <span className="text-accent">than you type.</span>
       </h2>
       <p className="max-w-md text-body text-ink-muted">
-        Way faster. Hush makes that useful, for free, without sending your voice anywhere.
+        About three times faster. Hush turns that into text you can actually send, for free, without
+        your voice leaving your Mac.
       </p>
       <div className="flex flex-col items-center gap-3 sm:flex-row">
         <Button href={download.url} size="lg">

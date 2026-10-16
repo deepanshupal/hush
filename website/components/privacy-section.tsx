@@ -26,7 +26,7 @@ export function PrivacySection() {
         id="privacy-title"
         eyebrow="Privacy"
         title="What leaves your Mac"
-        lead="Short answer: nothing you didn't ask for. No account, no analytics, no telemetry. Here is the long answer."
+        lead="Short answer: nothing you didn't ask for. No account, no analytics, no telemetry. Here's the long answer."
       />
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-panel border border-line bg-surface-raised p-6">

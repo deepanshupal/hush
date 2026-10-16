@@ -14,18 +14,18 @@ const features = [
   {
     title: "Speech recognition on your Mac",
     description:
-      "Parakeet V3 by default, or Whisper, Moonshine, Canary, SenseVoice, GigaAM and more. Models download once on first use, then run locally.",
+      "Parakeet V3 by default, or Whisper, Moonshine, Canary and more. Models download once, load when Hush starts, and run on your Mac's GPU.",
     icon: CpuIcon,
   },
   {
-    title: "Push to talk, in any app",
+    title: "Hold to talk, or tap and go hands-free",
     description:
-      "Hold Fn (or a shortcut you choose), speak, release. The text is pasted wherever your cursor is: mail, chat, docs, the terminal.",
+      "Hold Fn while you speak, or tap it once and keep talking until you tap again. Text lands wherever your cursor is: mail, chat, docs, the terminal.",
     icon: CommandIcon,
   },
   {
     title: "Live preview",
-    description: "See your words appear while you are still talking, so you know it heard you right.",
+    description: "Watch your words appear while you are still talking, so you know it heard you before you let go.",
     icon: ChatIcon,
   },
   {
@@ -48,7 +48,7 @@ const features = [
   {
     title: "AI clean-up, if you want it",
     description:
-      "Optional. Use Apple Intelligence on supported Macs, or your own key for Groq, OpenAI, Anthropic, OpenRouter, Cerebras or any OpenAI-compatible endpoint.",
+      "Drops the ums, fixes punctuation, and keeps only what you meant after \"no wait\". Use Apple Intelligence on supported Macs, or your own key for Groq, OpenAI, Anthropic and more.",
     icon: SparklesIcon,
   },
   {
@@ -66,7 +66,7 @@ export function FeaturesGrid() {
         id="features-title"
         eyebrow="Features"
         title="Everything you need to stop typing"
-        lead="The essentials of a paid dictation app, without the price tag. The interface is available in many languages."
+        lead="What other dictation apps charge every month for, free and on your own Mac. The app speaks 25 languages too."
       />
       <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-panel border border-line bg-line sm:grid-cols-2">
         {features.map(({ title, description, icon: Icon }) => (

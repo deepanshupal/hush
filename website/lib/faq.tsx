@@ -20,6 +20,17 @@ export const faqs: FaqItem[] = [
     ),
   },
   {
+    question: "So what's the catch?",
+    text: "There isn't one. Hush runs on your own Mac, so there are no servers to pay for and nothing to charge you for. There are no ads and no data to sell, because Hush never sees your data. The code is public, so you can check.",
+    answer: (
+      <>
+        There isn&apos;t one. Hush runs on your own Mac, so there are no servers to pay for and
+        nothing to charge you for. There are no ads and no data to sell, because Hush never sees
+        your data. The code is public, so you can check.
+      </>
+    ),
+  },
+  {
     question: "Which Macs does it run on?",
     text: "Macs with Apple Silicon (M1 or later). Intel Macs are not supported.",
     answer: <>Macs with Apple Silicon (M1 or later). Intel Macs are not supported.</>,
@@ -100,7 +111,7 @@ export const faqs: FaqItem[] = [
         Hush is free and open source, and recognizes speech on your Mac. Wispr Flow is a paid
         monthly service that processes speech in the cloud, and it is available on more
         platforms. See the{" "}
-        <Link href="/#compare" className="link">
+        <Link href="/compare" className="link">
           comparison
         </Link>
         .
