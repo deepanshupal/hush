@@ -614,7 +614,7 @@ fn default_debug_mode() -> bool {
 }
 
 fn default_log_level() -> LogLevel {
-    LogLevel::Debug
+    LogLevel::Info
 }
 
 fn default_word_correction_threshold() -> f64 {
@@ -1047,11 +1047,19 @@ impl AppSettings {
 }
 
 /// Startup entry point. Same load-or-create/salvage/migrate behavior as
-/// `get_settings`; kept as a named alias for call-site clarity, plus a
-/// one-time debug dump of the loaded settings.
+/// `get_settings`; kept as a named alias for call-site clarity.
+///
+/// Never log the settings struct itself: it holds API keys and the user's
+/// custom vocabulary. Log a few non-sensitive facts instead.
 pub fn load_or_create_app_settings(app: &AppHandle) -> AppSettings {
     let settings = get_settings(app);
-    debug!("Loaded settings: {:?}", settings);
+    debug!(
+        "Loaded settings (model: '{}', ai clean-up: {}, provider: '{}', {} app styles)",
+        settings.selected_model,
+        settings.post_process_enabled,
+        settings.post_process_provider_id,
+        settings.app_styles.len()
+    );
     settings
 }
 
