@@ -2675,7 +2675,11 @@ mod tests {
     #[test]
     fn selection_follows_a_removed_catalog_model_in_models_dir() {
         let tmp = TempDir::new().unwrap();
-        write_synthetic_gguf(&tmp.path().join("whisper-medium-Q8_0.gguf"), "whisper", &["en"]);
+        write_synthetic_gguf(
+            &tmp.path().join("whisper-medium-Q8_0.gguf"),
+            "whisper",
+            &["en"],
+        );
         let mut models = HashMap::new();
         ModelManager::discover_custom_transcribe_models(tmp.path(), &mut models).unwrap();
 
@@ -2701,13 +2705,18 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let repo_id = "handy-computer/whisper-medium-gguf";
         let sha = "0123456789abcdef0123456789abcdef01234567";
-        let repo = tmp.path().join("models--handy-computer--whisper-medium-gguf");
+        let repo = tmp
+            .path()
+            .join("models--handy-computer--whisper-medium-gguf");
         fs::create_dir_all(repo.join("snapshots").join(sha)).unwrap();
         fs::create_dir_all(repo.join("refs")).unwrap();
         // Pinned catalog downloads write `refs/<sha>`, not `refs/main`.
         fs::write(repo.join("refs").join(sha), sha).unwrap();
         write_synthetic_gguf(
-            &repo.join("snapshots").join(sha).join("whisper-medium-Q8_0.gguf"),
+            &repo
+                .join("snapshots")
+                .join(sha)
+                .join("whisper-medium-Q8_0.gguf"),
             "whisper",
             &["en"],
         );
@@ -2720,7 +2729,9 @@ mod tests {
         ModelManager::discover_hf_cache_models_in(tmp.path(), &mut models);
 
         let id = format!("{repo_id}/whisper-medium-Q8_0.gguf");
-        let m = models.get(&id).expect("removed catalog model should be discovered");
+        let m = models
+            .get(&id)
+            .expect("removed catalog model should be discovered");
         assert!(m.is_downloaded);
         assert!(ModelManager::selected_model_is_available(&models, &id));
     }
