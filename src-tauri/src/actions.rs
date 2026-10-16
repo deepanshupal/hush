@@ -326,6 +326,20 @@ async fn post_process_transcription(
         .cloned()
         .unwrap_or_default();
 
+    // Hosted providers need a key; without one the request can only fail, so
+    // don't make the user wait for it. (Custom endpoints such as a local
+    // Ollama server, and Apple Intelligence, need none.)
+    if api_key.trim().is_empty()
+        && provider.id != "custom"
+        && provider.id != APPLE_INTELLIGENCE_PROVIDER_ID
+    {
+        debug!(
+            "Post-processing skipped because provider '{}' has no API key",
+            provider.id
+        );
+        return None;
+    }
+
     // Ask these providers to skip reasoning/thinking — post-processing rarely
     // benefits from it and it adds seconds of latency. llm_client picks the
     // field the endpoint understands and retries without it if rejected.
