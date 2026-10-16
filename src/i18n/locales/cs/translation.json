@@ -498,16 +498,6 @@
         "title": "Adresář dat aplikace",
         "description": "Umístění, kde Hush ukládá data"
       },
-      "sourceCode": {
-        "title": "Zdrojový kód",
-        "description": "Zobrazit zdrojový kód a přispět",
-        "button": "Zobrazit na GitHubu"
-      },
-      "supportDevelopment": {
-        "title": "Podpořte vývoj",
-        "description": "Pomozte nám pokračovat ve vývoji Hush",
-        "button": "Přispět"
-      },
       "acknowledgments": {
         "title": "Poděkování",
         "whisper": {
@@ -552,18 +542,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "Stahuji {{model}}...",
-    "checkingUpdates": "Kontroluji aktualizace...",
-    "updateAvailable": "Dostupná aktualizace: {{version}}",
-    "updateAvailableShort": "Dostupná aktualizace",
-    "upToDate": "Vše aktuální",
-    "downloadUpdate": "Stáhnout aktualizaci",
-    "restart": "Restartovat",
-    "updateCheckingDisabled": "Kontrola aktualizací vypnuta",
-    "downloading": "Stahování... {{progress}}%",
-    "installing": "Instalace...",
-    "preparing": "Příprava...",
-    "checkForUpdates": "Zkontrolovat aktualizace",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

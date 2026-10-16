@@ -498,16 +498,6 @@
         "title": "Каталог данных приложения",
         "description": "Место, где Hush хранит свои данные"
       },
-      "sourceCode": {
-        "title": "Исходный код",
-        "description": "Просмотреть исходный код и внести свой вклад",
-        "button": "Посмотреть на GitHub"
-      },
-      "supportDevelopment": {
-        "title": "Поддержка развития",
-        "description": "Помогите нам продолжить создание Hush",
-        "button": "Пожертвовать"
-      },
       "acknowledgments": {
         "title": "Благодарности",
         "whisper": {
@@ -552,18 +542,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "Загрузка {{model}}...",
-    "checkingUpdates": "Проверяем наличие обновлений...",
-    "updateAvailable": "Доступно обновление: {{version}}",
-    "updateAvailableShort": "Доступно обновление",
-    "upToDate": "Не требует обновлений",
-    "downloadUpdate": "Скачать обновление",
-    "restart": "Перезапуск",
-    "updateCheckingDisabled": "Проверка обновлений отключена",
-    "downloading": "Загрузка... {{progress}} %",
-    "installing": "Установка...",
-    "preparing": "Подготовка...",
-    "checkForUpdates": "Проверьте наличие обновлений",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

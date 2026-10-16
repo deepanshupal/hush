@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { useLicenseStore } from "../../stores/licenseStore";
 
 import ModelSelector from "../model-selector";
-import UpdateChecker from "../update-checker";
 
 const TrialBadge: React.FC = () => {
   const { t } = useTranslation();
@@ -48,10 +47,8 @@ const Footer: React.FC = () => {
           <ModelSelector />
         </div>
 
-        {/* Update Status */}
         <div className="flex items-center gap-1">
-          <TrialBadge /> <UpdateChecker />
-          <span>•</span>
+          <TrialBadge />
           {/* eslint-disable-next-line i18next/no-literal-string */}
           <span>v{version}</span>
         </div>

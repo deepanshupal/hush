@@ -499,16 +499,6 @@
         "title": "Directorio de Datos de la Aplicación",
         "description": "Ubicación donde Hush almacena sus datos"
       },
-      "sourceCode": {
-        "title": "Código Fuente",
-        "description": "Ver código fuente y contribuir",
-        "button": "Ver en GitHub"
-      },
-      "supportDevelopment": {
-        "title": "Apoyar el Desarrollo",
-        "description": "Ayúdanos a continuar construyendo Hush",
-        "button": "Donar"
-      },
       "acknowledgments": {
         "title": "Reconocimientos",
         "whisper": {
@@ -553,18 +543,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "Descargando {{model}}...",
-    "checkingUpdates": "Buscando actualizaciones...",
-    "updateAvailable": "Actualización disponible: {{version}}",
-    "updateAvailableShort": "Actualización disponible",
-    "upToDate": "Actualizado",
-    "downloadUpdate": "Descargar Actualización",
-    "restart": "Reiniciar",
-    "updateCheckingDisabled": "Búsqueda de Actualizaciones Deshabilitada",
-    "downloading": "Descargando... {{progress}}%",
-    "installing": "Instalando...",
-    "preparing": "Preparando...",
-    "checkForUpdates": "Buscar actualizaciones",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

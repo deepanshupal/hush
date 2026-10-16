@@ -498,16 +498,6 @@
         "title": "应用数据目录",
         "description": "Hush 存储数据的位置"
       },
-      "sourceCode": {
-        "title": "源代码",
-        "description": "查看源代码并贡献",
-        "button": "在 GitHub 上查看"
-      },
-      "supportDevelopment": {
-        "title": "支持开发",
-        "description": "帮助我们继续开发 Hush",
-        "button": "捐赠"
-      },
       "acknowledgments": {
         "title": "致谢",
         "whisper": {
@@ -552,18 +542,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "正在下载 {{model}}...",
-    "checkingUpdates": "检查更新中...",
-    "updateAvailable": "有可用更新: {{version}}",
-    "updateAvailableShort": "有可用更新",
-    "upToDate": "已是最新版本",
-    "downloadUpdate": "下载更新",
-    "restart": "重启",
-    "updateCheckingDisabled": "更新检查已禁用",
-    "downloading": "下载中... {{progress}}%",
-    "installing": "安装中...",
-    "preparing": "准备中...",
-    "checkForUpdates": "检查更新",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

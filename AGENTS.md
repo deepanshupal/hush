@@ -29,15 +29,7 @@ bun run build      # Build frontend (TypeScript + Vite)
 bun run preview    # Preview built frontend
 ```
 
-**Model Setup (Required for Development):**
-
-```bash
-# Create models directory
-mkdir -p src-tauri/resources/models
-
-# Download required VAD model
-curl -o src-tauri/resources/models/silero_vad_v4.onnx https://blob.hush.app/silero_vad_v4.onnx
-```
+**VAD model:** the Silero VAD model (`src-tauri/resources/models/silero_vad_v4.onnx`) is committed to the repo and bundled as a Tauri resource; no download step is needed. Speech-to-text models are downloaded at runtime from the `DeepanshuPal/hush-downloads` release mirror (see `src-tauri/src/managers/model.rs`).
 
 ## Architecture Overview
 

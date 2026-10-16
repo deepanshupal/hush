@@ -500,16 +500,6 @@
         "title": "App Data Directory",
         "description": "Location where Hush stores its data"
       },
-      "sourceCode": {
-        "title": "Source Code",
-        "description": "View source code and contribute",
-        "button": "View on GitHub"
-      },
-      "supportDevelopment": {
-        "title": "Support Development",
-        "description": "Help us continue building Hush by Deepanshu",
-        "button": "Donate"
-      },
       "website": {
         "title": "Website",
         "description": "Visit hush.software for more information",
@@ -564,18 +554,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "Downloading {{model}}...",
-    "checkingUpdates": "Checking for updates...",
-    "updateAvailable": "Update available: {{version}}",
-    "updateAvailableShort": "Update available",
-    "upToDate": "Up to date",
-    "downloadUpdate": "Download Update",
-    "restart": "Restart",
-    "updateCheckingDisabled": "Update Checking Disabled",
-    "downloading": "Downloading... {{progress}}%",
-    "installing": "Installing...",
-    "preparing": "Preparing...",
-    "checkForUpdates": "Check for updates",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

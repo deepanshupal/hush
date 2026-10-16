@@ -498,16 +498,6 @@
         "title": "應用程式資料目錄",
         "description": "Hush 儲存資料的位置"
       },
-      "sourceCode": {
-        "title": "原始碼",
-        "description": "檢視原始碼並參與貢獻",
-        "button": "在 GitHub 上檢視"
-      },
-      "supportDevelopment": {
-        "title": "支持開發",
-        "description": "幫助我們繼續開發 Hush",
-        "button": "捐贈"
-      },
       "acknowledgments": {
         "title": "致謝",
         "whisper": {
@@ -552,18 +542,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "正在下載 {{model}}...",
-    "checkingUpdates": "檢查更新中...",
-    "updateAvailable": "有可用更新: {{version}}",
-    "updateAvailableShort": "有可用更新",
-    "upToDate": "已是最新版本",
-    "downloadUpdate": "下載更新",
-    "restart": "重新啟動",
-    "updateCheckingDisabled": "更新檢查已停用",
-    "downloading": "下載中... {{progress}}%",
-    "installing": "安裝中...",
-    "preparing": "準備中...",
-    "checkForUpdates": "檢查更新",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {

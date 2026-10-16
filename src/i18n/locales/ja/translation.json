@@ -498,16 +498,6 @@
         "title": "アプリデータディレクトリ",
         "description": "Hushがデータを保存する場所"
       },
-      "sourceCode": {
-        "title": "ソースコード",
-        "description": "ソースコードを見て貢献する",
-        "button": "GitHubで見る"
-      },
-      "supportDevelopment": {
-        "title": "開発を支援",
-        "description": "Hushの開発を支援してください",
-        "button": "寄付する"
-      },
       "acknowledgments": {
         "title": "謝辞",
         "whisper": {
@@ -552,18 +542,6 @@
     }
   },
   "footer": {
-    "downloadingModel": "{{model}}をダウンロード中...",
-    "checkingUpdates": "アップデートを確認中...",
-    "updateAvailable": "アップデートあり: {{version}}",
-    "updateAvailableShort": "アップデートあり",
-    "upToDate": "最新です",
-    "downloadUpdate": "アップデートをダウンロード",
-    "restart": "再起動",
-    "updateCheckingDisabled": "アップデート確認無効",
-    "downloading": "ダウンロード中... {{progress}}%",
-    "installing": "インストール中...",
-    "preparing": "準備中...",
-    "checkForUpdates": "アップデートを確認",
     "trialBadge": "Trial: {{count}} days left"
   },
   "common": {
