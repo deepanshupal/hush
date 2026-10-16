@@ -45,7 +45,8 @@ All tokens live in `app/globals.css` (`@theme`): colors (`page`, `surface`, `sur
 ## Tech stack
 
 - Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4
-- Canela (serif headings, self-hosted from `public/fonts`) and Inter (body, via `next/font`)
+- Canela (serif headings, self-hosted from `assets/fonts` via `next/font/local`) and Inter (body, via `next/font`)
+- SEO: titles, descriptions and social image copy per page in `lib/pages.ts`; see `docs/seo.md`
 - No backend, database, cookies or analytics
 
 ## Running locally
