@@ -128,7 +128,7 @@ bun install
 CMAKE_POLICY_VERSION_MINIMUM=3.5 bun run tauri dev
 ```
 
-See [BUILD.md](BUILD.md) for release builds and details.
+See [BUILD.md](BUILD.md) for release builds and details. What changed in each version: [CHANGELOG.md](CHANGELOG.md).
 
 Hush is built with [Tauri](https://tauri.app) (Rust + React/TypeScript) and
 [transcribe.cpp](https://github.com/handy-computer/transcribe.cpp) /
@@ -141,7 +141,7 @@ Hush is built with [Tauri](https://tauri.app) (Rust + React/TypeScript) and
 | `src/`       | The app's interface (React, TypeScript, Tailwind)                                                  |
 | `src-tauri/` | The app's core (Rust, Tauri): audio, speech recognition, AI clean-up, paste                        |
 | `website/`   | [hush.software](https://www.hush.software) (Next.js). See [`website/README.md`](website/README.md) |
-| `docs/`      | Images and notes used by this README                                                               |
+| `docs/`      | README images and the [troubleshooting guide](docs/TROUBLESHOOTING.md)                             |
 
 The app and the website share the same design language: cream surfaces, a burgundy accent and a serif display face.
 
