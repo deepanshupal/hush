@@ -1,0 +1,125 @@
+/*
+ * Hush design tokens — the single source of truth for colour.
+ *
+ * Every themed value is defined once per scheme below as a semantic
+ * `--hush-*` variable. `App.css` registers them as Tailwind colours
+ * (`bg-surface`, `text-text-muted`, `border-border`, `bg-accent`, …) and maps
+ * the older token names the components were written against
+ * (`background`, `mid-gray`, `logo-primary`, `background-ui`, …) onto the same
+ * variables, so every component inherits the palette without per-component
+ * overrides.
+ *
+ * Light: cream paper with the Hush brand red.
+ * Dark: warm charcoal (not neutral grey) with a lifted red that stays legible.
+ *
+ * Scheme selection: follows the OS by default; the Appearance setting forces
+ * one via `data-theme` on <html>. This file is imported by both the settings
+ * window and the recording overlay so they always agree.
+ */
+
+:root {
+  /* ---- Light ---------------------------------------------------------- */
+  --hush-light-bg: #e9e2d0;
+  --hush-light-surface: #f1ecdf;
+  --hush-light-surface-raised: #f8f5ee;
+  --hush-light-border: #cfc5ae;
+  --hush-light-text: #1a1410;
+  --hush-light-text-muted: #5a5040; /* 6.7:1 on surface, 5.8:1 on bg (AA) */
+  --hush-light-accent: #8b3030;
+  --hush-light-accent-contrast: #fdf8f1;
+  --hush-light-danger: #b42318;
+  --hush-light-warning: #a15c07;
+  --hush-light-success: #2f6b3a;
+
+  /* ---- Dark (warm charcoal) ------------------------------------------- */
+  --hush-dark-bg: #1d1916;
+  --hush-dark-surface: #26211d;
+  --hush-dark-surface-raised: #2f2924;
+  --hush-dark-border: #443b33;
+  --hush-dark-text: #ece4d4;
+  --hush-dark-text-muted: #a8997f;
+  --hush-dark-accent: #d26a5c;
+  --hush-dark-accent-contrast: #1d1916;
+  --hush-dark-danger: #f2877a;
+  --hush-dark-warning: #e8b45a;
+  --hush-dark-success: #86c48f;
+
+  /* ---- Active scheme (light by default) ------------------------------- */
+  --hush-bg: var(--hush-light-bg);
+  --hush-surface: var(--hush-light-surface);
+  --hush-surface-raised: var(--hush-light-surface-raised);
+  --hush-border: var(--hush-light-border);
+  --hush-text: var(--hush-light-text);
+  --hush-text-muted: var(--hush-light-text-muted);
+  --hush-accent: var(--hush-light-accent);
+  --hush-accent-contrast: var(--hush-light-accent-contrast);
+  --hush-danger: var(--hush-light-danger);
+  --hush-warning: var(--hush-light-warning);
+  --hush-success: var(--hush-light-success);
+  --hush-shadow: 0 1px 2px rgb(26 20 16 / 0.06), 0 1px 3px rgb(26 20 16 / 0.08);
+  --hush-shadow-popover: 0 10px 30px rgb(26 20 16 / 0.18);
+  --hush-scrim: rgb(26 20 16 / 0.45);
+  color-scheme: light;
+}
+
+/* Dark values, applied by the OS preference unless the user forced light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hush-bg: var(--hush-dark-bg);
+    --hush-surface: var(--hush-dark-surface);
+    --hush-surface-raised: var(--hush-dark-surface-raised);
+    --hush-border: var(--hush-dark-border);
+    --hush-text: var(--hush-dark-text);
+    --hush-text-muted: var(--hush-dark-text-muted);
+    --hush-accent: var(--hush-dark-accent);
+    --hush-accent-contrast: var(--hush-dark-accent-contrast);
+    --hush-danger: var(--hush-dark-danger);
+    --hush-warning: var(--hush-dark-warning);
+    --hush-success: var(--hush-dark-success);
+    --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+    --hush-shadow-popover: 0 10px 30px rgb(0 0 0 / 0.45);
+    --hush-scrim: rgb(0 0 0 / 0.6);
+    color-scheme: dark;
+  }
+}
+
+/* Dark forced from the Appearance setting, regardless of the OS. */
+:root[data-theme="dark"] {
+  --hush-bg: var(--hush-dark-bg);
+  --hush-surface: var(--hush-dark-surface);
+  --hush-surface-raised: var(--hush-dark-surface-raised);
+  --hush-border: var(--hush-dark-border);
+  --hush-text: var(--hush-dark-text);
+  --hush-text-muted: var(--hush-dark-text-muted);
+  --hush-accent: var(--hush-dark-accent);
+  --hush-accent-contrast: var(--hush-dark-accent-contrast);
+  --hush-danger: var(--hush-dark-danger);
+  --hush-warning: var(--hush-dark-warning);
+  --hush-success: var(--hush-dark-success);
+  --hush-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.25);
+  --hush-shadow-popover: 0 10px 30px rgb(0 0 0 / 0.45);
+  --hush-scrim: rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+
+/*
+ * Typography, radius and the legacy colour names. The legacy names are what
+ * the components (and the overlay stylesheet) were written against; they are
+ * pure aliases of the semantic tokens above, never separate values.
+ */
+:root {
+  --hush-font-sans:
+    "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --hush-font-display: "DM Serif Display", "Iowan Old Style", Georgia, serif;
+
+  --color-text: var(--hush-text);
+  --color-background: var(--hush-bg);
+  --color-background-ui: var(--hush-accent);
+  --color-logo-primary: var(--hush-accent);
+  --color-logo-stroke: var(--hush-text);
+  --color-text-stroke: var(--hush-surface-raised);
+  --color-mid-gray: var(--hush-text-muted);
+  --color-warning: var(--hush-warning);
+  --color-error: var(--hush-danger);
+}

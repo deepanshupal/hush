@@ -1,0 +1,1326 @@
+use crate::app_context::{self, AppInfo};
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+use crate::apple_intelligence;
+use crate::audio_feedback::{play_feedback_sound, play_feedback_sound_blocking, SoundType};
+use crate::audio_toolkit::VadPolicy;
+use crate::managers::audio::{recording_error_type, AudioRecordingManager};
+use crate::managers::history::HistoryManager;
+use crate::managers::model::ModelManager;
+use crate::managers::snippets::SnippetsManager;
+use crate::managers::transcription::policy::{live_decode, LiveDecode, ModelTraits};
+use crate::managers::transcription::StreamWorkKind;
+use crate::managers::transcription::TranscriptionManager;
+use crate::settings::{
+    get_settings, AppSettings, AppStyle, CleanupLevel, OverlayStyle, APPLE_INTELLIGENCE_PROVIDER_ID,
+};
+use crate::shortcut;
+use crate::tray::{set_tray_state, TrayIconState};
+use crate::utils::{
+    self, show_processing_overlay, show_recording_overlay, show_transcribing_overlay,
+};
+use crate::TranscriptionCoordinator;
+use log::{debug, error, warn};
+use once_cell::sync::Lazy;
+use std::collections::HashMap;
+use std::future::Future;
+use std::sync::Arc;
+use std::time::{Duration, Instant};
+use tauri::Manager;
+use tauri::{AppHandle, Emitter};
+
+const CANCELLATION_POLL_INTERVAL: Duration = Duration::from_millis(25);
+
+#[derive(Clone, serde::Serialize)]
+struct RecordingErrorEvent {
+    error_type: String,
+    detail: Option<String>,
+}
+
+/// Drop guard that finishes the transcription pipeline, including immediate
+/// model unloading on early exits.
+struct FinishGuard(AppHandle, Arc<TranscriptionManager>);
+impl Drop for FinishGuard {
+    fn drop(&mut self) {
+        self.1.maybe_unload_immediately("transcription session");
+        if let Some(c) = self.0.try_state::<TranscriptionCoordinator>() {
+            c.notify_processing_finished();
+        }
+        // The pipeline just freed its large transient buffers (captured PCM,
+        // WAV copy, engine scratch); hand the cached pages back to the OS so
+        // they don't sit in malloc arenas until they get swapped out (#1792).
+        crate::memory::trim_freed_memory();
+    }
+}
+
+// Shortcut Action Trait
+pub trait ShortcutAction: Send + Sync {
+    fn start(&self, app: &AppHandle, binding_id: &str, shortcut_str: &str);
+    fn stop(&self, app: &AppHandle, binding_id: &str, shortcut_str: &str);
+}
+
+// Transcribe Action
+struct TranscribeAction {
+    post_process: bool,
+}
+
+/// Field name for structured output JSON schema
+const TRANSCRIPTION_FIELD: &str = "transcription";
+
+/// Strip invisible Unicode characters that some LLMs may insert
+fn strip_invisible_chars(s: &str) -> String {
+    s.replace(['\u{200B}', '\u{200C}', '\u{200D}', '\u{FEFF}'], "")
+}
+
+/// Strip a leading `<think>...</think>` block. Some endpoints can't disable
+/// reasoning, and some local servers put the reasoning text into `content`
+/// instead of a separate field — without this the user would get the model's
+/// chain of thought pasted along with the cleaned transcription.
+fn strip_think_block(s: &str) -> &str {
+    if let Some(rest) = s.trim_start().strip_prefix("<think>") {
+        if let Some(end) = rest.find("</think>") {
+            return rest[end + "</think>".len()..].trim_start();
+        }
+    }
+    s
+}
+
+/// Build a system prompt from the user's prompt template.
+/// Removes the `${output}` placeholder (and the `<transcript>` block around
+/// it, if any) since the transcription is sent as the user message.
+fn build_system_prompt(prompt_template: &str) -> String {
+    let without_block = TRANSCRIPT_BLOCK_RE.replace_all(prompt_template, "");
+    without_block.replace("${output}", "").trim().to_string()
+}
+
+static TRANSCRIPT_BLOCK_RE: Lazy<regex::Regex> = Lazy::new(|| {
+    regex::Regex::new(r"<transcript>\s*\$\{output\}\s*</transcript>")
+        .expect("valid transcript block regex")
+});
+
+/// The transcript as sent to the model: always fenced in `<transcript>` tags,
+/// so the model treats it as data, never as a message addressed to it.
+fn wrap_transcript(transcription: &str) -> String {
+    format!("<transcript>\n{}\n</transcript>", transcription.trim())
+}
+
+/// Below this many words AI clean-up is skipped: there is nothing to fix in
+/// "Yes." or "Sounds good", and the round trip would only add latency.
+const MIN_WORDS_FOR_CLEANUP: usize = 3;
+
+/// Upper bound on the custom-vocabulary text put into the prompt.
+const MAX_CUSTOM_WORDS_CHARS: usize = 600;
+
+/// Remote providers get this long before Hush gives up and pastes the raw
+/// transcript; local ones (custom endpoint, Apple Intelligence) a bit longer.
+const CLEANUP_TIMEOUT_REMOTE: Duration = Duration::from_secs(4);
+const CLEANUP_TIMEOUT_LOCAL: Duration = Duration::from_secs(10);
+
+/// Everything the clean-up prompt is personalized with for one dictation.
+#[derive(Clone, Debug)]
+pub(crate) struct CleanupContext {
+    pub app: Option<AppInfo>,
+    pub style: AppStyle,
+    pub level: CleanupLevel,
+}
+
+fn style_instruction(style: AppStyle) -> &'static str {
+    match style {
+        AppStyle::Default | AppStyle::Raw => "natural; keep the speaker's own tone",
+        AppStyle::Message => {
+            "casual and short, like a chat message; add no greeting or sign-off that was not spoken"
+        }
+        AppStyle::Email => {
+            "professional, in short paragraphs; put a spoken greeting and sign-off on their own lines"
+        }
+        AppStyle::Code => {
+            "technical; keep code identifiers, file names, commands, symbols and their casing exactly as spoken, and do not reword technical terms"
+        }
+    }
+}
+
+fn level_instruction(level: CleanupLevel) -> &'static str {
+    match level {
+        CleanupLevel::Medium => {
+            "Exception: you may tighten wordy phrasing and drop repetition, as long as every point the speaker made is kept. "
+        }
+        CleanupLevel::None | CleanupLevel::Light => "",
+    }
+}
+
+/// The user's custom vocabulary as one comma-separated line, capped so a long
+/// word list cannot crowd out the instructions.
+fn custom_words_for_prompt(words: &[String]) -> String {
+    let mut out = String::new();
+    for word in words.iter().map(|w| w.trim()).filter(|w| !w.is_empty()) {
+        let extra = if out.is_empty() {
+            word.len()
+        } else {
+            word.len() + 2
+        };
+        if out.len() + extra > MAX_CUSTOM_WORDS_CHARS {
+            break;
+        }
+        if !out.is_empty() {
+            out.push_str(", ");
+        }
+        out.push_str(word);
+    }
+    out
+}
+
+/// Fill the per-dictation placeholders of a prompt template, leaving
+/// `${output}` for the caller. Templates without the placeholders still get
+/// the style (and Medium level) appended, so user prompts follow per-app styles.
+fn render_cleanup_prompt(template: &str, settings: &AppSettings, ctx: &CleanupContext) -> String {
+    let app_name = ctx
+        .app
+        .as_ref()
+        .map(|a| a.name.trim())
+        .filter(|n| !n.is_empty())
+        .unwrap_or("the active app");
+    let words = custom_words_for_prompt(&settings.custom_words);
+
+    let mut prompt = template.to_string();
+    if words.is_empty() {
+        prompt = prompt.replace(
+            "Spell these terms exactly when they are spoken: ${custom_words}. ",
+            "",
+        );
+    }
+    let had_style = prompt.contains("${style}");
+    let had_level = prompt.contains("${level}");
+    prompt = prompt
+        .replace("${app}", app_name)
+        .replace("${custom_words}", &words)
+        .replace("${style}", style_instruction(ctx.style))
+        .replace("${level}", level_instruction(ctx.level));
+
+    let mut extra = String::new();
+    if !had_level && ctx.level == CleanupLevel::Medium {
+        extra.push_str(level_instruction(ctx.level));
+    }
+    if !had_style && ctx.style != AppStyle::Default {
+        extra.push_str(&format!("Tone: {}.", style_instruction(ctx.style)));
+    }
+    if !extra.is_empty() {
+        prompt = match TRANSCRIPT_BLOCK_RE.find(&prompt).map(|m| m.start()) {
+            Some(pos) => format!("{}{}\n\n{}", &prompt[..pos], extra.trim(), &prompt[pos..]),
+            None => format!("{}\n\n{}", prompt.trim_end(), extra.trim()),
+        };
+    }
+    prompt
+}
+
+fn word_count(text: &str) -> usize {
+    text.split_whitespace().count()
+}
+
+/// Rough output budget for a clean-up: the cleaned text is about as long as
+/// the input, so scale with it instead of using one fixed cap.
+pub(crate) fn cleanup_max_tokens(transcription: &str) -> u32 {
+    let estimated = (transcription.chars().count() / 3) as u32 + 256;
+    estimated.clamp(512, 8192)
+}
+
+/// Returns `true` when a transcription has no meaningful content to
+/// post-process (empty or whitespace-only). Used to skip the post-processing
+/// LLM call when nothing was actually transcribed, which would otherwise make
+/// the model reply with an error message such as "you need to provide the
+/// transcription".
+fn is_blank_transcription(transcription: &str) -> bool {
+    transcription.trim().is_empty()
+}
+
+async fn complete_unless_cancelled<F, C>(operation: F, is_cancelled: C) -> Option<F::Output>
+where
+    F: Future,
+    C: Fn() -> bool,
+{
+    tokio::pin!(operation);
+
+    loop {
+        if is_cancelled() {
+            return None;
+        }
+
+        if let Ok(result) =
+            tokio::time::timeout(CANCELLATION_POLL_INTERVAL, operation.as_mut()).await
+        {
+            return Some(result);
+        }
+    }
+}
+
+fn should_use_streaming_overlay(style: OverlayStyle, is_streaming: bool) -> bool {
+    style == OverlayStyle::Live && is_streaming
+}
+
+async fn post_process_transcription(
+    settings: &AppSettings,
+    transcription: &str,
+    ctx: &CleanupContext,
+) -> Option<String> {
+    if is_blank_transcription(transcription) {
+        debug!("Post-processing skipped because the transcription is empty");
+        return None;
+    }
+
+    let provider = match settings.active_post_process_provider().cloned() {
+        Some(provider) => provider,
+        None => {
+            debug!("Post-processing enabled but no provider is selected");
+            return None;
+        }
+    };
+
+    let model = settings
+        .post_process_models
+        .get(&provider.id)
+        .cloned()
+        .unwrap_or_default();
+
+    if model.trim().is_empty() {
+        debug!(
+            "Post-processing skipped because provider '{}' has no model configured",
+            provider.id
+        );
+        return None;
+    }
+
+    let selected_prompt_id = match &settings.post_process_selected_prompt_id {
+        Some(id) => id.clone(),
+        None => {
+            debug!("Post-processing skipped because no prompt is selected");
+            return None;
+        }
+    };
+
+    let prompt = match settings
+        .post_process_prompts
+        .iter()
+        .find(|prompt| prompt.id == selected_prompt_id)
+    {
+        Some(prompt) => render_cleanup_prompt(&prompt.prompt, settings, ctx),
+        None => {
+            debug!(
+                "Post-processing skipped because prompt '{}' was not found",
+                selected_prompt_id
+            );
+            return None;
+        }
+    };
+
+    if prompt.trim().is_empty() {
+        debug!("Post-processing skipped because the selected prompt is empty");
+        return None;
+    }
+
+    debug!(
+        "Starting LLM post-processing with provider '{}' (model: {})",
+        provider.id, model
+    );
+
+    let api_key = settings
+        .post_process_api_keys
+        .get(&provider.id)
+        .cloned()
+        .unwrap_or_default();
+
+    // Hosted providers need a key; without one the request can only fail, so
+    // don't make the user wait for it. (Custom endpoints such as a local
+    // Ollama server, and Apple Intelligence, need none.)
+    if api_key.trim().is_empty()
+        && provider.id != "custom"
+        && provider.id != APPLE_INTELLIGENCE_PROVIDER_ID
+    {
+        debug!(
+            "Post-processing skipped because provider '{}' has no API key",
+            provider.id
+        );
+        return None;
+    }
+
+    // Ask these providers to skip reasoning/thinking — post-processing rarely
+    // benefits from it and it adds seconds of latency. llm_client picks the
+    // field the endpoint understands and retries without it if rejected.
+    let disable_reasoning = matches!(
+        provider.id.as_str(),
+        "custom" | "openrouter" | "openai" | "groq" | "cerebras"
+    );
+
+    if provider.supports_structured_output {
+        debug!("Using structured outputs for provider '{}'", provider.id);
+
+        let system_prompt = build_system_prompt(&prompt);
+        let user_content = wrap_transcript(transcription);
+
+        // Handle Apple Intelligence separately since it uses native Swift APIs
+        if provider.id == APPLE_INTELLIGENCE_PROVIDER_ID {
+            #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+            {
+                if !apple_intelligence::check_apple_intelligence_availability() {
+                    debug!(
+                        "Apple Intelligence selected but not currently available on this device"
+                    );
+                    return None;
+                }
+
+                let token_limit = model.trim().parse::<i32>().unwrap_or(0);
+                return match apple_intelligence::process_text_with_system_prompt(
+                    &system_prompt,
+                    &user_content,
+                    token_limit,
+                ) {
+                    Ok(result) => {
+                        if result.trim().is_empty() {
+                            debug!("Apple Intelligence returned an empty response");
+                            None
+                        } else {
+                            let result = strip_invisible_chars(&result);
+                            debug!(
+                                "Apple Intelligence post-processing succeeded. Output length: {} chars",
+                                result.len()
+                            );
+                            Some(result)
+                        }
+                    }
+                    Err(err) => {
+                        error!("Apple Intelligence post-processing failed: {}", err);
+                        None
+                    }
+                };
+            }
+
+            #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
+            {
+                debug!("Apple Intelligence provider selected on unsupported platform");
+                return None;
+            }
+        }
+
+        // Define JSON schema for transcription output
+        let json_schema = serde_json::json!({
+            "type": "object",
+            "properties": {
+                (TRANSCRIPTION_FIELD): {
+                    "type": "string",
+                    "description": "The cleaned and processed transcription text"
+                }
+            },
+            "required": [TRANSCRIPTION_FIELD],
+            "additionalProperties": false
+        });
+
+        match crate::llm_client::send_chat_completion_with_schema(
+            &provider,
+            api_key.clone(),
+            &model,
+            user_content,
+            Some(system_prompt),
+            Some(json_schema),
+            disable_reasoning,
+        )
+        .await
+        {
+            Ok(Some(content)) => {
+                // Parse the JSON response to extract the transcription field
+                let content = strip_think_block(&content);
+                match serde_json::from_str::<serde_json::Value>(content) {
+                    Ok(json) => {
+                        if let Some(transcription_value) =
+                            json.get(TRANSCRIPTION_FIELD).and_then(|t| t.as_str())
+                        {
+                            let result = strip_invisible_chars(transcription_value);
+                            debug!(
+                                "Structured output post-processing succeeded for provider '{}'. Output length: {} chars",
+                                provider.id,
+                                result.len()
+                            );
+                            return Some(result);
+                        } else {
+                            error!("Structured output response missing 'transcription' field");
+                            return Some(strip_invisible_chars(content));
+                        }
+                    }
+                    Err(e) => {
+                        error!(
+                            "Failed to parse structured output JSON: {}. Returning raw content.",
+                            e
+                        );
+                        return Some(strip_invisible_chars(content));
+                    }
+                }
+            }
+            Ok(None) => {
+                error!("LLM API response has no content");
+                return None;
+            }
+            Err(e) => {
+                warn!(
+                    "Structured output failed for provider '{}': {}. Falling back to legacy mode.",
+                    provider.id, e
+                );
+                // Fall through to legacy mode below
+            }
+        }
+    }
+
+    // Legacy mode: Replace ${output} variable in the prompt with the actual text
+    // (or append the fenced transcript when the template has no placeholder).
+    let processed_prompt = if prompt.contains("${output}") {
+        prompt.replace("${output}", transcription.trim())
+    } else {
+        format!(
+            "{}\n\n{}",
+            prompt.trim_end(),
+            wrap_transcript(transcription)
+        )
+    };
+    debug!("Processed prompt length: {} chars", processed_prompt.len());
+
+    match crate::llm_client::send_chat_completion(
+        &provider,
+        api_key,
+        &model,
+        processed_prompt,
+        disable_reasoning,
+        cleanup_max_tokens(transcription),
+    )
+    .await
+    {
+        Ok(Some(content)) => {
+            let content = strip_invisible_chars(strip_think_block(&content));
+            debug!(
+                "LLM post-processing succeeded for provider '{}'. Output length: {} chars",
+                provider.id,
+                content.len()
+            );
+            Some(content)
+        }
+        Ok(None) => {
+            error!("LLM API response has no content");
+            None
+        }
+        Err(e) => {
+            error!(
+                "LLM post-processing failed for provider '{}': {}. Falling back to original transcription.",
+                provider.id,
+                e
+            );
+            None
+        }
+    }
+}
+
+pub(crate) struct ProcessedTranscription {
+    pub final_text: String,
+    pub post_processed_text: Option<String>,
+    pub post_process_prompt: Option<String>,
+    /// Whether AI clean-up was requested for this dictation (recorded in
+    /// history so a retry repeats it).
+    pub ai_requested: bool,
+}
+
+/// Whether AI clean-up should run: the dedicated clean-up shortcut always
+/// asks for it; ordinary dictation does unless the level is `None`. Both
+/// need AI clean-up switched on.
+pub(crate) fn wants_ai_cleanup(settings: &AppSettings, explicit: bool) -> bool {
+    settings.post_process_enabled && (explicit || settings.cleanup_level != CleanupLevel::None)
+}
+
+fn cleanup_timeout(settings: &AppSettings) -> Duration {
+    match settings.post_process_provider_id.as_str() {
+        "custom" | APPLE_INTELLIGENCE_PROVIDER_ID => CLEANUP_TIMEOUT_LOCAL,
+        _ => CLEANUP_TIMEOUT_REMOTE,
+    }
+}
+
+/// Expand a voice snippet if the whole dictation is one of its triggers.
+fn expand_snippet(app: &AppHandle, transcription: &str) -> Option<String> {
+    let snippets = app.try_state::<Arc<SnippetsManager>>()?;
+    match snippets.find_expansion(transcription) {
+        Ok(found) => found,
+        Err(e) => {
+            warn!("Snippet lookup failed: {}", e);
+            None
+        }
+    }
+}
+
+pub(crate) async fn process_transcription_output(
+    app: &AppHandle,
+    transcription: &str,
+    post_process: bool,
+) -> ProcessedTranscription {
+    let settings = get_settings(app);
+    let ai_requested = wants_ai_cleanup(&settings, post_process);
+
+    // Voice snippets win over everything else: the expansion is pasted verbatim.
+    if let Some(expansion) = expand_snippet(app, transcription) {
+        debug!("Voice snippet matched; pasting its expansion");
+        return ProcessedTranscription {
+            final_text: expansion.clone(),
+            post_processed_text: Some(expansion),
+            post_process_prompt: None,
+            ai_requested: false,
+        };
+    }
+
+    let mut processed =
+        clean_up_with_ai(&settings, transcription, post_process, ai_requested).await;
+
+    // Snippet triggers spoken inside a longer dictation (longest wins).
+    if let Some(snippets) = app.try_state::<Arc<SnippetsManager>>() {
+        let expanded = snippets.expand_inline(&processed.final_text);
+        if expanded != processed.final_text {
+            debug!("Expanded voice snippets inside the dictation");
+            processed.post_processed_text = Some(expanded.clone());
+            processed.final_text = expanded;
+        }
+    }
+
+    processed
+}
+
+/// The AI clean-up step on its own: decides whether to run, picks the app's
+/// style, and falls back to the raw transcript on skip, failure or timeout.
+async fn clean_up_with_ai(
+    settings: &AppSettings,
+    transcription: &str,
+    post_process: bool,
+    ai_requested: bool,
+) -> ProcessedTranscription {
+    let mut processed = ProcessedTranscription {
+        final_text: transcription.to_string(),
+        post_processed_text: None,
+        post_process_prompt: None,
+        ai_requested,
+    };
+    if !ai_requested {
+        return processed;
+    }
+    if word_count(transcription) < MIN_WORDS_FOR_CLEANUP {
+        debug!("AI clean-up skipped: dictation is shorter than {MIN_WORDS_FOR_CLEANUP} words");
+        return processed;
+    }
+
+    let frontmost = app_context::frontmost_app();
+    let mut style = settings.style_for_app(
+        frontmost.as_ref().and_then(|a| a.bundle_id.as_deref()),
+        frontmost.as_ref().map(|a| a.name.as_str()),
+    );
+    if style == AppStyle::Raw {
+        if !post_process {
+            debug!("AI clean-up skipped: the frontmost app's style is Raw");
+            return processed;
+        }
+        // The dedicated clean-up shortcut is an explicit request: honour it.
+        style = AppStyle::Default;
+    }
+    let level = match settings.cleanup_level {
+        CleanupLevel::None => CleanupLevel::Light,
+        level => level,
+    };
+    let ctx = CleanupContext {
+        app: frontmost,
+        style,
+        level,
+    };
+
+    let timeout = cleanup_timeout(settings);
+    match tokio::time::timeout(
+        timeout,
+        post_process_transcription(settings, transcription, &ctx),
+    )
+    .await
+    {
+        Ok(Some(processed_text)) => {
+            processed.post_processed_text = Some(processed_text.clone());
+            processed.final_text = processed_text;
+            if let Some(prompt_id) = &settings.post_process_selected_prompt_id {
+                if let Some(prompt) = settings
+                    .post_process_prompts
+                    .iter()
+                    .find(|prompt| &prompt.id == prompt_id)
+                {
+                    processed.post_process_prompt = Some(prompt.prompt.clone());
+                }
+            }
+        }
+        Ok(None) => {}
+        Err(_) => warn!(
+            "AI clean-up timed out after {:?}; pasting the raw transcript",
+            timeout
+        ),
+    }
+
+    processed
+}
+
+impl ShortcutAction for TranscribeAction {
+    fn start(&self, app: &AppHandle, binding_id: &str, _shortcut_str: &str) {
+        let start_time = Instant::now();
+        debug!("TranscribeAction::start called for binding: {}", binding_id);
+
+        // Load model in the background
+        let tm = app.state::<Arc<TranscriptionManager>>();
+        let rm = app.state::<Arc<AudioRecordingManager>>();
+
+        // Load ASR model and VAD model in parallel
+        let kickoff_started = Instant::now();
+        tm.initiate_model_load();
+        let rm_clone = Arc::clone(&rm);
+        std::thread::spawn(move || {
+            if let Err(e) = rm_clone.preload_vad() {
+                debug!("VAD pre-load failed: {}", e);
+            }
+        });
+        let kickoff_elapsed = kickoff_started.elapsed();
+
+        // Don't open the mic if nothing can transcribe the recording; the load
+        // kicked off above fails and reports why.
+        if !tm.is_model_loaded() {
+            let selected_model = get_settings(app).selected_model;
+            if let Err(e) = app
+                .state::<Arc<ModelManager>>()
+                .get_model_path(&selected_model)
+            {
+                warn!("Not starting recording: no model can transcribe it ({})", e);
+                return;
+            }
+        }
+
+        let binding_id = binding_id.to_string();
+        let tray_started = Instant::now();
+        set_tray_state(app, TrayIconState::Recording);
+        let tray_elapsed = tray_started.elapsed();
+
+        // Get the microphone mode to determine audio feedback timing
+        let plan_started = Instant::now();
+        let settings = get_settings(app);
+        let is_always_on = settings.always_on_microphone;
+
+        let selected_model_info = app
+            .state::<Arc<ModelManager>>()
+            .get_model_info(&settings.selected_model);
+
+        // Use the app-facing model capability as the single pre-recording source
+        // for live streaming decisions. Unknown support is represented as false
+        // until the model registry is updated by discovery or runtime load.
+        let model_supports_streaming = selected_model_info
+            .as_ref()
+            .map(|m| m.supports_streaming)
+            .unwrap_or(false);
+        let vad_policy = if !settings.vad_enabled {
+            VadPolicy::Disabled
+        } else if model_supports_streaming {
+            VadPolicy::Streaming
+        } else {
+            VadPolicy::Offline
+        };
+        // Before the model loads, whether it keeps its accuracy on long audio
+        // is unknown, so assume not: the worker decides again with the loaded
+        // model, and a wrong guess costs only an idle worker.
+        let expected_model = ModelTraits {
+            streaming: model_supports_streaming,
+            long_form: false,
+        };
+        if live_decode(expected_model, settings.long_form_chunking) != LiveDecode::None {
+            tm.start_stream();
+        }
+        let plan_elapsed = plan_started.elapsed();
+
+        // Sizing the overlay follows the same advertised capability. A model that
+        // doesn't stream (or whose capability is not known yet) gets the compact
+        // pill instead of an oversized transparent live window.
+        let overlay_started = Instant::now();
+        match settings.overlay_style {
+            OverlayStyle::Live if model_supports_streaming => utils::show_streaming_overlay(app),
+            OverlayStyle::Live | OverlayStyle::Minimal => show_recording_overlay(app),
+            OverlayStyle::None => {} // show_overlay_state no-ops on None anyway
+        }
+        // Everything above runs before capture can begin, so each span here is
+        // added keypress->capture latency.
+        debug!(
+            "start-path pre-recording steps: model_kickoff={:?} tray={:?} settings+stream_plan={:?} overlay={:?}",
+            kickoff_elapsed,
+            tray_elapsed,
+            plan_elapsed,
+            overlay_started.elapsed()
+        );
+        debug!("Microphone mode - always_on: {}", is_always_on);
+
+        let mut recording_error: Option<anyhow::Error> = None;
+        let recording_start_time = Instant::now();
+        match rm.try_start_recording(&binding_id, vad_policy) {
+            Ok(readiness) => {
+                debug!(
+                    "Recording request accepted in {:?}; waiting for first microphone samples",
+                    recording_start_time.elapsed()
+                );
+                let generation = readiness.generation();
+                let app_clone = app.clone();
+                let rm_clone = Arc::clone(&rm);
+                std::thread::spawn(move || {
+                    if !readiness.wait() {
+                        debug!("Microphone readiness wait ended without receiving samples");
+                        return;
+                    }
+
+                    // Development-only preview hook for evaluating the brief
+                    // arming animation on hardware that normally starts too fast
+                    // to make it visible.
+                    #[cfg(debug_assertions)]
+                    if let Ok(delay_ms) = std::env::var("HANDY_DEBUG_MIC_READY_DELAY_MS")
+                        .unwrap_or_default()
+                        .parse::<u64>()
+                    {
+                        let delay_ms = delay_ms.min(10_000);
+                        if delay_ms > 0 {
+                            debug!("Delaying microphone-ready cue by {delay_ms}ms for UI preview");
+                            std::thread::sleep(Duration::from_millis(delay_ms));
+                        }
+                    }
+
+                    if !rm_clone.is_recording_readiness_current(generation) {
+                        debug!("Microphone became ready for an inactive recording");
+                        return;
+                    }
+
+                    debug!("Microphone is receiving samples; recording is ready");
+                    utils::emit_recording_ready(&app_clone);
+
+                    // The start chime is a readiness cue, so it must follow the
+                    // first real input callback rather than Stream::play() or a
+                    // fixed delay. The helper returns immediately when feedback
+                    // is disabled; mute still follows the same readiness point.
+                    if rm_clone.is_recording_readiness_current(generation) {
+                        play_feedback_sound_blocking(&app_clone, SoundType::Start);
+                    }
+                    if rm_clone.is_recording_readiness_current(generation) {
+                        rm_clone.apply_mute();
+                    }
+                });
+            }
+            Err(e) => {
+                debug!("Failed to start recording: {}", e);
+                recording_error = Some(e);
+            }
+        }
+
+        if recording_error.is_none() {
+            // Dynamically register the cancel shortcut in a separate task to avoid deadlock
+            shortcut::register_cancel_shortcut(app);
+        } else {
+            // Starting failed (for example due to blocked microphone permissions).
+            // Revert UI state so we don't stay stuck in the recording overlay.
+            tm.cancel_stream();
+            utils::hide_recording_overlay(app);
+            set_tray_state(app, TrayIconState::Idle);
+            if let Some(err) = recording_error {
+                let _ = app.emit(
+                    "recording-error",
+                    RecordingErrorEvent {
+                        error_type: recording_error_type(&err).to_string(),
+                        detail: Some(format!("{err:#}")),
+                    },
+                );
+            }
+        }
+
+        debug!(
+            "TranscribeAction::start completed in {:?}",
+            start_time.elapsed()
+        );
+    }
+
+    fn stop(&self, app: &AppHandle, binding_id: &str, _shortcut_str: &str) {
+        // Prevent a slow microphone from emitting a ready event or start chime
+        // after the user has already requested stop.
+        app.state::<Arc<AudioRecordingManager>>()
+            .invalidate_recording_readiness();
+
+        // Unregister the cancel shortcut when transcription stops
+        shortcut::unregister_cancel_shortcut(app);
+
+        let stop_time = Instant::now();
+        debug!("TranscribeAction::stop called for binding: {}", binding_id);
+
+        let ah = app.clone();
+        let rm = Arc::clone(&app.state::<Arc<AudioRecordingManager>>());
+        let tm = Arc::clone(&app.state::<Arc<TranscriptionManager>>());
+        let hm = Arc::clone(&app.state::<Arc<HistoryManager>>());
+
+        set_tray_state(app, TrayIconState::Transcribing);
+        // Stop should give immediate visual feedback. Live streaming can keep
+        // the larger panel, but it still switches from listening to a working
+        // spinner while the stream finalizes. Non-streaming paths use the
+        // compact transcribing pill (None no-ops in show_*).
+        let style = get_settings(app).overlay_style;
+        // Capture this before finalizing the stream so every later working state
+        // targets the same overlay that was shown for this transcription.
+        let use_streaming_overlay = should_use_streaming_overlay(style, tm.is_streaming());
+        if use_streaming_overlay {
+            tm.emit_stream_working(StreamWorkKind::Transcribing);
+        } else {
+            show_transcribing_overlay(app);
+        }
+
+        // Unmute before playing audio feedback so the stop sound is audible
+        rm.remove_mute();
+
+        // Play audio feedback for recording stop
+        play_feedback_sound(app, SoundType::Stop);
+
+        let binding_id = binding_id.to_string(); // Clone binding_id for the async task
+        let post_process = self.post_process;
+        let cancel_generation = rm.cancel_generation();
+
+        tauri::async_runtime::spawn(async move {
+            let _guard = FinishGuard(ah.clone(), Arc::clone(&tm));
+            debug!(
+                "Starting async transcription task for binding: {}",
+                binding_id
+            );
+
+            let stop_recording_time = Instant::now();
+            if let Some(samples) = rm.stop_recording(&binding_id, cancel_generation) {
+                debug!(
+                    "Recording stopped and samples retrieved in {:?}, sample count: {}",
+                    stop_recording_time.elapsed(),
+                    samples.len()
+                );
+
+                if rm.was_cancelled_since(cancel_generation) {
+                    debug!("Transcription operation cancelled after recording stop");
+                    tm.cancel_stream();
+                    utils::hide_recording_overlay(&ah);
+                    set_tray_state(&ah, TrayIconState::Idle);
+                    return;
+                }
+
+                if samples.is_empty() {
+                    debug!("Recording produced no audio samples; skipping persistence");
+                    // Tear down any streaming worker so its channel doesn't leak
+                    // and block the next start_stream.
+                    tm.cancel_stream();
+                    utils::hide_recording_overlay(&ah);
+                    set_tray_state(&ah, TrayIconState::Idle);
+                } else {
+                    // Save WAV concurrently with transcription
+                    let sample_count = samples.len();
+                    let file_name = format!("hush-{}.wav", chrono::Utc::now().timestamp());
+                    let wav_path = hm.recordings_dir().join(&file_name);
+                    let wav_path_for_verify = wav_path.clone();
+                    let samples_for_wav = samples.clone();
+                    let wav_handle = tauri::async_runtime::spawn_blocking(move || {
+                        crate::audio_toolkit::save_wav_file(&wav_path, &samples_for_wav)
+                    });
+
+                    // Transcribe concurrently with WAV save: the live decode's
+                    // result when it has one (all audio was already fed to it),
+                    // otherwise a batch run of the samples. A cancel is surfaced
+                    // as an error, so it never starts a batch run.
+                    let transcription_time = Instant::now();
+                    let transcription_result = tm.transcribe_recording(samples);
+
+                    // Await WAV save and verify
+                    let wav_saved = match wav_handle.await {
+                        Ok(Ok(())) => {
+                            match crate::audio_toolkit::verify_wav_file(
+                                &wav_path_for_verify,
+                                sample_count,
+                            ) {
+                                Ok(()) => true,
+                                Err(e) => {
+                                    error!("WAV verification failed: {}", e);
+                                    false
+                                }
+                            }
+                        }
+                        Ok(Err(e)) => {
+                            error!("Failed to save WAV file: {}", e);
+                            false
+                        }
+                        Err(e) => {
+                            error!("WAV save task panicked: {}", e);
+                            false
+                        }
+                    };
+
+                    if rm.was_cancelled_since(cancel_generation) {
+                        debug!("Transcription operation cancelled before output handling");
+                        utils::hide_recording_overlay(&ah);
+                        set_tray_state(&ah, TrayIconState::Idle);
+                        return;
+                    }
+
+                    match transcription_result {
+                        Ok(transcription) => {
+                            debug!(
+                                "Transcription completed in {:?}: '{}'",
+                                transcription_time.elapsed(),
+                                utils::redact_text(&transcription)
+                            );
+
+                            if wants_ai_cleanup(&get_settings(&ah), post_process) {
+                                if use_streaming_overlay {
+                                    tm.emit_stream_working(StreamWorkKind::Polishing);
+                                } else {
+                                    show_processing_overlay(&ah);
+                                }
+                            }
+                            let Some(processed) = complete_unless_cancelled(
+                                process_transcription_output(&ah, &transcription, post_process),
+                                || rm.was_cancelled_since(cancel_generation),
+                            )
+                            .await
+                            else {
+                                debug!("Transcription operation cancelled during output handling");
+                                utils::hide_recording_overlay(&ah);
+                                set_tray_state(&ah, TrayIconState::Idle);
+                                return;
+                            };
+
+                            if rm.was_cancelled_since(cancel_generation) {
+                                debug!("Transcription operation cancelled before paste");
+                                utils::hide_recording_overlay(&ah);
+                                set_tray_state(&ah, TrayIconState::Idle);
+                                return;
+                            }
+
+                            // Save to history if WAV was saved
+                            if wav_saved {
+                                if let Err(err) = hm.save_entry(
+                                    file_name,
+                                    transcription,
+                                    processed.ai_requested,
+                                    processed.post_processed_text.clone(),
+                                    processed.post_process_prompt.clone(),
+                                ) {
+                                    error!("Failed to save history entry: {}", err);
+                                }
+                            }
+
+                            if processed.final_text.is_empty() {
+                                utils::hide_recording_overlay(&ah);
+                                set_tray_state(&ah, TrayIconState::Idle);
+                            } else {
+                                let ah_clone = ah.clone();
+                                let paste_time = Instant::now();
+                                let final_text = processed.final_text;
+                                let rm_for_paste = Arc::clone(&rm);
+                                ah.run_on_main_thread(move || {
+                                    if rm_for_paste.was_cancelled_since(cancel_generation) {
+                                        debug!("Transcription operation cancelled before paste");
+                                        utils::hide_recording_overlay(&ah_clone);
+                                        set_tray_state(&ah_clone, TrayIconState::Idle);
+                                        return;
+                                    }
+
+                                    match utils::paste(final_text, ah_clone.clone()) {
+                                        Ok(()) => debug!(
+                                            "Text pasted successfully in {:?}",
+                                            paste_time.elapsed()
+                                        ),
+                                        Err(e) => {
+                                            error!("Failed to paste transcription: {}", e);
+                                            let _ = ah_clone.emit("paste-error", ());
+                                        }
+                                    }
+                                    utils::hide_recording_overlay(&ah_clone);
+                                    set_tray_state(&ah_clone, TrayIconState::Idle);
+                                })
+                                .unwrap_or_else(|e| {
+                                    error!("Failed to run paste on main thread: {:?}", e);
+                                    utils::hide_recording_overlay(&ah);
+                                    set_tray_state(&ah, TrayIconState::Idle);
+                                });
+                            }
+                        }
+                        Err(err) => {
+                            if rm.was_cancelled_since(cancel_generation) {
+                                debug!(
+                                    "Transcription operation cancelled after transcription error"
+                                );
+                                utils::hide_recording_overlay(&ah);
+                                set_tray_state(&ah, TrayIconState::Idle);
+                                return;
+                            }
+
+                            error!("Transcription failed: {}", err);
+                            // Surface the failure to the UI (toast). The full
+                            // message is also in hush.log via the line above.
+                            let _ = ah.emit("transcription-error", err.to_string());
+                            // Save entry with empty text so user can retry
+                            if wav_saved {
+                                if let Err(save_err) = hm.save_entry(
+                                    file_name,
+                                    String::new(),
+                                    post_process,
+                                    None,
+                                    None,
+                                ) {
+                                    error!("Failed to save failed history entry: {}", save_err);
+                                }
+                            }
+                            utils::hide_recording_overlay(&ah);
+                            set_tray_state(&ah, TrayIconState::Idle);
+                        }
+                    }
+                }
+            } else {
+                debug!("No samples retrieved from recording stop");
+                // Tear down any streaming worker so its channel doesn't leak.
+                tm.cancel_stream();
+                utils::hide_recording_overlay(&ah);
+                set_tray_state(&ah, TrayIconState::Idle);
+            }
+        });
+
+        debug!(
+            "TranscribeAction::stop completed in {:?}",
+            stop_time.elapsed()
+        );
+    }
+}
+
+// Cancel Action
+struct CancelAction;
+
+impl ShortcutAction for CancelAction {
+    fn start(&self, app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        utils::cancel_current_operation(app);
+    }
+
+    fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        // Nothing to do on stop for cancel
+    }
+}
+
+// Paste Last Transcript Action
+struct PasteLastAction;
+
+impl ShortcutAction for PasteLastAction {
+    fn start(&self, app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        crate::tray::paste_last_transcript(app, Duration::ZERO);
+    }
+
+    fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {}
+}
+
+// Test Action
+struct TestAction;
+
+impl ShortcutAction for TestAction {
+    fn start(&self, app: &AppHandle, binding_id: &str, shortcut_str: &str) {
+        log::info!(
+            "Shortcut ID '{}': Started - {} (App: {})", // Changed "Pressed" to "Started" for consistency
+            binding_id,
+            shortcut_str,
+            app.package_info().name
+        );
+    }
+
+    fn stop(&self, app: &AppHandle, binding_id: &str, shortcut_str: &str) {
+        log::info!(
+            "Shortcut ID '{}': Stopped - {} (App: {})", // Changed "Released" to "Stopped" for consistency
+            binding_id,
+            shortcut_str,
+            app.package_info().name
+        );
+    }
+}
+
+// Static Action Map
+pub static ACTION_MAP: Lazy<HashMap<String, Arc<dyn ShortcutAction>>> = Lazy::new(|| {
+    let mut map = HashMap::new();
+    map.insert(
+        "transcribe".to_string(),
+        Arc::new(TranscribeAction {
+            post_process: false,
+        }) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "transcribe_with_post_process".to_string(),
+        Arc::new(TranscribeAction { post_process: true }) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "cancel".to_string(),
+        Arc::new(CancelAction) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "paste_last".to_string(),
+        Arc::new(PasteLastAction) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "test".to_string(),
+        Arc::new(TestAction) as Arc<dyn ShortcutAction>,
+    );
+    map
+});
+
+#[cfg(test)]
+mod tests {
+    use crate::settings::{get_default_settings, HUSH_CLEANUP_PROMPT};
+
+    fn ctx(style: AppStyle, level: CleanupLevel) -> CleanupContext {
+        CleanupContext {
+            app: Some(AppInfo {
+                bundle_id: Some("com.tinyspeck.slackmacgap".to_string()),
+                name: "Slack".to_string(),
+            }),
+            style,
+            level,
+        }
+    }
+
+    #[test]
+    fn hush_prompt_is_filled_and_keeps_the_transcript_placeholder() {
+        let mut settings = get_default_settings();
+        settings.custom_words = vec!["Hush".to_string(), "Tauri".to_string()];
+        let prompt = render_cleanup_prompt(
+            HUSH_CLEANUP_PROMPT,
+            &settings,
+            &ctx(AppStyle::Message, CleanupLevel::Light),
+        );
+        assert!(prompt.contains("typed into Slack"));
+        assert!(prompt.contains("spoken: Hush, Tauri."));
+        assert!(prompt.contains("Tone: casual and short"));
+        assert!(prompt.contains("${output}"));
+        assert!(!prompt.contains("${style}") && !prompt.contains("${level}"));
+        assert!(!prompt.contains("tighten"));
+    }
+
+    #[test]
+    fn empty_vocabulary_drops_its_sentence_and_medium_adds_tightening() {
+        let settings = get_default_settings();
+        let prompt = render_cleanup_prompt(
+            HUSH_CLEANUP_PROMPT,
+            &settings,
+            &ctx(AppStyle::Default, CleanupLevel::Medium),
+        );
+        assert!(!prompt.contains("Spell these terms"));
+        assert!(prompt.contains("tighten wordy phrasing"));
+    }
+
+    #[test]
+    fn custom_prompts_still_get_the_app_style() {
+        let settings = get_default_settings();
+        let prompt = render_cleanup_prompt(
+            "Fix this:\n<transcript>\n${output}\n</transcript>",
+            &settings,
+            &ctx(AppStyle::Email, CleanupLevel::Light),
+        );
+        let style_at = prompt.find("Tone: professional").expect("style appended");
+        assert!(style_at < prompt.find("<transcript>").unwrap());
+    }
+
+    #[test]
+    fn custom_words_are_capped() {
+        let words: Vec<String> = (0..500).map(|i| format!("word{i}")).collect();
+        assert!(custom_words_for_prompt(&words).len() <= MAX_CUSTOM_WORDS_CHARS);
+    }
+
+    #[test]
+    fn system_prompt_drops_the_transcript_block() {
+        let system = build_system_prompt(HUSH_CLEANUP_PROMPT);
+        assert!(!system.contains("${output}"));
+        assert!(!system.contains("</transcript>"));
+        assert!(system.ends_with("output nothing."));
+    }
+
+    #[test]
+    fn max_tokens_scale_with_input() {
+        assert_eq!(cleanup_max_tokens("short"), 512);
+        assert!(cleanup_max_tokens(&"word ".repeat(2000)) > 3000);
+    }
+
+    use super::{
+        build_system_prompt, cleanup_max_tokens, complete_unless_cancelled,
+        custom_words_for_prompt, is_blank_transcription, render_cleanup_prompt,
+        should_use_streaming_overlay, strip_think_block, AppInfo, AppStyle, CleanupContext,
+        CleanupLevel, MAX_CUSTOM_WORDS_CHARS,
+    };
+    use crate::settings::OverlayStyle;
+    use std::future;
+    use std::sync::atomic::{AtomicBool, Ordering};
+    use std::sync::Arc;
+    use std::thread;
+    use std::time::Duration;
+
+    #[test]
+    fn blank_transcription_is_detected() {
+        assert!(is_blank_transcription(""));
+        assert!(is_blank_transcription("   "));
+        assert!(is_blank_transcription("\t\n  \r\n"));
+    }
+
+    #[test]
+    fn non_blank_transcription_is_kept() {
+        assert!(!is_blank_transcription("hello"));
+        assert!(!is_blank_transcription("  hello  "));
+    }
+
+    #[test]
+    fn completed_operation_returns_its_output() {
+        let result = tauri::async_runtime::block_on(complete_unless_cancelled(
+            future::ready("done"),
+            || false,
+        ));
+
+        assert_eq!(result, Some("done"));
+    }
+
+    #[test]
+    fn pending_operation_stops_after_cancellation() {
+        let cancelled = Arc::new(AtomicBool::new(false));
+        let cancelled_for_thread = Arc::clone(&cancelled);
+        let cancel_thread = thread::spawn(move || {
+            thread::sleep(Duration::from_millis(10));
+            cancelled_for_thread.store(true, Ordering::Release);
+        });
+
+        let result = tauri::async_runtime::block_on(complete_unless_cancelled(
+            future::pending::<()>(),
+            || cancelled.load(Ordering::Acquire),
+        ));
+
+        cancel_thread.join().unwrap();
+        assert_eq!(result, None);
+    }
+
+    #[test]
+    fn leading_think_block_is_stripped() {
+        assert_eq!(
+            strip_think_block("<think>pondering...</think>Cleaned text."),
+            "Cleaned text."
+        );
+        assert_eq!(
+            strip_think_block("  \n<think>multi\nline</think>\n  Cleaned text."),
+            "Cleaned text."
+        );
+    }
+
+    #[test]
+    fn content_without_think_block_is_unchanged() {
+        assert_eq!(strip_think_block("Cleaned text."), "Cleaned text.");
+        assert_eq!(
+            strip_think_block("Mentions <think> mid-sentence."),
+            "Mentions <think> mid-sentence."
+        );
+        // Unclosed block: leave untouched rather than guess
+        assert_eq!(
+            strip_think_block("<think>never closed"),
+            "<think>never closed"
+        );
+    }
+
+    #[test]
+    fn live_overlay_uses_streaming_states_only_for_streaming_models() {
+        assert!(should_use_streaming_overlay(OverlayStyle::Live, true));
+        assert!(!should_use_streaming_overlay(OverlayStyle::Live, false));
+        assert!(!should_use_streaming_overlay(OverlayStyle::Minimal, true));
+        assert!(!should_use_streaming_overlay(OverlayStyle::None, true));
+    }
+}
