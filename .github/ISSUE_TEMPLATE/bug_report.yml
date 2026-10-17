@@ -7,19 +7,33 @@ body:
       value: Thanks for reporting! Please search [existing issues](https://github.com/DeepanshuPal/hush/issues) first, and check [troubleshooting](https://github.com/DeepanshuPal/hush/blob/main/docs/TROUBLESHOOTING.md).
   - type: textarea
     id: what
-    attributes: { label: What happened, description: And what you expected instead. }
+    attributes:
+      { label: What happened, description: And what you expected instead. }
     validations: { required: true }
   - type: textarea
     id: steps
-    attributes: { label: Steps to reproduce, placeholder: "1. Hold Fn in Notes\n2. Say …\n3. …" }
+    attributes:
+      {
+        label: Steps to reproduce,
+        placeholder: "1. Hold Fn in Notes\n2. Say …\n3. …",
+      }
     validations: { required: true }
   - type: input
     id: hush
-    attributes: { label: Hush version, description: Settings → About, placeholder: "1.1.0" }
+    attributes:
+      {
+        label: Hush version,
+        description: Settings → About,
+        placeholder: "1.1.0",
+      }
     validations: { required: true }
   - type: input
     id: macos
-    attributes: { label: macOS version and Mac, placeholder: "macOS 15.1, MacBook Air M2 16 GB" }
+    attributes:
+      {
+        label: macOS version and Mac,
+        placeholder: "macOS 15.1, MacBook Air M2 16 GB",
+      }
     validations: { required: true }
   - type: input
     id: model
