@@ -11,6 +11,14 @@
   <a href="https://github.com/DeepanshuPal/hush-downloads/releases">Releases</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/DeepanshuPal/hush-downloads/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/DeepanshuPal/hush-downloads?label=release&color=7a2e3a"></a>
+  <a href="https://github.com/DeepanshuPal/hush-downloads/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/DeepanshuPal/hush-downloads/total?color=7a2e3a"></a>
+  <img alt="macOS, Apple Silicon" src="https://img.shields.io/badge/macOS-Apple%20Silicon-333">
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-333"></a>
+  <a href="https://github.com/DeepanshuPal/hush/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/DeepanshuPal/hush/ci.yml?branch=main&label=CI"></a>
+</p>
+
 **Free, private push-to-talk dictation for the Mac.** Hold a key, speak, let
 go: your words are typed into whatever app you're using. Speech recognition runs
 entirely on your Mac. No account, no subscription, no word limits.
@@ -150,7 +158,7 @@ Bug reports, translations and pull requests are welcome. Read
 [CONTRIBUTING_TRANSLATIONS.md](CONTRIBUTING_TRANSLATIONS.md) to help with a
 language.
 
-Questions and ideas: [GitHub issues](https://github.com/DeepanshuPal/hush/issues).
+Bugs: [issues](https://github.com/DeepanshuPal/hush/issues). Questions and ideas: [discussions](https://github.com/DeepanshuPal/hush/discussions). Security problems: see [SECURITY.md](SECURITY.md). Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
