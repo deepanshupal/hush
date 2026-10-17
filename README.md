@@ -1,14 +1,12 @@
-# Hush
-
 <p align="center">
   <a href="https://www.hush.software"><img src="docs/images/hush-banner.png" alt="Hush: dictation that stays on your Mac" width="720"></a>
 </p>
 
+<h3 align="center">Free, private push-to-talk dictation for the Mac.</h3>
+
 <p align="center">
-  <a href="https://www.hush.software/download"><strong>Download for Mac</strong></a> ·
-  <a href="https://www.hush.software">Website</a> ·
-  <a href="https://www.hush.software/compare">Compare</a> ·
-  <a href="https://github.com/DeepanshuPal/hush-downloads/releases">Releases</a>
+  Hold a key, speak, let go: your words are typed into whatever app you're using.<br>
+  Speech recognition runs entirely on your Mac. No account, no subscription, no word limits.
 </p>
 
 <p align="center">
@@ -19,12 +17,30 @@
   <a href="https://github.com/DeepanshuPal/hush/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/DeepanshuPal/hush/ci.yml?branch=main&label=CI"></a>
 </p>
 
-**Free, private push-to-talk dictation for the Mac.** Hold a key, speak, let
-go: your words are typed into whatever app you're using. Speech recognition runs
-entirely on your Mac. No account, no subscription, no word limits.
+<p align="center">
+  <a href="https://www.hush.software/download"><strong>Download for Mac</strong></a> ·
+  <a href="https://www.hush.software">Website</a> ·
+  <a href="https://www.hush.software/compare">Compare</a> ·
+  <a href="https://www.hush.software/roadmap">Roadmap</a> ·
+  <a href="https://github.com/DeepanshuPal/hush/discussions">Discussions</a>
+</p>
 
-Hush is free and open source (MIT). It aims to be the best free alternative to
-paid dictation apps like Wispr Flow.
+## Why Hush
+
+Hush aims to be the best free alternative to paid dictation apps like Wispr Flow.
+
+|                          | **Hush**       | Wispr Flow         | Superwhisper | Apple Dictation |
+| ------------------------ | -------------- | ------------------ | ------------ | --------------- |
+| Price                    | **Free**       | $15/mo             | $8.49/mo     | Free            |
+| Free version             | **Everything** | 2,000 words a week | Local models | Everything      |
+| Open source              | **MIT**        | No                 | No           | No              |
+| Account                  | **Not needed** | Required           | Not needed   | –               |
+| Audio sent to a server   | **Never**      | Always             | By default   | Sometimes       |
+| Works offline            | **Yes**        | No                 | Yes          | Partly          |
+| Usage analytics          | **None**       | Yes                | Yes          | Opt-in          |
+| Live preview as you talk | **Yes**        | No                 | Yes          | –               |
+
+Every cell is checked against each app's own site (– means it isn't stated there); sources and the full table (Intel Macs, Windows, iPhone, power features) are on [hush.software/compare](https://www.hush.software/compare).
 
 ## Features
 
@@ -99,29 +115,7 @@ transcript text to the log files.
 
 ## Troubleshooting
 
-### Shortcuts stopped working (Secure Input)
-
-When a password field is focused, or an app such as Terminal enables "Secure
-Keyboard Entry", macOS blocks other apps from seeing key presses, so Hush's
-shortcut can't fire. Hush shows a warning in its window and menu bar icon while
-this is happening. Close the password prompt or turn off Secure Keyboard Entry
-(Terminal → Secure Keyboard Entry) and the shortcut works again.
-
-### Hush keeps asking for Accessibility after an update
-
-Each Hush build has a new code identity until releases are Developer ID signed,
-so macOS may keep the old Accessibility switch visibly on while no longer
-honoring it. Remove Hush from **System Settings → Privacy & Security →
-Accessibility** (select it and click **−**), then reopen Hush and grant access
-again. See [BUILD.md](BUILD.md#troubleshooting) for a one-line Terminal fix.
-
-### Text is pasted in the wrong place, or your old clipboard appears
-
-Hush pastes through the clipboard and restores your previous clipboard
-afterward. If an app reads the clipboard late, open the debug settings with
-<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> and increase the paste delay.
-
-Something else? [Open an issue](https://github.com/DeepanshuPal/hush/issues).
+Shortcuts stopped working, Accessibility keeps asking after an update, or text lands in the wrong place? See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). Something else? [Open an issue](https://github.com/DeepanshuPal/hush/issues).
 
 ## Build from source
 
