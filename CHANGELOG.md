@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Hush. Downloads are on [GitHub Releases](https://github.com/DeepanshuPal/hush-downloads/releases) and [hush.software](https://www.hush.software/download). What's coming next: [roadmap](https://www.hush.software/roadmap).
+All notable changes to Hush. Downloads are on [GitHub](https://github.com/DeepanshuPal/downloads#hush) and [hush.software](https://www.hush.software/download). What's coming next: [roadmap](https://www.hush.software/roadmap).
 
 ## 1.1.0 (2026-10-16)
 

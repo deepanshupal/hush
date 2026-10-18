@@ -699,7 +699,7 @@ impl ModelManager {
                 description: "Good accuracy, medium speed".to_string(),
                 filename: "whisper-medium-q4_1.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://github.com/DeepanshuPal/hush-downloads/releases/download/models-v1/whisper-medium-q4_1.bin".to_string(),
+                    url: "https://github.com/DeepanshuPal/downloads/releases/download/hush-models-v1/whisper-medium-q4_1.bin".to_string(),
                     sha256: Some(
                         "79283fc1f9fe12ca3248543fbd54b73292164d8df5a16e095e2bceeaaabddf57"
                             .to_string(),
@@ -790,7 +790,7 @@ impl ModelManager {
                     .to_string(),
                 filename: "breeze-asr-q5_k.bin".to_string(),
                 source: ModelSource::Url {
-                    url: "https://github.com/DeepanshuPal/hush-downloads/releases/download/models-v1/breeze-asr-q5_k.bin".to_string(),
+                    url: "https://github.com/DeepanshuPal/downloads/releases/download/hush-models-v1/breeze-asr-q5_k.bin".to_string(),
                     sha256: Some(
                         "8efbf0ce8a3f50fe332b7617da787fb81354b358c288b008d3bdef8359df64c6"
                             .to_string(),

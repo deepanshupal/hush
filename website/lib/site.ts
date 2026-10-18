@@ -8,13 +8,16 @@ export const SITE_DESCRIPTION =
   "Hush is a free, open-source (MIT) push-to-talk dictation app for Apple Silicon Macs, and an alternative to Wispr Flow. Hold Fn, talk, and clean, punctuated text appears in any app. Speech recognition runs on your Mac, so your voice never leaves it."
 
 export const SOURCE_REPO = "DeepanshuPal/hush"
-export const DOWNLOADS_REPO = "DeepanshuPal/hush-downloads"
+/** One public downloads repository for all of the owner's apps; Hush releases are tagged `hush-vX.Y.Z`. */
+export const DOWNLOADS_REPO = "DeepanshuPal/downloads"
+export const HUSH_TAG_PREFIX = "hush-v"
 
 export const GITHUB_URL = `https://github.com/${SOURCE_REPO}`
 export const GITHUB_ISSUES_URL = `${GITHUB_URL}/issues`
 export const GITHUB_NEW_ISSUE_URL = `${GITHUB_URL}/issues/new`
 export const GITHUB_LICENSE_URL = `${GITHUB_URL}/blob/main/LICENSE`
-export const RELEASES_URL = `https://github.com/${DOWNLOADS_REPO}/releases`
+/** Hush's releases only (the repository also holds other apps). */
+export const RELEASES_URL = `https://github.com/${DOWNLOADS_REPO}/releases?q=${HUSH_TAG_PREFIX}&expanded=true`
 
 export const AUTHOR_NAME = "Deepanshu Pal"
 export const AUTHOR_URL = "https://x.com/deepanshuxpal"

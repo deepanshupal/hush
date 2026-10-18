@@ -2,7 +2,7 @@
 // Every function degrades gracefully: if GitHub is unreachable or rate
 // limited, pages still render with fallbacks instead of failing the build.
 
-import { DOWNLOADS_REPO, RELEASES_URL, SOURCE_REPO } from "@/lib/site"
+import { DOWNLOADS_REPO, HUSH_TAG_PREFIX, RELEASES_URL, SOURCE_REPO } from "@/lib/site"
 
 /** How often (seconds) GitHub data is refreshed on the live site. */
 export const GITHUB_REVALIDATE = 3600
@@ -39,7 +39,7 @@ export interface Download {
 
 /** Used when the GitHub API can't be reached at build time. */
 export const FALLBACK_DOWNLOAD: Download = {
-  url: `${RELEASES_URL}/latest`,
+  url: RELEASES_URL,
   version: null,
   publishedAt: null,
   size: null,
@@ -88,9 +88,33 @@ async function github<T>(path: string, accept = "application/vnd.github+json"): 
 }
 
 /**
- * App releases from the downloads repo, newest first.
- * The repo also hosts model mirrors (e.g. "models-v1"), so only releases that
- * ship a .dmg count as app releases.
+ * Releases up to 1.1.0 were copied from the old hush-downloads repository on
+ * 18 Oct 2026. GitHub can't backdate a release, so these are their real dates.
+ */
+const ORIGINAL_RELEASE_DATES: Record<string, string> = {
+  "hush-v0.7.9": "2026-09-17T12:28:46Z",
+  "hush-v0.8.0": "2026-09-17T16:58:42Z",
+  "hush-v1.0.0": "2026-10-16T13:29:47Z",
+  "hush-v1.1.0": "2026-10-16T15:34:54Z",
+}
+
+/** [major, minor, patch] from "hush-v1.2.3", or null if the tag isn't a Hush version. */
+function hushVersion(tag: string): [number, number, number] | null {
+  const m = new RegExp(`^${HUSH_TAG_PREFIX}(\\d+)\\.(\\d+)\\.(\\d+)$`).exec(tag)
+  return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null
+}
+
+function compareVersionsDesc(a: string, b: string): number {
+  const x = hushVersion(a) ?? [-1, -1, -1]
+  const y = hushVersion(b) ?? [-1, -1, -1]
+  for (let i = 0; i < 3; i++) if (x[i] !== y[i]) return y[i] - x[i]
+  return 0
+}
+
+/**
+ * Hush app releases from the shared downloads repo, highest version first.
+ * The repo also holds other apps and the "hush-models-v1" model mirror, so
+ * only `hush-vX.Y.Z` releases that ship a .dmg count.
  */
 export async function getReleases(): Promise<Release[]> {
   const data = await github<GitHubRelease[]>(
@@ -100,16 +124,16 @@ export async function getReleases(): Promise<Release[]> {
   if (!Array.isArray(data)) return []
 
   return data
-    .filter((r) => !r.draft && !r.prerelease && r.published_at)
+    .filter((r) => !r.draft && !r.prerelease && r.published_at && hushVersion(r.tag_name))
     .map((r): Release | null => {
       const dmg = r.assets.find((a) => a.name.toLowerCase().endsWith(".dmg"))
       if (!dmg) return null
       return {
-        version: r.tag_name.replace(/^v/, ""),
+        version: r.tag_name.slice(HUSH_TAG_PREFIX.length),
         tag: r.tag_name,
         name: r.name || r.tag_name,
         url: r.html_url,
-        publishedAt: r.published_at as string,
+        publishedAt: ORIGINAL_RELEASE_DATES[r.tag_name] ?? (r.published_at as string),
         bodyHtml: r.body_html ?? "",
         dmg: {
           name: dmg.name,
@@ -120,10 +144,10 @@ export async function getReleases(): Promise<Release[]> {
       }
     })
     .filter((r): r is Release => r !== null)
-    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .sort((a, b) => compareVersionsDesc(a.tag, b.tag))
 }
 
-/** The latest DMG. This is the only place the download URL is decided. */
+/** The DMG of the highest Hush version. This is the only place the download URL is decided. */
 export async function getLatestDownload(): Promise<Download> {
   const [latest] = await getReleases()
   if (!latest) return FALLBACK_DOWNLOAD

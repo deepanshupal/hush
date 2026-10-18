@@ -30,7 +30,8 @@ cd src-tauri && cargo test --lib export_bindings -- --ignored   # regenerate src
 ```
 
 Release: push a `release-v*` tag (or run the Release workflow) to build the
-aarch64 DMG and publish it to `DeepanshuPal/hush-downloads`. CI (`ci.yml`) runs
+aarch64 DMG and publish it to `DeepanshuPal/downloads` as `hush-vX.Y.Z` (notes come
+from the matching `CHANGELOG.md` section; see BUILD.md "Releasing"). CI (`ci.yml`) runs
 checks on every push and builds an unpublished DMG artifact on `v1`.
 
 ## Architecture
