@@ -73,8 +73,9 @@ To publish by hand instead:
 Model files are never replaced in place: the app pins each file's SHA-256. To
 change a model, upload it under a new name or to a new `hush-models-vN`
 release, and point `src-tauri/src/managers/model.rs` at it. Hush 1.1.0 and
-older download from `DeepanshuPal/hush-downloads` (`models-v1`), which is
-archived and must never be deleted.
+older downloaded the optional models from the old `hush-downloads` repository,
+which was deleted on 18 Oct 2026; those copies should update to the current
+release to download them.
 
 The workflow's `DOWNLOADS_RELEASE_TOKEN` secret needs Contents read and write
 access to `DeepanshuPal/downloads`.
