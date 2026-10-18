@@ -10,8 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/DeepanshuPal/hush-downloads/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/DeepanshuPal/hush-downloads?label=release&color=7a2e3a"></a>
-  <a href="https://github.com/DeepanshuPal/hush-downloads/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/DeepanshuPal/hush-downloads/total?color=7a2e3a"></a>
+  <a href="https://github.com/DeepanshuPal/downloads#hush"><img alt="Latest release" src="https://img.shields.io/github/v/release/DeepanshuPal/downloads?filter=hush-v*&sort=semver&label=release&color=7a2e3a"></a>
   <img alt="macOS, Apple Silicon" src="https://img.shields.io/badge/macOS-Apple%20Silicon-333">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-333"></a>
   <a href="https://github.com/DeepanshuPal/hush/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/DeepanshuPal/hush/ci.yml?branch=main&label=CI"></a>
@@ -73,7 +72,8 @@ Every cell is checked against each app's own site (– means it isn't stated the
 ## Install
 
 1. Download the latest DMG from [hush.software](https://hush.software) or from
-   [GitHub releases](https://github.com/DeepanshuPal/hush-downloads/releases).
+   [GitHub](https://github.com/DeepanshuPal/downloads#hush), which also lists
+   each file's SHA-256 checksum.
    Builds are currently for Apple Silicon Macs (M1 and later).
 2. Open the DMG and drag **Hush** to **Applications**.
 3. Open Hush and follow the setup: grant Microphone and Accessibility access

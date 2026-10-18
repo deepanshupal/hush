@@ -4,7 +4,7 @@ The marketing and download site for **Hush**, free and open-source push-to-talk 
 
 **Live:** https://www.hush.software (the apex `hush.software` redirects to `www`, which is canonical)
 
-The app lives in the same repository, one folder up (`src/` and `src-tauri/`). Release builds are published to [`DeepanshuPal/hush-downloads`](https://github.com/DeepanshuPal/hush-downloads), which this site reads at build time.
+The app lives in the same repository, one folder up (`src/` and `src-tauri/`). Release builds are published to [`DeepanshuPal/downloads`](https://github.com/DeepanshuPal/downloads), the one public downloads repository for all of Deepanshu's apps, which this site reads at build time. Hush releases there are tagged `hush-vX.Y.Z`.
 
 ## Pages
 
@@ -28,8 +28,9 @@ Old routes redirect (see `next.config.ts`): `/license` â†’ `/faq`, `/payment*` â
 
 Nothing needs editing when a new version ships. `lib/github.ts` is the single source of truth:
 
-- `getReleases()` lists releases of `hush-downloads` that have a `.dmg` asset (the repo also hosts model mirrors such as `models-v1`, which are skipped).
-- `getLatestDownload()` returns the newest DMG. Every download button uses it.
+- `getReleases()` lists the `hush-vX.Y.Z` releases of `DeepanshuPal/downloads` that have a `.dmg` asset, highest version first. Everything else in that repository (Doja, Clippy, the `hush-models-v1` model mirror) is skipped, and nothing reads the repository's "latest" release, because it can belong to another app.
+- `getLatestDownload()` returns the DMG of the highest version. Every download button uses it.
+- Hush 1.1.0 and older were copied from the old `hush-downloads` repository on 18 Oct 2026, which reset their GitHub dates, so `ORIGINAL_RELEASE_DATES` in `lib/github.ts` keeps their real release dates.
 - `getStarCount()` returns the star count of `DeepanshuPal/hush` for the GitHub button (hidden if unavailable).
 
 Pages that use this data revalidate every hour (ISR). If GitHub can't be reached, buttons fall back to the releases page and the changelog links to GitHub. Optionally set `GITHUB_TOKEN` in Vercel to avoid the anonymous API rate limit.
