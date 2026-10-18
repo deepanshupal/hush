@@ -50,9 +50,9 @@ Release builds are published to
 public downloads repository for all of Deepanshu's apps (Hush, Doja, Clippy).
 The tag prefix says which app a release belongs to:
 
-| What | Tag | Example |
-| --- | --- | --- |
-| Hush app | `hush-vX.Y.Z` | `hush-v1.2.0` |
+| What                                       | Tag              | Example          |
+| ------------------------------------------ | ---------------- | ---------------- |
+| Hush app                                   | `hush-vX.Y.Z`    | `hush-v1.2.0`    |
 | Speech-model mirror the app downloads from | `hush-models-vN` | `hush-models-v1` |
 
 1. Bump the version in `src-tauri/tauri.conf.json` and add a `## X.Y.Z (date)`
