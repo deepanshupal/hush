@@ -211,8 +211,26 @@ fn render_cleanup_prompt(template: &str, settings: &AppSettings, ctx: &CleanupCo
     prompt
 }
 
+/// Estimates the word count for AI clean-up eligibility.
+///
+/// Splitting on whitespace works for space-delimited languages, but it counts
+/// a whole Chinese sentence such as "你好今天怎么样" as one word, so those
+/// dictations never reached the clean-up step. Count Han characters as well,
+/// at roughly two characters per word, and keep the larger of the two
+/// estimates so English behavior is unchanged.
+///
+/// This is a heuristic, not real Chinese word segmentation. It covers Han
+/// characters only; other scripts written without spaces (kana, Thai, ...)
+/// still count as one word.
 fn word_count(text: &str) -> usize {
-    text.split_whitespace().count()
+    let whitespace_words = text.split_whitespace().count();
+
+    let han_chars = text
+        .chars()
+        .filter(|c| matches!(*c, '\u{3400}'..='\u{4DBF}' | '\u{4E00}'..='\u{9FFF}'))
+        .count();
+
+    whitespace_words.max(han_chars.div_ceil(2))
 }
 
 /// Rough output budget for a clean-up: the cleaned text is about as long as
@@ -1239,8 +1257,8 @@ mod tests {
     use super::{
         build_system_prompt, cleanup_max_tokens, complete_unless_cancelled,
         custom_words_for_prompt, is_blank_transcription, render_cleanup_prompt,
-        should_use_streaming_overlay, strip_think_block, AppInfo, AppStyle, CleanupContext,
-        CleanupLevel, MAX_CUSTOM_WORDS_CHARS,
+        should_use_streaming_overlay, strip_think_block, word_count, AppInfo, AppStyle,
+        CleanupContext, CleanupLevel, MAX_CUSTOM_WORDS_CHARS, MIN_WORDS_FOR_CLEANUP,
     };
     use crate::settings::OverlayStyle;
     use std::future;
@@ -1260,6 +1278,29 @@ mod tests {
     fn non_blank_transcription_is_kept() {
         assert!(!is_blank_transcription("hello"));
         assert!(!is_blank_transcription("  hello  "));
+    }
+
+    #[test]
+    fn chinese_text_without_spaces_counts_as_words() {
+        assert!(word_count("我今天想去学校看看") >= MIN_WORDS_FOR_CLEANUP);
+        assert!(word_count("我今天準備去學校看看") >= MIN_WORDS_FOR_CLEANUP);
+    }
+
+    #[test]
+    fn short_chinese_text_is_still_skipped() {
+        assert!(word_count("你好") < MIN_WORDS_FOR_CLEANUP);
+    }
+
+    #[test]
+    fn spaced_chinese_still_counts_its_tokens() {
+        assert_eq!(word_count("今天 天气 真好"), 3);
+    }
+
+    #[test]
+    fn english_word_count_is_unchanged() {
+        assert_eq!(word_count("Sounds good"), 2);
+        assert_eq!(word_count("Today I went home"), 4);
+        assert_eq!(word_count("   "), 0);
     }
 
     #[test]
